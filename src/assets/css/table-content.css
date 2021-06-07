@@ -1,0 +1,29 @@
+/* .table-content 样式来源：https://www.w3school.com.cn/tiy/t.asp?f=css_table_fancy */
+
+.table-content {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 95%;
+}
+
+.table-content td, .table-content th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.table-content tr:nth-child(even){background-color: #f2f2f2;}
+
+.table-content tr:hover {background-color: #ddd;}
+
+.table-content th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.table-content {
+    margin: 0 auto;
+    background-color: rgba(255,255,255,0.8);
+}

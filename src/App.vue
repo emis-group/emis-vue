@@ -1,0 +1,31 @@
+<template>
+  <div id="app-div">
+    <router-view/>
+  </div>
+</template>
+
+<style>
+
+@import url("./assets/css/table-content.css");
+@import url("./assets/css/main.css");
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+
+</style>
+
+
+<script>
+
+</script>
