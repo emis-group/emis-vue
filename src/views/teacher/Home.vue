@@ -14,12 +14,15 @@ export default {
     const {proxy} = getCurrentInstance();
 
     let userName = ref("");
-    let request = {id: window.sessionStorage.getItem("userId"),userType:window.sessionStorage.getItem("userType")};
+    let request = {
+      userId: window.sessionStorage.getItem("userId"),
+      userType: window.sessionStorage.getItem("userType")
+    };
     let token = window.sessionStorage.getItem("token");
 
     proxy.$axios.post('http://localhost:8081/user/name', request, {headers: {"token": token}}).then((response) => {
       userName.value = response.data;
-      console.log("response.data在这里Home");
+      console.log("response.data如下（Home）");
       console.log(response.data);
     })
     return {

@@ -15,11 +15,11 @@
           <table class="table-login">
             <tr>
               <td><label>用户名：</label></td>
-              <td><input type="text" name="id" v-model="loginData.id" placeholder="请输入用户名"/></td>
+              <td><input v-model="loginData.id" name="id" placeholder="请输入用户名" type="text"/></td>
             </tr>
             <tr>
               <td><label>密码：</label></td>
-              <td><input type="password" name="password" v-model="loginData.password" placeholder="请输入密码"/></td>
+              <td><input v-model="loginData.password" name="password" placeholder="请输入密码" type="password"/></td>
             </tr>
           </table>
           <button class="input-btn" type="button" @click="login()">登录</button>
@@ -79,7 +79,7 @@ export default {
         console.log(response.data);
 
         if (response.data.data && response.data.data.hasOwnProperty("token")) {
-          window.sessionStorage.setItem("userId",loginData.id);
+          window.sessionStorage.setItem("userId", loginData.id);
           window.sessionStorage.setItem("token", response.data.data.token);
           window.sessionStorage.setItem("userType", response.data.data.userType);
           if (response.data.data.userType === "student") {

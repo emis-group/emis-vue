@@ -4,7 +4,7 @@
         <hr/>
         <span class="font-user-info">姓名：{{ userInfo.name }}</span>
         <br/>
-        <span class="font-user-info">{{ userInfo.idName  }}：{{ userInfo.id }}</span>
+        <span class="font-user-info">{{ userInfo.idName }}：{{ userInfo.id }}</span>
       </span>
 </template>
 
@@ -32,7 +32,10 @@ export default {
 
     const {proxy} = getCurrentInstance();
 
-    let request = {id: window.sessionStorage.getItem("userId"), userType: window.sessionStorage.getItem("userType")};
+    let request = {
+      userId: window.sessionStorage.getItem("userId"),
+      userType: window.sessionStorage.getItem("userType")
+    };
     let token = window.sessionStorage.getItem("token");
 
     proxy.$axios.post('http://localhost:8081/user/name', request, {headers: {"token": token}}).then((response) => {
@@ -44,13 +47,13 @@ export default {
     userInfo.name = props.userInfoProp.name;
     if (props.userInfoProp.type === "student") {
       userInfo.type = "学生";
-      userInfo.idName="学号";
+      userInfo.idName = "学号";
     } else if (props.userInfoProp.type === "teacher") {
       userInfo.type = "教师";
-      userInfo.idName="工号";
+      userInfo.idName = "工号";
     } else {
       userInfo.type = "(" + props.userInfoProp.type + ")";
-      userInfo.idName="账号";
+      userInfo.idName = "账号";
     }
     return {
       userInfo
@@ -87,6 +90,6 @@ hr {
   margin: 5px;
   height: 1px;
   border: none;
-  background-color:  rgba(31, 113, 147, 0.5);
+  background-color: rgba(31, 113, 147, 0.5);
 }
 </style>

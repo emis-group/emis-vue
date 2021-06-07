@@ -30,13 +30,13 @@ export default {
   setup() {
 
     let userInfo = reactive({
-      id:"",
-      name:"",
-      type:""
+      id: "",
+      name: "",
+      type: ""
     })
-    userInfo.id=window.sessionStorage.getItem("userId");
-    userInfo.name=window.sessionStorage.getItem("userName");
-    userInfo.type=window.sessionStorage.getItem("userType");
+    userInfo.id = window.sessionStorage.getItem("userId");
+    userInfo.name = window.sessionStorage.getItem("userName");
+    userInfo.type = window.sessionStorage.getItem("userType");
 
     return {
       userInfo,

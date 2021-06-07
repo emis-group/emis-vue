@@ -23,10 +23,10 @@
         <td>{{ item.time }}</td>
         <td>{{ item.studentNum }}</td>
         <td>
-          <button>TODO: 选课</button>
+          <button @click="selectCourse(item.id)">TODO: 选课</button>
         </td>
         <td>
-          <button>TODO: 移出收藏夹</button>
+          <button @click="removeCourseFromFavorites(item.id)">TODO: 取消收藏</button>
         </td>
       </tr>
       </tbody>
@@ -35,17 +35,40 @@
 </template>
 
 <script>
-import {reactive,getCurrentInstance} from "vue"
+import {reactive, getCurrentInstance} from "vue"
 
 export default {
   name: "CourseFavorite",
   setup() {
     let courses = reactive([{id: "", name: "", teacherName: "", weekNum: "", studentNum: ""}]);
 
-    let request = {id: window.sessionStorage.getItem("userId")};
+    let request = {userId: window.sessionStorage.getItem("userId")};
     let token = window.sessionStorage.getItem("token");
 
     const {proxy} = getCurrentInstance();
+
+    let selectCourse = (courseId) => {
+      let request = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
+      if (token) {
+        proxy.$axios.post('http://localhost:8081/course/selectCourse', request, {headers: {"token": token}}).then((response) => {
+          alert(response.data.message);
+        })
+      } else {
+        alert("您的登录信息失效，请重新登录");
+      }
+    }
+
+    let removeCourseFromFavorites = (courseId) => {
+      let request = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
+      if (token) {
+        proxy.$axios.post('http://localhost:8081/course/removeCourseFromFavorites', request, {headers: {"token": token}}).then((response) => {
+          alert(response.data.message);
+
+        })
+      } else {
+        alert("您的登录信息失效，请重新登录");
+      }
+    }
 
     proxy.$axios.post('http://localhost:8081/course/findAllFavoriteCourseByStudentId', request, {headers: {"token": token}}).then((response) => {
       let responseData = response.data;
@@ -55,10 +78,11 @@ export default {
       }
       console.log("response.data在这里");
       console.log(response.data);
-      console.log(courses)
     })
     return {
       courses,
+      selectCourse,
+      removeCourseFromFavorites
     }
   }
 }

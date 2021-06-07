@@ -23,10 +23,10 @@
         <td>{{ item.time }}</td>
         <td>{{ item.studentNum }}</td>
         <td>
-          <button>TODO: 选课</button>
+          <button @click="selectCourse(item.id)">TODO: 选课</button>
         </td>
         <td>
-          <button>TODO: 退课</button>
+          <button @click="addCourseToFavorites(item.id)">TODO: 收藏</button>
         </td>
       </tr>
       </tbody>
@@ -40,21 +40,47 @@ import {getCurrentInstance, reactive} from "vue"
 export default {
   name: "SelectCourse",
   setup() {
-    let courses = reactive([{id: "", name: "", teacherName: "", weekNum: "", studentNum: ""}]);
-
     const {proxy} = getCurrentInstance();
     const token = window.sessionStorage.getItem("token");
-    if(token){
-      proxy.$axios.get('http://localhost:8081/course/findAllCourse',{headers:{"token":token}}).then((response) => {
-        let responseData=response.data;
+
+    let courses = reactive([{id: "", name: "", teacherName: "", weekNum: "", studentNum: ""}]);
+
+    let selectCourse = (courseId) => {
+      let request = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
+      if (token) {
+        proxy.$axios.post('http://localhost:8081/course/selectCourse', request, {headers: {"token": token}}).then((response) => {
+          alert(response.data.message);
+        })
+      } else {
+        alert("您的登录信息失效，请重新登录");
+      }
+    }
+
+    let addCourseToFavorites = (courseId) => {
+      let request = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
+      if (token) {
+        proxy.$axios.post('http://localhost:8081/course/addCourseToFavorites', request, {headers: {"token": token}}).then((response) => {
+          alert(response.data.message);
+        })
+      } else {
+        alert("您的登录信息失效，请重新登录");
+      }
+    }
+
+    if (token) {
+      proxy.$axios.get('http://localhost:8081/course/findAllCourse', {headers: {"token": token}}).then((response) => {
+        let responseData = response.data;
         courses.splice(0);
-        for(let i = 0;i<responseData.length;i++){
+        for (let i = 0; i < responseData.length; i++) {
           courses.push(responseData[i]);
         }
       })
     }
+
     return {
       courses,
+      selectCourse,
+      addCourseToFavorites
     }
   }
 }

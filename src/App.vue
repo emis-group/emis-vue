@@ -9,9 +9,9 @@
 @import url("./assets/css/table-content.css");
 @import url("./assets/css/main.css");
 
-html,body{
-  margin:0;
-  padding:0;
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
 #app {
