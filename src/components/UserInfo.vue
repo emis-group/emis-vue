@@ -1,15 +1,15 @@
 <template>
      <span class="span-user-info">
-        <span class="font-user-info">{{ userInfo.type }}信息：</span>
-        <hr/>
-        <span class="font-user-info">姓名：{{ userInfo.name }}</span>
-        <br/>
-        <span class="font-user-info">{{ userInfo.idName }}：{{ userInfo.id }}</span>
+        <span class="font-user-info-title">{{ userInfo.type }}信息：</span>
+        <span class="span-line"/>
+        <span class="font-user-info-content">姓名：{{ userInfo.name }}</span>
+        <span class="font-user-info-content">{{ userInfo.idName }}：{{ userInfo.id }}</span>
       </span>
 </template>
 
 <script>
-import {reactive, getCurrentInstance} from "vue";
+import {reactive} from "vue";
+import {request} from "@/assets/js/request"
 
 export default {
   name: "UserInfo",
@@ -19,49 +19,46 @@ export default {
       default: function () {
         return {
           id: String,
-          name: String,
           type: String
         }
       }
     }
   },
   setup(props) {
-    let userInfo = reactive({id: String, name: String, type: String, idName: String});
+    let userInfo = reactive({id: null, name: null, type: null, idName: null});
 
-    userInfo.id = props.userInfoProp.id;
-
-    const {proxy} = getCurrentInstance();
-
-    let request = {
+    let requestData = {
       userId: window.sessionStorage.getItem("userId"),
       userType: window.sessionStorage.getItem("userType")
     };
-    let token = window.sessionStorage.getItem("token");
 
-    proxy.$axios.post('http://localhost:8081/user/name', request, {headers: {"token": token}}).then((response) => {
-      userInfo.name = response.data;
-      console.log("response.data在这里UserInfo");
-      console.log(response.data);
-    })
+    let init = () => {
+      userInfo.id = props.userInfoProp.id;
 
-    userInfo.name = props.userInfoProp.name;
-    if (props.userInfoProp.type === "student") {
-      userInfo.type = "学生";
-      userInfo.idName = "学号";
-    } else if (props.userInfoProp.type === "teacher") {
-      userInfo.type = "教师";
-      userInfo.idName = "工号";
-    } else {
-      userInfo.type = "(" + props.userInfoProp.type + ")";
-      userInfo.idName = "账号";
+      request('user/name', requestData).then((response) => {
+        userInfo.name = response.data;
+      })
+
+      if (props.userInfoProp.type === "student") {
+        userInfo.type = "学生";
+        userInfo.idName = "学号";
+      } else if (props.userInfoProp.type === "teacher") {
+        userInfo.type = "教师";
+        userInfo.idName = "工号";
+      } else {
+        userInfo.type = "(" + props.userInfoProp.type + ")";
+        userInfo.idName = "账号";
+      }
     }
+
+    init();
+
     return {
       userInfo
     }
   }
 }
 </script>
-
 
 <style scoped>
 .span-user-info {
@@ -81,14 +78,25 @@ export default {
   text-align: left;
 }
 
-.font-user-info {
+.font-user-info-title {
+  display: block;
   font-size: 12px;
   padding: 0 0 0 10px;
 }
 
-hr {
-  margin: 5px;
+.font-user-info-content {
+  display: block;
+  font-size: 14px;
+  padding: 0 0 3px 10px;
+}
+
+.span-line {
   height: 1px;
+  width: 100%;
+
+  display: block;
+  margin: 5px 0;
+
   border: none;
   background-color: rgba(31, 113, 147, 0.5);
 }

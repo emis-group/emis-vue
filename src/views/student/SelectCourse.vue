@@ -23,10 +23,10 @@
         <td>{{ item.time }}</td>
         <td>{{ item.studentNum }}</td>
         <td>
-          <button @click="selectCourse(item.id)">TODO: 选课</button>
+          <button @click="selectCourse(item.id)">选课</button>
         </td>
         <td>
-          <button @click="addCourseToFavorites(item.id)">TODO: 收藏</button>
+          <button @click="addCourseToFavorites(item.id)">收藏</button>
         </td>
       </tr>
       </tbody>
@@ -35,47 +35,38 @@
 </template>
 
 <script>
-import {getCurrentInstance, reactive} from "vue"
+import {reactive} from "vue"
+import {request} from "@/assets/js/request"
 
 export default {
   name: "SelectCourse",
   setup() {
-    const {proxy} = getCurrentInstance();
-    const token = window.sessionStorage.getItem("token");
-
-    let courses = reactive([{id: "", name: "", teacherName: "", weekNum: "", studentNum: ""}]);
+    let courses = reactive([{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}]);
 
     let selectCourse = (courseId) => {
-      let request = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
-      if (token) {
-        proxy.$axios.post('http://localhost:8081/course/selectCourse', request, {headers: {"token": token}}).then((response) => {
-          alert(response.data.message);
-        })
-      } else {
-        alert("您的登录信息失效，请重新登录");
-      }
+      let requestData = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
+      request('course/selectCourse', requestData).then((response) => {
+        alert(response.data.message);
+      })
     }
 
     let addCourseToFavorites = (courseId) => {
-      let request = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
-      if (token) {
-        proxy.$axios.post('http://localhost:8081/course/addCourseToFavorites', request, {headers: {"token": token}}).then((response) => {
-          alert(response.data.message);
-        })
-      } else {
-        alert("您的登录信息失效，请重新登录");
-      }
+      let requestData = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
+      request('course/addCourseToFavorites', requestData).then((response) => {
+        alert(response.data.message);
+      })
     }
 
-    if (token) {
-      proxy.$axios.get('http://localhost:8081/course/findAllCourse', {headers: {"token": token}}).then((response) => {
-        let responseData = response.data;
-        courses.splice(0);
-        for (let i = 0; i < responseData.length; i++) {
-          courses.push(responseData[i]);
+    let init = () => {
+      courses.splice(0);
+      request('course/findAllCourse').then((response) => {
+        for (let i = 0; i < response.data.length; i++) {
+          courses.push(response.data[i]);
         }
       })
     }
+
+    init();
 
     return {
       courses,

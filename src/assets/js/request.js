@@ -1,38 +1,60 @@
-// TODO: 使用统一的request函数完成前端的请求操作
+import axios from 'axios'
 
-import {getCurrentInstance} from "vue"
-
-let request = (requestUrl, requestContent) => {
+let request = async (requestUrl, requestData, notNeedToken) => {
     let token = window.sessionStorage.getItem("token");
+    let responseData = null;
+    let tokenValid = false;
+    let headers = null;
 
-    const {proxy} = getCurrentInstance();
+    if (!notNeedToken) {
+        if (!token) {
+            alert("您的登录信息无效，请重新登陆");
+            return;
+        } else {
+            tokenValid = true;
+            headers = {headers: {"token": token}};
+        }
+    }
 
-    let responseData;
+    const axiosService = axios.create({
+        baseURL: 'http://localhost:8081/'
+    })
 
-    if (requestContent) {
-        proxy.$axios.post('http://localhost:8081/' + requestUrl, requestContent, {headers: {"token": token}}).then((response) => {
+    axiosService.interceptors.request.use((config) => {
+        return config;
+    }, (error) => {
+        console.log("[axios]拦截到错误的请求");
+        console.log(error);
+        return Promise.reject(error);
+    })
+
+    axiosService.interceptors.response.use((response) => {
+        return response;
+    }, (error) => {
+        console.log("[axios]拦截到错误的响应");
+        console.log(error);
+        return Promise.reject(error);
+    })
+
+    if (requestData) {
+        await axiosService.post(requestUrl, requestData, headers).then((response) => {
             responseData = response.data;
-            console.log("post获得的response.data如下所示");
-            console.log(response.data);
-            return {
-                responseData
-            }
+            console.log("post请求获得的response.data如下所示");
+            console.log(responseData);
         })
     } else {
-        proxy.$axios.get('http://localhost:8081/' + requestUrl, {headers: {"token": token}}).then((response) => {
+        await axiosService.get(requestUrl, headers).then((response) => {
             responseData = response.data;
-            console.log("get获得的response.data如下所示");
-            console.log(response.data);
-            return {
-                responseData
-            }
+            console.log("get请求获得的response.data如下所示");
+            console.log(responseData);
         })
+    }
+
+    return {
+        data: responseData,
+        valid: tokenValid
     }
 }
 
-let requestPromise = new Promise((resolve, reject) => {
-    request();
-});
-
-export {requestPromise}
+export {request}
 

@@ -6,25 +6,22 @@
 </template>
 
 <script>
-import {getCurrentInstance, ref} from "vue"
+import {ref} from "vue"
+import {request} from "@/assets/js/request"
 
 export default {
   name: "Home",
   setup() {
-    const {proxy} = getCurrentInstance();
-
     let userName = ref("");
-    let request = {
+    let requestData = {
       userId: window.sessionStorage.getItem("userId"),
       userType: window.sessionStorage.getItem("userType")
     };
-    let token = window.sessionStorage.getItem("token");
 
-    proxy.$axios.post('http://localhost:8081/user/name', request, {headers: {"token": token}}).then((response) => {
+    request('user/name',requestData).then((response)=>{
       userName.value = response.data;
-      console.log("response.data如下（Home）");
-      console.log(response.data);
     })
+
     return {
       userName,
     }

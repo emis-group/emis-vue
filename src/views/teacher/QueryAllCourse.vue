@@ -27,24 +27,25 @@
 </template>
 
 <script>
-import {getCurrentInstance, reactive} from "vue"
+import {reactive} from "vue"
+import {request} from "@/assets/js/request"
 
 export default {
   name: "QueryAllCourse",
   setup() {
-    let courses = reactive([{id: "", name: "", teacherName: "", weekNum: "", studentNum: ""}]);
+    let courses = reactive([{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}]);
 
-    const {proxy} = getCurrentInstance();
-    const token = window.sessionStorage.getItem("token");
-    if (token) {
-      proxy.$axios.get('http://localhost:8081/course/findAllCourse', {headers: {"token": token}}).then((response) => {
-        let responseData = response.data;
-        courses.splice(0);
-        for (let i = 0; i < responseData.length; i++) {
-          courses.push(responseData[i]);
+    let init = () => {
+      courses.splice(0);
+      request('course/findAllCourse').then((response) => {
+        for (let i = 0; i < response.data.length; i++) {
+          courses.push(response.data[i]);
         }
       })
     }
+
+    init();
+
     return {
       courses
     }

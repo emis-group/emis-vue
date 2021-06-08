@@ -23,10 +23,10 @@
         <td>{{ item.time }}</td>
         <td>{{ item.studentNum }}</td>
         <td>
-          <button @click="selectCourse(item.id)">TODO: 选课</button>
+          <button @click="selectCourse(item.id)">选课</button>
         </td>
         <td>
-          <button @click="removeCourseFromFavorites(item.id)">TODO: 取消收藏</button>
+          <button @click="removeCourseFromFavorites(item.id)">取消收藏</button>
         </td>
       </tr>
       </tbody>
@@ -35,50 +35,40 @@
 </template>
 
 <script>
-import {reactive, getCurrentInstance} from "vue"
+import {reactive} from "vue"
+import {request} from "@/assets/js/request"
 
 export default {
   name: "CourseFavorite",
   setup() {
-    let courses = reactive([{id: "", name: "", teacherName: "", weekNum: "", studentNum: ""}]);
-
-    let request = {userId: window.sessionStorage.getItem("userId")};
-    let token = window.sessionStorage.getItem("token");
-
-    const {proxy} = getCurrentInstance();
+    let courses = reactive([{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}]);
 
     let selectCourse = (courseId) => {
-      let request = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
-      if (token) {
-        proxy.$axios.post('http://localhost:8081/course/selectCourse', request, {headers: {"token": token}}).then((response) => {
-          alert(response.data.message);
-        })
-      } else {
-        alert("您的登录信息失效，请重新登录");
-      }
+      let requestData = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
+      request('course/selectCourse', requestData).then((response) => {
+        alert(response.data.message);
+      })
     }
 
     let removeCourseFromFavorites = (courseId) => {
-      let request = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
-      if (token) {
-        proxy.$axios.post('http://localhost:8081/course/removeCourseFromFavorites', request, {headers: {"token": token}}).then((response) => {
-          alert(response.data.message);
-
-        })
-      } else {
-        alert("您的登录信息失效，请重新登录");
-      }
+      let requestData = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
+      request('course/removeCourseFromFavorites', requestData).then((response) => {
+        alert(response.data.message);
+      })
     }
 
-    proxy.$axios.post('http://localhost:8081/course/findAllFavoriteCourseByStudentId', request, {headers: {"token": token}}).then((response) => {
-      let responseData = response.data;
+    let init = () => {
+      let requestData = {userId: window.sessionStorage.getItem("userId")};
       courses.splice(0);
-      for (let i = 0; i < responseData.length; i++) {
-        courses.push(responseData[i]);
-      }
-      console.log("response.data在这里");
-      console.log(response.data);
-    })
+      request("course/findAllFavoriteCourseByStudentId", requestData).then((response) => {
+        for (let i = 0; i < response.data.length; i++) {
+          courses.push(response.data[i]);
+        }
+      })
+    }
+
+    init();
+
     return {
       courses,
       selectCourse,

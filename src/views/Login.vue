@@ -32,25 +32,7 @@
 <script>
 
 import {reactive, getCurrentInstance} from "vue"
-import {createRouter, createWebHistory} from "vue-router";
-
-// router.beforeEach((to,from,next)=>{
-//   const token = window.sessionStorage.getItem("token");
-//   const userType = window.sessionStorage.getItem("userType");
-//   console.log("开始导航");
-//   if(token){
-//     if(userType==="student"){
-//       next('student-home');
-//     }
-//     else if(userType==="teacher"){
-//       next('teacher-home');
-//     }
-//   }
-//   else{
-//     next(false);
-//     alert("导航失败");
-//   }
-// })
+import {request} from "@/assets/js/request"
 
 export default {
   name: "Login",
@@ -64,12 +46,13 @@ export default {
 
     let message = reactive({message: "请输入账号和密码"});
 
-    function login() {
+    let login = () => {
       if (loginData.id === "" || loginData.password === "") {
         alert('账号或密码不能为空')
         return;
       }
-      proxy.$axios.post('http://localhost:8081/user/login', loginData).then((response) => {
+
+      request('user/login', loginData, true).then((response) => {
         const router = proxy.$router;
         if (response.data.code === 200) {
           message.message = response.data.message;

@@ -30,15 +30,17 @@ export default {
   name: "StudentMain",
   components: {UserInfo},
   setup() {
-
     let userInfo = reactive({
-      id: String,
-      name: String,
-      type: String
+      id: null,
+      type: null
     })
-    userInfo.id = window.sessionStorage.getItem("userId");
-    userInfo.name = window.sessionStorage.getItem("userName");
-    userInfo.type = window.sessionStorage.getItem("userType");
+
+    let init = () => {
+      userInfo.id = window.sessionStorage.getItem("userId");
+      userInfo.type = window.sessionStorage.getItem("userType");
+    }
+
+    init();
 
     return {
       userInfo,
