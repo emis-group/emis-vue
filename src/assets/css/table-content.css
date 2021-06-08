@@ -3,7 +3,7 @@
 .table-content {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 95%;
+    width: 100%;
 }
 
 .table-content td, .table-content th {

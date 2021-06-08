@@ -1,5 +1,5 @@
 <template>
-  <div class="div-content">
+  <div class="div-main-content">
     <h1 class="font-title">查询全校所有课程</h1>
     <table class="table-content">
       <thead>

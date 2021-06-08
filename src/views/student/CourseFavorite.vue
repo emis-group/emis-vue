@@ -1,5 +1,5 @@
 <template>
-  <div class="div-content">
+  <div class="div-main-content">
     <h1 class="font-title">学生课程收藏夹</h1>
     <table class="table-content">
       <thead>

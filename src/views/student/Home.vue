@@ -1,5 +1,5 @@
 <template>
-  <div class="div-content">
+  <div class="div-main-content">
     <h1 class="font-title">主页</h1>
     <div class="font-title">{{ userName }}，你好。欢迎访问教学选课系统！</div>
   </div>
