@@ -1,9 +1,9 @@
 <template>
-  <div class="div-login-background">
+  <div class="div-main-background">
     <div class="div-header">
       <UserInfo :user-info-prop=userInfo />
       <h1 class="font-login-title">教务选课系统 教师端</h1>
-      <div id="nav">
+      <div class="div-nav">
         <router-link to="/user/teacher/">主页</router-link>
         |
         <router-link to="/user/teacher/modify-course">排课</router-link>

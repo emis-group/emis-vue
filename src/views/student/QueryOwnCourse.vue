@@ -31,8 +31,9 @@
 </template>
 
 <script>
-import {reactive} from "vue"
-import {request} from "@/assets/js/request"
+import {reactive} from "vue";
+import {getCourseList} from "@/assets/js/courseListController";
+import request from "@/assets/js/request";
 
 export default {
   name: "QueryCourse",
@@ -40,22 +41,18 @@ export default {
     let courses = reactive([{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}]);
 
     let dropCourse = (courseId) => {
-      let requestData = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
-
-      request('/course/dropCourse',requestData).then((response)=>{
+      request('/course/dropCourse', {courseId: courseId}).then((response) => {
+        getCourses();
         alert(response.data.message);
       })
     }
 
-    let init = () => {
-      let requestData = {userId: window.sessionStorage.getItem("userId")};
+    let getCourses = () => {
+      getCourseList(courses, "findAllCourseByUserId", {});
+    }
 
-      request('course/findAllCourseByStudentId', requestData).then((response) => {
-        courses.splice(0);
-        for (let i = 0; i < response.data.length; i++) {
-          courses.push(response.data[i]);
-        }
-      });
+    let init = () => {
+      getCourses()
     }
 
     init();

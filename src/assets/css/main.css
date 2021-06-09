@@ -30,14 +30,13 @@ button {
     text-align: left;
 }
 
-.font-normal-text{
+.font-normal-text {
     font-size: 16px;
     margin: 10px 0;
-
     text-align: left;
 }
 
-.font-warning-text{
+.font-warning-text {
     font-size: 16px;
     margin: 10px 0;
     color: #E50C0C;
@@ -45,7 +44,7 @@ button {
     text-align: left;
 }
 
-.font-pass-text{
+.font-pass-text {
     font-size: 16px;
     margin: 10px 0;
     color: forestgreen;
@@ -53,7 +52,7 @@ button {
     text-align: left;
 }
 
-.div-login-background {
+.div-main-background {
     height: 100%;
     width: 100%;
     padding: 0;
@@ -68,12 +67,14 @@ button {
     bottom: 0;
     right: 0;
     position: fixed;
+    overflow: auto;
     background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
 }
 
 .div-main-content {
-    height: 100%;
+    height: auto;
     width: 96%;
+    padding: 0 0 30px 0;
     margin: 0 auto;
 }
 
@@ -105,15 +106,15 @@ button {
     background-color: rgba(31, 113, 147, 0.5);
 }
 
-#nav {
+.div-nav {
     padding: 0 0 10px 0;
 }
 
-#nav a {
+.div-nav a {
     font-weight: bold;
     color: #2c3e50;
 }
 
-#nav a.router-link-exact-active {
+.div-nav a.router-link-exact-active {
     color: #1F9330;
 }

@@ -14,8 +14,8 @@
         <form id="formLogin" action="" method="get">
           <table class="table-login">
             <tr>
-              <td><label>用户名：</label></td>
-              <td><input v-model="loginData.id" name="id" placeholder="请输入用户名" type="text"/></td>
+              <td><label>账号：</label></td>
+              <td><input v-model="loginData.id" name="id" placeholder="请输入账号" type="text"/></td>
             </tr>
             <tr>
               <td><label>密码：</label></td>
@@ -32,7 +32,7 @@
 <script>
 
 import {reactive, getCurrentInstance} from "vue"
-import {request} from "@/assets/js/request"
+import request from "@/assets/js/request"
 
 export default {
   name: "Login",
@@ -52,7 +52,7 @@ export default {
         return;
       }
 
-      request('user/login', loginData, true).then((response) => {
+      request('user/login', loginData, false).then((response) => {
         const router = proxy.$router;
         if (response.data.code === 200) {
           message.message = response.data.message;

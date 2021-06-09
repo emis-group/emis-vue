@@ -1,12 +1,13 @@
 import axios from 'axios'
 
-let request = async (requestUrl, requestData, notNeedToken) => {
+let request = async (requestUrl, requestData, needToken = true) => {
     let token = window.sessionStorage.getItem("token");
     let responseData = null;
     let tokenValid = false;
     let headers = null;
+    let requestDataCopy = {};
 
-    if (!notNeedToken) {
+    if (needToken) {
         if (!token) {
             alert("您的登录信息无效，请重新登陆");
             return;
@@ -37,7 +38,16 @@ let request = async (requestUrl, requestData, notNeedToken) => {
     })
 
     if (requestData) {
-        await axiosService.post(requestUrl, requestData, headers).then((response) => {
+        for (let item in requestData) {
+            if (requestData.hasOwnProperty(item)) {
+                requestDataCopy[item] = requestData[item];
+            }
+        }
+        if (needToken) {
+            requestDataCopy.userId = window.sessionStorage.getItem("userId");
+            requestDataCopy.userType = window.sessionStorage.getItem("userType");
+        }
+        await axiosService.post(requestUrl, requestDataCopy, headers).then((response) => {
             responseData = response.data;
             console.log("post请求获得的response.data如下所示");
             console.log(responseData);
@@ -56,5 +66,4 @@ let request = async (requestUrl, requestData, notNeedToken) => {
     }
 }
 
-export {request}
-
+export default request;

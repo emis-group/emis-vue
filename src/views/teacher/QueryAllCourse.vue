@@ -10,6 +10,7 @@
         <td>周数</td>
         <td>时间</td>
         <td>选课人数</td>
+        <td>操作</td>
       </tr>
       </thead>
       <tbody>
@@ -20,6 +21,9 @@
         <td>{{ item.weekNum }}</td>
         <td>{{ item.time }}</td>
         <td>{{ item.studentNum }}</td>
+        <td>
+          <button @click="joinCourse(item.id)">加入课程</button>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -27,27 +31,35 @@
 </template>
 
 <script>
-import {reactive} from "vue"
-import {request} from "@/assets/js/request"
+import {reactive} from "vue";
+import {getCourseList} from "@/assets/js/courseListController";
+import request from "@/assets/js/request";
 
 export default {
   name: "QueryAllCourse",
   setup() {
     let courses = reactive([{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}]);
 
+    let joinCourse = (courseId) => {
+      request('course/addCourse', {courseId: courseId}).then((response) => {
+        getCourses();
+        alert(response.data.message);
+      });
+    }
+
+    let getCourses = () => {
+      getCourseList(courses, "findAllCourse");
+    }
+
     let init = () => {
-      courses.splice(0);
-      request('course/findAllCourse').then((response) => {
-        for (let i = 0; i < response.data.length; i++) {
-          courses.push(response.data[i]);
-        }
-      })
+      getCourses();
     }
 
     init();
 
     return {
-      courses
+      courses,
+      joinCourse
     }
   }
 }

@@ -14,12 +14,12 @@
         </thead>
         <tbody>
         <tr>
-          <td><input v-model="newCourseInfo.courseId" @blur="checkIsEmpty" type="text"
-                     placeholder="请输入课程编号"/></td>
-          <td><input v-model="newCourseInfo.courseName" @blur="checkIsEmpty" type="text"
-                     placeholder="请输入课程名"/></td>
-          <td><input v-model="newCourseInfo.studentTotalNum" @blur="checkIsEmpty"
-                     type="text" placeholder="请输入课程人数容量"/></td>
+          <td><input v-model="newCourseInfo.courseId" placeholder="请输入课程代码" type="text"
+                     @blur="checkIsEmpty"/></td>
+          <td><input v-model="newCourseInfo.courseName" placeholder="请输入课程名" type="text"
+                     @blur="checkIsEmpty"/></td>
+          <td><input v-model="newCourseInfo.studentTotalNum" placeholder="请输入课程人数容量"
+                     type="text" @blur="checkIsEmpty"/></td>
         </tr>
         </tbody>
       </table>
@@ -46,10 +46,10 @@
             周
           </td>
           <td>
-            <input v-model="newCourseInfo.isBiweekly" @change="checkIsEmpty" type="radio" name="isBiweekly"
-                   value="true"/>是
-            <input v-model="newCourseInfo.isBiweekly" @change="checkIsEmpty" type="radio" name="isBiweekly"
-                   value="false"/>否
+            <input v-model="newCourseInfo.isBiweekly" name="isBiweekly" type="radio" value="true"
+                   @change="checkIsEmpty"/>是
+            <input v-model="newCourseInfo.isBiweekly" name="isBiweekly" type="radio" value="false"
+                   @change="checkIsEmpty"/>否
           </td>
           <td>
             <select v-model="newCourseInfo.weekDay" @change="checkIsEmpty">
@@ -72,9 +72,9 @@
       </table>
       <div class="font-normal-text">
         <span>提示：</span>
-        <span :class="htmlClass.newCourseTips">{{ htmlText.newCourseTips.value }}</span>
+        <span :class="htmlClass.newCourseTips">{{ htmlText.newCourseTips.value }}。</span>
       </div>
-      <button @click="addCourse()" id="btn-new-course" :disabled="htmlDisabled.btnNewCourse">点击新建课程</button>
+      <button id="btn-new-course" :disabled="htmlDisabled.btnNewCourse" @click="newCourse()">点击新建课程</button>
     </div>
     <span class="span-main-component-line"/>
     <h2 class="font-main-component-title">您的现有课程</h2>
@@ -82,7 +82,7 @@
       <table class="table-content">
         <thead>
         <tr>
-          <td>课程编号</td>
+          <td>课程代码</td>
           <td>课程名</td>
           <td>授课教师</td>
           <td>周数</td>
@@ -100,19 +100,23 @@
           <td>{{ item.time }}</td>
           <td>{{ item.studentNum }}</td>
           <td>
-            <button @click="deleteCourse(item.id)">删除课程</button>
+            <button @click="dropCourse(item.id)">退出课程</button>
           </td>
         </tr>
         </tbody>
       </table>
+      <div class="font-normal-text">
+        <span>备注：</span>
+        <span>对于只有一位老师的课程，点击”退出课程“会同时删除课程信息。对于有多位老师的课程，点击”退出课程“不会影响其他老师在这节课的情况。</span>
+      </div>
     </div>
   </div>
-
 </template>
 
 <script>
-import {reactive, ref} from "vue"
-import {request} from "@/assets/js/request"
+import {reactive, ref} from "vue";
+import {getCourseList} from "@/assets/js/courseListController";
+import request from "@/assets/js/request";
 
 export default {
   name: "ModifyCourse",
@@ -126,7 +130,6 @@ export default {
     }
     let courses = reactive([{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}]);
     let newCourseInfo = reactive({
-      userId: null,
       courseId: null,
       courseName: null,
       studentTotalNum: null,
@@ -148,7 +151,7 @@ export default {
     });
     let htmlText = {
       tableHeader: {
-        courseId: "课程编号",
+        courseId: "课程代码",
         courseName: "课程名",
         studentTotalNum: "容量（人数）",
         weekNums: "上课周数",
@@ -166,16 +169,28 @@ export default {
       btnNewCourse: true,
     })
 
-    // TODO: 新增课程条件判断
-    let addCourse = () => {
-      request('/course/addCourse', newCourseInfo).then((response) => {
+    let newCourse = () => {
+      request('/course/newCourse', newCourseInfo).then((response) => {
+        if (response.data.code === 409) {
+          htmlText.newCourseTips.value = response.data.data;
+          htmlClass.newCourseTips = "font-warning-text";
+        } else if (response.data.code === 200) {
+          getCourses();
+          htmlText.newCourseTips.value = response.data.data;
+          htmlClass.newCourseTips = "font-pass-text";
+          for (let item in newCourseInfo) {
+            if (newCourseInfo.hasOwnProperty(item)) {
+              newCourseInfo[item] = null;
+            }
+          }
+        }
         alert(response.data.message);
       })
     }
 
-    let deleteCourse = (courseId) => {
-      let requestData = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
-      request('/course/deleteCourse', requestData).then((response) => {
+    let dropCourse = (courseId) => {
+      request('/course/dropCourse', {courseId: courseId}).then((response) => {
+        getCourses();
         alert(response.data.message);
       })
     }
@@ -184,10 +199,6 @@ export default {
       console.log("checkIsEmpty");
       console.log(newCourseInfo);
       let validity = true;
-      if (!newCourseInfo.userId) {
-        htmlText.newCourseTips.value = "您的登录信息无效，需要重新登录";
-        validity = false;
-      }
       if (validity) {
         for (let item in newCourseInfo) {
           if (newCourseInfo.hasOwnProperty(item)) {
@@ -223,8 +234,11 @@ export default {
         htmlText.newCourseTips.value += htmlText.tableHeader.splitStart + "不能大于" + htmlText.tableHeader.splitStart;
         validity = false;
       }
-
       return validity;
+    }
+
+    let getCourses = () => {
+      getCourseList(courses, "findAllCourseByUserId", {})
     }
 
     let init = () => {
@@ -236,15 +250,7 @@ export default {
         selectOptions.splitStartNums.push(i);
         selectOptions.splitEndNums.push(i);
       }
-
-      newCourseInfo.userId = window.sessionStorage.getItem("userId");
-      let requestData = {userId: window.sessionStorage.getItem("userId")};
-      request('course/findAllCourseByTeacherId', requestData).then((response) => {
-        courses.splice(0);
-        for (let i = 0; i < response.data.length; i++) {
-          courses.push(response.data[i]);
-        }
-      });
+      getCourses();
     }
 
     init();
@@ -256,8 +262,8 @@ export default {
       htmlClass,
       htmlText,
       htmlDisabled,
-      addCourse,
-      deleteCourse,
+      newCourse,
+      dropCourse,
       checkIsEmpty
     }
   }

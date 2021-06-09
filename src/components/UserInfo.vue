@@ -9,7 +9,7 @@
 
 <script>
 import {reactive} from "vue";
-import {request} from "@/assets/js/request"
+import request from "@/assets/js/request"
 
 export default {
   name: "UserInfo",
@@ -27,15 +27,10 @@ export default {
   setup(props) {
     let userInfo = reactive({id: null, name: null, type: null, idName: null});
 
-    let requestData = {
-      userId: window.sessionStorage.getItem("userId"),
-      userType: window.sessionStorage.getItem("userType")
-    };
-
     let init = () => {
       userInfo.id = props.userInfoProp.id;
 
-      request('user/name', requestData).then((response) => {
+      request('user/name', {}).then((response) => {
         userInfo.name = response.data;
       })
 

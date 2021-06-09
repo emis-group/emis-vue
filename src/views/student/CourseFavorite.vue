@@ -10,8 +10,8 @@
         <td>周数</td>
         <td>时间</td>
         <td>选课人数</td>
-        <td>操作1</td>
-        <td>操作2</td>
+        <td>操作</td>
+        <td>操作</td>
       </tr>
       </thead>
       <tbody>
@@ -35,8 +35,10 @@
 </template>
 
 <script>
-import {reactive} from "vue"
-import {request} from "@/assets/js/request"
+import {reactive} from "vue";
+import {getCourseList} from "@/assets/js/courseListController";
+import request from "@/assets/js/request";
+
 
 export default {
   name: "CourseFavorite",
@@ -44,27 +46,25 @@ export default {
     let courses = reactive([{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}]);
 
     let selectCourse = (courseId) => {
-      let requestData = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
-      request('course/selectCourse', requestData).then((response) => {
+      request('course/selectCourse', {courseId: courseId}).then((response) => {
+        getCourses();
         alert(response.data.message);
       })
     }
 
     let removeCourseFromFavorites = (courseId) => {
-      let requestData = {userId: window.sessionStorage.getItem("userId"), courseId: courseId};
-      request('course/removeCourseFromFavorites', requestData).then((response) => {
+      request('course/removeCourseFromFavorites', {courseId: courseId}).then((response) => {
+        getCourses();
         alert(response.data.message);
       })
     }
 
+    let getCourses = () => {
+      getCourseList(courses, "findAllFavoriteCourseByStudentId", {});
+    }
+
     let init = () => {
-      let requestData = {userId: window.sessionStorage.getItem("userId")};
-      courses.splice(0);
-      request("course/findAllFavoriteCourseByStudentId", requestData).then((response) => {
-        for (let i = 0; i < response.data.length; i++) {
-          courses.push(response.data[i]);
-        }
-      })
+      getCourses();
     }
 
     init();
