@@ -39,14 +39,13 @@ import {reactive} from "vue";
 import {getCourseList} from "@/assets/js/courseListController";
 import request from "@/assets/js/request";
 
-
 export default {
   name: "CourseFavorite",
   setup() {
     let courses = reactive([{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}]);
 
     let selectCourse = (courseId) => {
-      request('course/selectCourse', {courseId: courseId}).then((response) => {
+      request('course/addCourse', {courseId: courseId}).then((response) => {
         getCourses();
         alert(response.data.message);
       })

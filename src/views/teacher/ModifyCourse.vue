@@ -178,11 +178,6 @@ export default {
           getCourses();
           htmlText.newCourseTips.value = response.data.data;
           htmlClass.newCourseTips = "font-pass-text";
-          for (let item in newCourseInfo) {
-            if (newCourseInfo.hasOwnProperty(item)) {
-              newCourseInfo[item] = null;
-            }
-          }
         }
         alert(response.data.message);
       })
