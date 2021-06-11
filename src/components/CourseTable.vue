@@ -77,8 +77,6 @@ export default {
     let getCourses = () => {
       request("course/findCourseTable", {}).then((response) => {
         let courseTable = response.data.data.courseTable;
-        console.log("course/findCourseTable")
-        console.log(response.data.data);
         courses.morning.splice(0);
         courses.afternoon.splice(0);
         courses.evening.splice(0);

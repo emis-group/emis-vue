@@ -79,6 +79,7 @@
     <span class="span-main-component-line"/>
     <h2 class="font-main-component-title">您的现有课程</h2>
     <div class="div-normal-content">
+      <div class="font-normal-text">共计有 {{ coursePageInfo.courseTotalNum }} 条课程信息</div>
       <table class="table-content">
         <thead>
         <tr>
@@ -92,7 +93,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="item of courses">
+        <tr v-for="item of coursePageInfo.courseList">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.teacherName }}</td>
@@ -115,7 +116,7 @@
 
 <script>
 import {reactive, ref} from "vue";
-import {getCourseList} from "@/assets/js/courseListController";
+import {getCoursePage} from "@/assets/js/courseListController";
 import request from "@/assets/js/request";
 
 export default {
@@ -128,7 +129,10 @@ export default {
       splitEndNums: [],
       weekDays: ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
     }
-    let courses = reactive([{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}]);
+    let coursePageInfo = reactive({
+      courseList: [{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}],
+      courseTotalNum: 0
+    })
     let newCourseInfo = reactive({
       courseId: null,
       courseName: null,
@@ -233,7 +237,7 @@ export default {
     }
 
     let getCourses = () => {
-      getCourseList(courses, "findAllCourseByUserId", {})
+      getCoursePage(coursePageInfo, "findAllCourseByUserId", {});
     }
 
     let init = () => {
@@ -252,7 +256,7 @@ export default {
 
     return {
       selectOptions,
-      courses,
+      coursePageInfo,
       newCourseInfo,
       htmlClass,
       htmlText,

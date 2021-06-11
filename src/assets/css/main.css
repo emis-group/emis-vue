@@ -30,10 +30,20 @@ button {
     text-align: left;
 }
 
-.font-normal-text {
+.font-normal-text, .float-normal-text-left-align, .float-normal-text-right-align {
     font-size: 16px;
     margin: 10px 0;
     text-align: left;
+}
+
+.float-normal-text-left-align {
+    float: left;
+    overflow: auto;
+}
+
+.float-normal-text-right-align {
+    float: right;
+    overflow: auto;
 }
 
 .font-warning-text {
@@ -106,6 +116,10 @@ button {
 
 .div-nav a.router-link-exact-active {
     color: #1F9330;
+}
+
+.div-full {
+    width: 100%;
 }
 
 .span-main-component-line {

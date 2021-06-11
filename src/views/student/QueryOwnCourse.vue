@@ -1,6 +1,7 @@
 <template>
   <div class="div-main-content">
     <h1 class="font-title">学生已选课程查询</h1>
+    <div class="font-normal-text">共计有 {{ coursePageInfo.courseTotalNum }} 条课程信息</div>
     <table class="table-content">
       <thead>
       <tr>
@@ -14,7 +15,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="item of courses">
+      <tr v-for="item of coursePageInfo.courseList">
         <td>{{ item.id }}</td>
         <td>{{ item.name }}</td>
         <td>{{ item.teacherName }}</td>
@@ -32,13 +33,16 @@
 
 <script>
 import {reactive} from "vue";
-import {getCourseList} from "@/assets/js/courseListController";
+import {getCoursePage} from "@/assets/js/courseListController";
 import request from "@/assets/js/request";
 
 export default {
   name: "QueryCourse",
   setup() {
-    let courses = reactive([{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}]);
+    let coursePageInfo = reactive({
+      courseList: [{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}],
+      courseTotalNum: 0
+    })
 
     let dropCourse = (courseId) => {
       request('/course/dropCourse', {courseId: courseId}).then((response) => {
@@ -48,7 +52,7 @@ export default {
     }
 
     let getCourses = () => {
-      getCourseList(courses, "findAllCourseByUserId", {});
+      getCoursePage(coursePageInfo, "findAllCourseByUserId", {});
     }
 
     let init = () => {
@@ -58,7 +62,7 @@ export default {
     init();
 
     return {
-      courses,
+      coursePageInfo,
       dropCourse
     }
   }
