@@ -59,7 +59,6 @@ export default {
         } else {
           alert(response.data.message)
         }
-        console.log(response.data);
 
         if (response.data.data && response.data.data.hasOwnProperty("token")) {
           window.sessionStorage.setItem("userId", loginData.id);
@@ -84,8 +83,6 @@ export default {
 </script>
 
 <style scoped>
-
-@import "../assets/css/main.css";
 
 .div-login-background {
   height: 100%;

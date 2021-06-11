@@ -1,48 +1,48 @@
 <template>
-  <table class="table-content">
+  <table class="table-content-special">
     <thead>
     <tr>
-      <td colspan="2">时间</td>
-      <td v-for="weekDay of weekDays">{{ weekDay }}</td>
+      <th colspan="2">时间</th>
+      <th v-for="weekDay of weekDays">{{ weekDay }}</th>
     </tr>
     </thead>
     <tbody>
-    <tr v-for="(courseList,index) of courses.morning">
-      <td v-if="index===0" class="td_course_rough_time" rowspan="4">上午</td>
+    <tr v-for="(courseRow,index) of courses.morning">
+      <th v-if="index===0" class="td_course_rough_time" rowspan="4">上午</th>
       <td>第{{ index + 1 }}节</td>
-      <td v-for="courses of courseList" :rowspan="courses.courseLength">
-        <span v-for="course of courses">
-          <span>{{ course.courseName }}</span>
-          <span>{{ course.courseTime }}</span>
-          <span>{{ course.courseWeekRange }}</span>
-          <span>{{ course.teacherName }}</span>
-          <br/>
+      <td v-for="tableItem of courseRow" :rowspan="tableItem.itemLength">
+        <span v-for="(courseItem,index) of tableItem.courseItemList">
+          <span v-if="index!==0" class="span-small-component-line"/>
+          <span>{{ courseItem.courseName }}</span><br/>
+          <span>{{ courseItem.courseTime }}</span><br/>
+          <span>{{ courseItem.courseWeekRange }}</span><br/>
+          <span>{{ courseItem.teacherName }}</span><br/>
         </span>
       </td>
     </tr>
-    <tr v-for="(courseList,index) of courses.afternoon">
-      <td v-if="index===0" class="td_course_rough_time" rowspan="4">下午</td>
+    <tr v-for="(courseRow,index) of courses.afternoon">
+      <th v-if="index===0" class="td_course_rough_time" rowspan="4">下午</th>
       <td>第{{ index + 5 }}节</td>
-      <td v-for="courses of courseList" :rowspan="courses.courseLength">
-        <span v-for="course of courses">
-          <span>{{ course.courseName }}</span>
-          <span>{{ course.courseTime }}</span>
-          <span>{{ course.courseWeekRange }}</span>
-          <span>{{ course.teacherName }}</span>
-          <br/>
+      <td v-for="tableItem of courseRow" :rowspan="tableItem.itemLength">
+        <span v-for="(courseItem,index) of tableItem.courseItemList">
+          <span v-if="index!==0" class="span-small-component-line"/>
+          <span>{{ courseItem.courseName }}</span><br/>
+          <span>{{ courseItem.courseTime }}</span><br/>
+          <span>{{ courseItem.courseWeekRange }}</span><br/>
+          <span>{{ courseItem.teacherName }}</span><br/>
         </span>
       </td>
     </tr>
-    <tr v-for="(courseList,index) of courses.evening">
-      <td v-if="index===0" class="td_course_rough_time" rowspan="3">晚上</td>
+    <tr v-for="(courseRow,index) of courses.evening">
+      <th v-if="index===0" class="td_course_rough_time" rowspan="3">晚上</th>
       <td>第{{ index + 9 }}节</td>
-      <td v-for="courses of courseList" :rowspan="courses.courseLength">
-        <span v-for="course of courses">
-          <span>{{ course.courseName }}</span>
-          <span>{{ course.courseTime }}</span>
-          <span>{{ course.courseWeekRange }}</span>
-          <span>{{ course.teacherName }}</span>
-          <br/>
+      <td v-for="tableItem of courseRow" :rowspan="tableItem.itemLength">
+        <span v-for="(courseItem,index) of tableItem.courseItemList">
+          <span v-if="index!==0" class="span-component-line"/>
+          <span>{{ courseItem.courseName }}</span><br/>
+          <span>{{ courseItem.courseTime }}</span><br/>
+          <span>{{ courseItem.courseWeekRange }}</span><br/>
+          <span>{{ courseItem.teacherName }}</span><br/>
         </span>
       </td>
     </tr>
@@ -60,34 +60,36 @@ export default {
   setup() {
     let weekDays = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"];
     let courses = reactive({
-      morning: [[[{
-        courseLength: null,
-        courseItems: [{courseName: null, courseTime: null, courseWeekRange: null, teacherName: null}]
-      }]]],
-      afternoon: [[[{
-        courseLength: null,
-        courseItems: [{courseName: null, courseTime: null, courseWeekRange: null, teacherName: null}]
-      }]]],
-      evening: [[[{
-        courseLength: null,
-        courseItems: [{courseName: null, courseTime: null, courseWeekRange: null, teacherName: null}]
-      }]]]
+      morning: [[{
+        itemLength: null,
+        courseItemList: [{courseName: null, courseTime: null, courseWeekRange: null, teacherName: null}]
+      }]],
+      afternoon: [[{
+        itemLength: null,
+        courseItemList: [{courseName: null, courseTime: null, courseWeekRange: null, teacherName: null}]
+      }]],
+      evening: [[{
+        itemLength: null,
+        courseItemList: [{courseName: null, courseTime: null, courseWeekRange: null, teacherName: null}]
+      }]]
     });
 
     let getCourses = () => {
       request("course/findCourseTable", {}).then((response) => {
-        let courseList = response.data.data;
+        let courseTable = response.data.data.courseTable;
+        console.log("course/findCourseTable")
+        console.log(response.data.data);
         courses.morning.splice(0);
         courses.afternoon.splice(0);
         courses.evening.splice(0);
-        for (let i = 0; i < 3; i++) {
-          courses.morning.push(courseList[i]);
+        for (let i = 0; i < 4; i++) {
+          courses.morning.push(courseTable[i]);
         }
-        for (let i = 3; i < 7; i++) {
-          courses.afternoon.push(courseList[i]);
+        for (let i = 4; i < 8; i++) {
+          courses.afternoon.push(courseTable[i]);
         }
-        for (let i = 7; i < courseList.length; i++) {
-          courses.evening.push(courseList[i]);
+        for (let i = 8; i < courseTable.length; i++) {
+          courses.evening.push(courseTable[i]);
         }
       })
     }
@@ -100,7 +102,7 @@ export default {
 
     return {
       weekDays,
-      courses
+      courses,
     }
   }
 }

@@ -6,7 +6,6 @@
 
 <style>
 
-@import url("./assets/css/table-content.css");
 @import url("./assets/css/main.css");
 
 html, body {

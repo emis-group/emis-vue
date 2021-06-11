@@ -4,7 +4,7 @@
     <h2 class="font-main-component-title">在这里新建课程</h2>
     <div class="div-normal-content">
       <div class="font-normal-text">在下表填写需要新建的课程信息，填写完后按下“点击新建课程”按钮。</div>
-      <table class="table-content">
+      <table class="table-content-special">
         <thead>
         <tr>
           <td>{{ htmlText.tableHeader.courseId }}</td>
@@ -23,7 +23,7 @@
         </tr>
         </tbody>
       </table>
-      <table class="table-content">
+      <table class="table-content-special">
         <thead>
         <tr>
           <td>{{ htmlText.tableHeader.weekNums }}</td>
@@ -82,13 +82,13 @@
       <table class="table-content">
         <thead>
         <tr>
-          <td>课程代码</td>
-          <td>课程名</td>
-          <td>授课教师</td>
-          <td>周数</td>
-          <td>时间</td>
-          <td>选课人数</td>
-          <td>操作</td>
+          <th>课程代码</th>
+          <th>课程名</th>
+          <th>授课教师</th>
+          <th>周数</th>
+          <th>时间</th>
+          <th>选课人数</th>
+          <th>操作</th>
         </tr>
         </thead>
         <tbody>
@@ -266,6 +266,18 @@ export default {
 </script>
 
 <style scoped>
+#table-special tr:hover {
+  background-color: inherit;
+}
+
+#table-special tr:nth-child(even) {
+  background-color: rgb(235, 245, 248);
+}
+
+#table-special td:hover {
+  background-color: rgba(127, 127, 127, 0.146);
+}
+
 #btn-new-course {
   margin: 10px 0;
 }

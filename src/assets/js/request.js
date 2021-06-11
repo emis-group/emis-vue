@@ -24,7 +24,7 @@ let request = async (requestUrl, requestData, needToken = true) => {
     axiosService.interceptors.request.use((config) => {
         return config;
     }, (error) => {
-        console.log("[axios]拦截到错误的请求");
+        console.log("[request.js]拦截到错误的请求");
         console.log(error);
         return Promise.reject(error);
     })
@@ -32,7 +32,7 @@ let request = async (requestUrl, requestData, needToken = true) => {
     axiosService.interceptors.response.use((response) => {
         return response;
     }, (error) => {
-        console.log("[axios]拦截到错误的响应");
+        console.log("[request.js]拦截到错误的响应");
         console.log(error);
         return Promise.reject(error);
     })
@@ -49,13 +49,13 @@ let request = async (requestUrl, requestData, needToken = true) => {
         }
         await axiosService.post(requestUrl, requestDataCopy, headers).then((response) => {
             responseData = response.data;
-            console.log("post请求获得的response.data如下所示");
+            console.log("[request.js]post请求获得的response.data如下所示");
             console.log(responseData);
         })
     } else {
         await axiosService.get(requestUrl, headers).then((response) => {
             responseData = response.data;
-            console.log("get请求获得的response.data如下所示");
+            console.log("[request.js]get请求获得的response.data如下所示");
             console.log(responseData);
         })
     }

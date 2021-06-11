@@ -4,13 +4,13 @@
     <table class="table-content">
       <thead>
       <tr>
-        <td>课程编号</td>
-        <td>课程名</td>
-        <td>授课教师</td>
-        <td>周数</td>
-        <td>时间</td>
-        <td>选课人数</td>
-        <td>操作</td>
+        <th>课程编号</th>
+        <th>课程名</th>
+        <th>授课教师</th>
+        <th>周数</th>
+        <th>时间</th>
+        <th>选课人数</th>
+        <th>操作</th>
       </tr>
       </thead>
       <tbody>

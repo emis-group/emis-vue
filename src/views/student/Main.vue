@@ -50,7 +50,5 @@ export default {
 </script>
 
 <style scoped>
-@import url("../../assets/css/table-content.css");
-@import url("../../assets/css/main.css");
 
 </style>
