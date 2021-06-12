@@ -1,7 +1,8 @@
 <template>
   <div class="div-main-background">
     <div class="div-header">
-      <UserInfo :user-info-prop=userInfo />
+      <UserInfo :user-info-prop="userInfo"/>
+      <ExitButton/>
       <h1 class="font-login-title">教务选课系统 学生端</h1>
       <div class="div-nav">
         <router-link to="/user/student/">主页</router-link>
@@ -25,10 +26,11 @@
 <script>
 import {reactive} from "vue";
 import UserInfo from "@/components/UserInfo";
+import ExitButton from "@/components/ExitButton";
 
 export default {
   name: "StudentMain",
-  components: {UserInfo},
+  components: {ExitButton, UserInfo},
   setup() {
     let userInfo = reactive({
       id: null,

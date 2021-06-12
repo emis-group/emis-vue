@@ -51,9 +51,9 @@
 </template>
 
 <script>
-import request from "@/assets/js/request";
+import {reactive} from "vue";
 
-const {reactive} = require("vue");
+import {request} from "@/assets/js/request";
 
 export default {
   name: "CourseTable",
@@ -76,18 +76,20 @@ export default {
 
     let getCourses = () => {
       request("course/findCourseTable", {}).then((response) => {
-        let courseTable = response.data.data.courseTable;
         courses.morning.splice(0);
         courses.afternoon.splice(0);
         courses.evening.splice(0);
-        for (let i = 0; i < 4; i++) {
-          courses.morning.push(courseTable[i]);
-        }
-        for (let i = 4; i < 8; i++) {
-          courses.afternoon.push(courseTable[i]);
-        }
-        for (let i = 8; i < courseTable.length; i++) {
-          courses.evening.push(courseTable[i]);
+        if (response.data.hasOwnProperty("data") && response.data.data.hasOwnProperty("courseTable")) {
+          let courseTable = response.data.data.courseTable;
+          for (let i = 0; i < 4; i++) {
+            courses.morning.push(courseTable[i]);
+          }
+          for (let i = 4; i < 8; i++) {
+            courses.afternoon.push(courseTable[i]);
+          }
+          for (let i = 8; i < courseTable.length; i++) {
+            courses.evening.push(courseTable[i]);
+          }
         }
       })
     }

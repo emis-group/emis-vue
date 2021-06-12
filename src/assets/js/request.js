@@ -1,23 +1,22 @@
 import axios from 'axios'
+import {ref} from "vue";
 
-let request = async (requestUrl, requestData, needToken = true) => {
-    let token = window.sessionStorage.getItem("token");
-    let responseData = null;
-    let tokenValid = false;
-    let headers = null;
-    let requestDataCopy = {};
+let axiosService;
+let router;
+let isAllowToLoginPage;
 
-    if (needToken) {
-        if (!token) {
-            alert("您的登录信息无效，请重新登陆");
-            return;
-        } else {
-            tokenValid = true;
-            headers = {headers: {"token": token}};
-        }
-    }
+let install = (app, options) => {
+    console.log("[request.js]install");
+    console.log(app);
+    router = app.config.globalProperties.$router;
+    isAllowToLoginPage = ref(true);
+    app.config.globalProperties.$isAllowToLoginRage = isAllowToLoginPage;
 
-    const axiosService = axios.create({
+    initAxios();
+}
+
+let initAxios = () => {
+    axiosService = axios.create({
         baseURL: 'http://localhost:8081/'
     })
 
@@ -30,12 +29,49 @@ let request = async (requestUrl, requestData, needToken = true) => {
     })
 
     axiosService.interceptors.response.use((response) => {
+        if (response.headers.hasOwnProperty("set-token")) {
+            if (response.headers["set-token"] === "null") {
+                if (isAllowToLoginPage.value) {
+                    isAllowToLoginPage.value = false;
+                    router.push({name: "login"});
+                    alert("您的登录信息失效，需要重新登录");
+                }
+            } else {
+                window.sessionStorage.setItem("token", response.headers["set-token"]);
+            }
+        }
         return response;
     }, (error) => {
         console.log("[request.js]拦截到错误的响应");
         console.log(error);
         return Promise.reject(error);
     })
+}
+
+let setIsAllowToLoginPage = (state) => {
+    isAllowToLoginPage.value = state;
+}
+
+let request = async (requestUrl, requestData, needToken = true) => {
+    let token = window.sessionStorage.getItem("token");
+    let responseData = null;
+    let tokenValid = false;
+    let headers = null;
+    let requestDataCopy = {};
+
+    if (needToken) {
+        if (!token) {
+            if (isAllowToLoginPage.value) {
+                isAllowToLoginPage.value = false;
+                alert("您的登录信息无效，请重新登录");
+                await router.push({name: "login"});
+                return;
+            }
+        } else {
+            tokenValid = true;
+            headers = {headers: {"Authorization": token}};
+        }
+    }
 
     if (requestData) {
         for (let item in requestData) {
@@ -49,13 +85,13 @@ let request = async (requestUrl, requestData, needToken = true) => {
         }
         await axiosService.post(requestUrl, requestDataCopy, headers).then((response) => {
             responseData = response.data;
-            console.log("[request.js]post请求获得的response.data如下所示");
+            console.log("[request.js][" + requestUrl + "]post请求获得的response.data如下所示");
             console.log(responseData);
         })
     } else {
         await axiosService.get(requestUrl, headers).then((response) => {
             responseData = response.data;
-            console.log("[request.js]get请求获得的response.data如下所示");
+            console.log("[request.js][" + requestUrl + "]get请求获得的response.data如下所示");
             console.log(responseData);
         })
     }
@@ -66,4 +102,6 @@ let request = async (requestUrl, requestData, needToken = true) => {
     }
 }
 
-export default request;
+export {request, setIsAllowToLoginPage};
+
+export default install;

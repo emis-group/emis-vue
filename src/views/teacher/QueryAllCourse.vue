@@ -42,7 +42,7 @@
 <script>
 import {reactive, ref} from "vue";
 import {getCoursePage} from "@/assets/js/courseListController";
-import request from "@/assets/js/request";
+import {request} from "@/assets/js/request";
 
 export default {
   name: "QueryAllCourse",

@@ -11,7 +11,7 @@
 
 <script>
 import {ref} from "vue";
-import request from "@/assets/js/request";
+import {request} from "@/assets/js/request";
 import CourseTable from "@/components/CourseTable";
 
 export default {
@@ -22,7 +22,7 @@ export default {
 
     let init = () => {
       request("user/name", {}).then((response) => {
-        userName.value = response.data;
+        userName.value = response.data.data;
       });
     }
 

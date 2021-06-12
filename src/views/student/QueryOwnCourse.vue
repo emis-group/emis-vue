@@ -23,7 +23,7 @@
         <td>{{ item.time }}</td>
         <td>{{ item.studentNum }}</td>
         <td>
-          <button @click="dropCourse(item.id)">退课</button>
+          <button @click="dropCourse(item)">退课</button>
         </td>
       </tr>
       </tbody>
@@ -34,7 +34,7 @@
 <script>
 import {reactive} from "vue";
 import {getCoursePage} from "@/assets/js/courseListController";
-import request from "@/assets/js/request";
+import {request} from "@/assets/js/request";
 
 export default {
   name: "QueryCourse",
@@ -44,11 +44,13 @@ export default {
       courseTotalNum: 0
     })
 
-    let dropCourse = (courseId) => {
-      request('/course/dropCourse', {courseId: courseId}).then((response) => {
-        getCourses();
-        alert(response.data.message);
-      })
+    let dropCourse = (course) => {
+      if (confirm("是否需要退选该课程？\n\n课程名：" + course.name + "\n课程代码：" + course.id)) {
+        request('course/dropCourse', {courseId: course.id}).then((response) => {
+          getCourses();
+          alert(response.data.message);
+        })
+      }
     }
 
     let getCourses = () => {

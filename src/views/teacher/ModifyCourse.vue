@@ -101,7 +101,7 @@
           <td>{{ item.time }}</td>
           <td>{{ item.studentNum }}</td>
           <td>
-            <button @click="dropCourse(item.id)">退出课程</button>
+            <button @click="dropCourse(item)">退出课程</button>
           </td>
         </tr>
         </tbody>
@@ -117,7 +117,7 @@
 <script>
 import {reactive, ref} from "vue";
 import {getCoursePage} from "@/assets/js/courseListController";
-import request from "@/assets/js/request";
+import {request} from "@/assets/js/request";
 
 export default {
   name: "ModifyCourse",
@@ -187,11 +187,13 @@ export default {
       })
     }
 
-    let dropCourse = (courseId) => {
-      request('/course/dropCourse', {courseId: courseId}).then((response) => {
-        getCourses();
-        alert(response.data.message);
-      })
+    let dropCourse = (course) => {
+      if (confirm("是否需要退出该课程？\n\n课程名：" + course.name + "\n课程代码：" + course.id)) {
+        request('/course/dropCourse', {courseId: course.id}).then((response) => {
+          getCourses();
+          alert(response.data.message);
+        })
+      }
     }
 
     let checkIsEmpty = () => {

@@ -9,7 +9,7 @@
 
 <script>
 import {reactive} from "vue";
-import request from "@/assets/js/request"
+import {request} from "@/assets/js/request";
 
 export default {
   name: "UserInfo",
@@ -31,7 +31,7 @@ export default {
       userInfo.id = props.userInfoProp.id;
 
       request('user/name', {}).then((response) => {
-        userInfo.name = response.data;
+        userInfo.name = response.data.data;
       })
 
       if (props.userInfoProp.type === "student") {

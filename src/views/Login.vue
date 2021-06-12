@@ -32,7 +32,8 @@
 <script>
 
 import {reactive, getCurrentInstance} from "vue"
-import request from "@/assets/js/request"
+import {request, setIsAllowToLoginPage} from "@/assets/js/request";
+import {sha256} from "js-sha256";
 
 export default {
   name: "Login",
@@ -41,7 +42,7 @@ export default {
 
     let loginData = reactive({
       id: "",
-      password: "",
+      password: ""
     });
 
     let message = reactive({message: "请输入账号和密码"});
@@ -51,8 +52,12 @@ export default {
         alert('账号或密码不能为空')
         return;
       }
-
-      request('user/login', loginData, false).then((response) => {
+      let encryptedLoginData = {
+        id: loginData.id,
+        password: sha256(loginData.password)  // 密码使用sha256加密传输
+      }
+      setIsAllowToLoginPage(true);
+      request('user/login', encryptedLoginData, false).then((response) => {
         const router = proxy.$router;
         if (response.data.code === 200) {
           message.message = response.data.message;

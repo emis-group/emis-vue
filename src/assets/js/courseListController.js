@@ -1,4 +1,4 @@
-import request from "@/assets/js/request"
+import {request} from "@/assets/js/request"
 
 let getCoursePage = (coursePageInfo, requestUrlInCourse, requestData) => {
     let courseList = coursePageInfo.courseList;

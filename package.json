@@ -9,12 +9,13 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.14.0",
+    "js-sha256": "^0.9.0",
     "sass-loader": "^12.0.0",
     "vue": "^3.0.0",
     "vue-axios": "^3.2.4",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
-    "webpack": "^4.45.0"
+    "webpack": "~4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
