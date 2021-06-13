@@ -45,8 +45,6 @@ export default {
     }
   },
   setup(props) {
-    console.log("pageContent");
-    console.log(props.coursePageContent);
     let pageContent = props.coursePageContent;
 
     return {

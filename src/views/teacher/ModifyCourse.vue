@@ -183,7 +183,7 @@ export default {
         for (let item in newCourseInfo) {
           if (newCourseInfo.hasOwnProperty(item)) {
             if (newCourseInfo[item] == null || newCourseInfo[item] === "") {
-              htmlText.newCourseTips.value = "表格数据尚未填写完整，您还需要填写”" + htmlText.tableHeader[item] + "“";
+              htmlText.newCourseTips.value = "表格数据尚未填写完整，您还需要填写“" + htmlText.tableHeader[item] + "”";
               validity = false;
               break;
             }

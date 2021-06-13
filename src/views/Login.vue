@@ -1,8 +1,5 @@
 <template>
   <div class="div-login-background">
-    <div class="div-footer">
-      <span>软件工程概论实验 第2组 教务选课系统 未完成版本</span>
-    </div>
     <div class="div-login-main">
       <div class="div-login-title">
         <span class="font-login-title">欢迎访问教务系统</span>
@@ -26,6 +23,7 @@
         </form>
       </div>
     </div>
+    <BottomBar/>
   </div>
 </template>
 
@@ -35,9 +33,11 @@ import {reactive} from "vue"
 import {routerPush} from "@/router";
 import {request, setIsAllowToLoginPage} from "@/assets/js/request";
 import {sha256} from "js-sha256";
+import BottomBar from "@/components/BottomBar";
 
 export default {
   name: "Login",
+  components: {BottomBar},
   setup() {
     let loginData = reactive({
       id: "",

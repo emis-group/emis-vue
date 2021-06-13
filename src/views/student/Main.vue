@@ -17,9 +17,7 @@
     <div class="div-router-view">
       <router-view/>
     </div>
-    <div class="div-footer">
-      软件工程概论实验 第2组 教务选课系统（学生端）未完成版本
-    </div>
+    <BottomBar :msg="'（学生端）'"/>
   </div>
 </template>
 
@@ -27,10 +25,11 @@
 import {reactive} from "vue";
 import UserInfo from "@/components/UserInfo";
 import ExitButton from "@/components/ExitButton";
+import BottomBar from "@/components/BottomBar";
 
 export default {
   name: "StudentMain",
-  components: {ExitButton, UserInfo},
+  components: {BottomBar, ExitButton, UserInfo},
   setup() {
     let userInfo = reactive({
       id: null,
