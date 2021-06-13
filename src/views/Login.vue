@@ -31,15 +31,14 @@
 
 <script>
 
-import {reactive, getCurrentInstance} from "vue"
+import {reactive} from "vue"
+import {routerPush} from "@/router";
 import {request, setIsAllowToLoginPage} from "@/assets/js/request";
 import {sha256} from "js-sha256";
 
 export default {
   name: "Login",
   setup() {
-    const {proxy} = getCurrentInstance();
-
     let loginData = reactive({
       id: "",
       password: ""
@@ -58,7 +57,6 @@ export default {
       }
       setIsAllowToLoginPage(true);
       request('user/login', encryptedLoginData, false).then((response) => {
-        const router = proxy.$router;
         if (response.data.code === 200) {
           message.message = response.data.message;
         } else {
@@ -70,9 +68,9 @@ export default {
           window.sessionStorage.setItem("token", response.data.data.token);
           window.sessionStorage.setItem("userType", response.data.data.userType);
           if (response.data.data.userType === "student") {
-            router.push({name: "student-home"});
+            routerPush("student-home");
           } else if (response.data.data.userType === "teacher") {
-            router.push({name: "teacher-home"});
+            routerPush("teacher-home");
           }
         }
       })

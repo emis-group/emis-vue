@@ -1,37 +1,7 @@
 <template>
   <div class="div-main-content">
     <h1 class="font-title">学生课程收藏夹</h1>
-    <div class="font-normal-text">共计有 {{ coursePageInfo.courseTotalNum }} 条课程信息</div>
-    <table class="table-content">
-      <thead>
-      <tr>
-        <th>课程编号</th>
-        <th>课程名</th>
-        <th>授课教师</th>
-        <th>周数</th>
-        <th>时间</th>
-        <th>选课人数</th>
-        <th>操作</th>
-        <th>操作</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="item of coursePageInfo.courseList">
-        <td>{{ item.id }}</td>
-        <td>{{ item.name }}</td>
-        <td>{{ item.teacherName }}</td>
-        <td>{{ item.weekNum }}</td>
-        <td>{{ item.time }}</td>
-        <td>{{ item.studentNum }}</td>
-        <td>
-          <button @click="selectCourse(item.id)">选课</button>
-        </td>
-        <td>
-          <button @click="removeCourseFromFavorites(item.id)">取消收藏</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <CourseList :course-page-content="coursePageContent"/>
   </div>
 </template>
 
@@ -39,41 +9,47 @@
 import {reactive} from "vue";
 import {getCoursePage} from "@/assets/js/courseListController";
 import {request} from "@/assets/js/request";
+import CourseList from "@/components/CourseList";
 
 export default {
   name: "CourseFavorite",
+  components: {CourseList},
   setup() {
-    let coursePageInfo = reactive({
+    let coursePageContent = reactive({
       courseList: [{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}],
-      courseTotalNum: 0
+      courseTotalNum: 0,
+      buttons: [],
+      needTopText: true
     })
 
-    let selectCourse = (courseId) => {
-      request('course/addCourse', {courseId: courseId}).then((response) => {
+    let selectCourse = (course) => {
+      request('course/addCourse', {courseId: course.id}).then((response) => {
         getCourses();
         alert(response.data.message);
       })
     }
 
-    let removeCourseFromFavorites = (courseId) => {
-      request('course/removeCourseFromFavorites', {courseId: courseId}).then((response) => {
+    let removeCourseFromFavorites = (course) => {
+      request('course/removeCourseFromFavorites', {courseId: course.id}).then((response) => {
         getCourses();
         alert(response.data.message);
       })
     }
 
     let getCourses = () => {
-      getCoursePage(coursePageInfo, "findAllFavoriteCourseByStudentId", {});
+      getCoursePage(coursePageContent, "findAllFavoriteCourseByStudentId", {});
     }
 
     let init = () => {
+      coursePageContent.buttons.push({head: "操作", text: "选课", clickFunction: selectCourse});
+      coursePageContent.buttons.push({head: "操作", text: "取消收藏", clickFunction: removeCourseFromFavorites});
       getCourses();
     }
 
     init();
 
     return {
-      coursePageInfo,
+      coursePageContent,
       selectCourse,
       removeCourseFromFavorites
     }

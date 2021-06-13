@@ -1,5 +1,5 @@
 button {
-    padding: 1px 12px;
+    padding: 3px 15px;
     background-color: rgba(255, 255, 255, 0.8);
     border-width: 1px;
     border-radius: 5px;
@@ -151,7 +151,7 @@ button {
     margin: 10px auto;
     font-family: "阿里巴巴普惠体 Regular", "Microsoft YaHei UI", sans-serif;
     border-collapse: collapse;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.854);
 }
 
 .table-content td, .table-content th, .table-content-special td, .table-content-special th {
@@ -164,11 +164,11 @@ button {
 }
 
 .table-content tr:hover {
-    background-color: rgba(127, 127, 127, 0.146);
+    background-color: rgba(76, 148, 153, 0.146);
 }
 
-.table-content-special td:hover {
-    background-color: rgba(127, 127, 127, 0.146);
+.table-content-special td:hover, .table-content-special th:hover {
+    background-color: rgba(76, 148, 153, 0.146);
 }
 
 .table-content thead, .table-content-special thead {

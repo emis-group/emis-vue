@@ -77,35 +77,10 @@
       <button id="btn-new-course" :disabled="htmlDisabled.btnNewCourse" @click="newCourse()">点击新建课程</button>
     </div>
     <span class="span-main-component-line"/>
+
     <h2 class="font-main-component-title">您的现有课程</h2>
     <div class="div-normal-content">
-      <div class="font-normal-text">共计有 {{ coursePageInfo.courseTotalNum }} 条课程信息</div>
-      <table class="table-content">
-        <thead>
-        <tr>
-          <th>课程代码</th>
-          <th>课程名</th>
-          <th>授课教师</th>
-          <th>周数</th>
-          <th>时间</th>
-          <th>选课人数</th>
-          <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="item of coursePageInfo.courseList">
-          <td>{{ item.id }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.teacherName }}</td>
-          <td>{{ item.weekNum }}</td>
-          <td>{{ item.time }}</td>
-          <td>{{ item.studentNum }}</td>
-          <td>
-            <button @click="dropCourse(item)">退出课程</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <CourseList :course-page-content="coursePageContent"/>
       <div class="font-normal-text">
         <span>备注：</span>
         <span>对于只有一位老师的课程，点击”退出课程“会同时删除课程信息。对于有多位老师的课程，点击”退出课程“不会影响其他老师在这节课的情况。</span>
@@ -118,9 +93,11 @@
 import {reactive, ref} from "vue";
 import {getCoursePage} from "@/assets/js/courseListController";
 import {request} from "@/assets/js/request";
+import CourseList from "@/components/CourseList";
 
 export default {
   name: "ModifyCourse",
+  components: {CourseList},
   setup() {
     let selectOptions = {
       weekStartNums: [],
@@ -129,9 +106,11 @@ export default {
       splitEndNums: [],
       weekDays: ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
     }
-    let coursePageInfo = reactive({
+    let coursePageContent = reactive({
       courseList: [{id: null, name: null, teacherName: null, weekNum: null, time: null, studentNum: null}],
-      courseTotalNum: 0
+      courseTotalNum: 0,
+      buttons: [],
+      needTopText: true
     })
     let newCourseInfo = reactive({
       courseId: null,
@@ -175,11 +154,11 @@ export default {
 
     let newCourse = () => {
       request('/course/newCourse', newCourseInfo).then((response) => {
+        getCourses();
         if (response.data.code === 409) {
           htmlText.newCourseTips.value = response.data.data;
           htmlClass.newCourseTips = "font-warning-text";
         } else if (response.data.code === 200) {
-          getCourses();
           htmlText.newCourseTips.value = response.data.data;
           htmlClass.newCourseTips = "font-pass-text";
         }
@@ -239,7 +218,7 @@ export default {
     }
 
     let getCourses = () => {
-      getCoursePage(coursePageInfo, "findAllCourseByUserId", {});
+      getCoursePage(coursePageContent, "findAllCourseByUserId", {});
     }
 
     let init = () => {
@@ -251,6 +230,7 @@ export default {
         selectOptions.splitStartNums.push(i);
         selectOptions.splitEndNums.push(i);
       }
+      coursePageContent.buttons.push({head: "操作", text: "退出课程", clickFunction: dropCourse})
       getCourses();
     }
 
@@ -258,7 +238,7 @@ export default {
 
     return {
       selectOptions,
-      coursePageInfo,
+      coursePageContent,
       newCourseInfo,
       htmlClass,
       htmlText,

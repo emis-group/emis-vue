@@ -70,4 +70,10 @@ const router = createRouter({
     routes
 })
 
+const routerPush = async (name) => {
+    await router.push({name: name});
+}
+
+export {routerPush}
+
 export default router

@@ -1,16 +1,13 @@
 import axios from 'axios'
-import {ref} from "vue";
+import {routerPush} from "@/router";
 
 let axiosService;
-let router;
 let isAllowToLoginPage;
 
 let install = (app, options) => {
     console.log("[request.js]install");
     console.log(app);
-    router = app.config.globalProperties.$router;
-    isAllowToLoginPage = ref(true);
-    app.config.globalProperties.$isAllowToLoginRage = isAllowToLoginPage;
+    isAllowToLoginPage = true;
 
     initAxios();
 }
@@ -31,9 +28,9 @@ let initAxios = () => {
     axiosService.interceptors.response.use((response) => {
         if (response.headers.hasOwnProperty("set-token")) {
             if (response.headers["set-token"] === "null") {
-                if (isAllowToLoginPage.value) {
-                    isAllowToLoginPage.value = false;
-                    router.push({name: "login"});
+                if (isAllowToLoginPage) {
+                    isAllowToLoginPage = false;
+                    routerPush("login");
                     alert("您的登录信息失效，需要重新登录");
                 }
             } else {
@@ -49,7 +46,7 @@ let initAxios = () => {
 }
 
 let setIsAllowToLoginPage = (state) => {
-    isAllowToLoginPage.value = state;
+    isAllowToLoginPage = state;
 }
 
 let request = async (requestUrl, requestData, needToken = true) => {
@@ -61,10 +58,10 @@ let request = async (requestUrl, requestData, needToken = true) => {
 
     if (needToken) {
         if (!token) {
-            if (isAllowToLoginPage.value) {
-                isAllowToLoginPage.value = false;
+            if (isAllowToLoginPage) {
+                isAllowToLoginPage = false;
+                routerPush("login");
                 alert("您的登录信息无效，请重新登录");
-                await router.push({name: "login"});
                 return;
             }
         } else {
