@@ -30,6 +30,7 @@ export default {
 
   font-size: 14px;
   color: rgb(113, 47, 24);
+  z-index: 1;
 
   border: none;
   background-color: rgba(255, 229, 217, 0.75);

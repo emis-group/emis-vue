@@ -65,7 +65,7 @@ export default {
   height: 68px;
   padding: 8px;
 
-  /*display: block;*/
+  z-index: -1;
   background-color: rgba(255, 255, 255, 0.618);
   box-shadow: 0 0 5px 0 rgba(31, 113, 147, 0.25);
   border-radius: 5px;

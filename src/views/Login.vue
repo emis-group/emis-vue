@@ -11,15 +11,21 @@
         <form id="formLogin" action="" method="get">
           <table class="table-login">
             <tr>
-              <td><label>账号：</label></td>
-              <td><input v-model="loginData.id" name="id" placeholder="请输入账号" type="text"/></td>
+              <td style="min-width: 3em"><label>账号：</label></td>
+              <td>
+                <input v-model="loginData.id" v-on:keyup.enter="login"
+                       name="id" placeholder="请输入账号" type="text"/>
+              </td>
             </tr>
             <tr>
-              <td><label>密码：</label></td>
-              <td><input v-model="loginData.password" name="password" placeholder="请输入密码" type="password"/></td>
+              <td style="min-width: 3em"><label>密码：</label></td>
+              <td>
+                <input v-model="loginData.password" v-on:keyup.enter="login"
+                       name="password" placeholder="请输入密码" type="password"/>
+              </td>
             </tr>
           </table>
-          <button class="input-btn" type="button" @click="login()">登录</button>
+          <button class="input-btn" type="button" @click="login">登录</button>
         </form>
       </div>
     </div>

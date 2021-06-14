@@ -1,6 +1,7 @@
 <template>
   <div class="div-main-content">
     <h1 class="font-title">学生已选课程查询</h1>
+    <div class="font-normal-text">以下是你选上的所有课程，你可以在这里进行退课操作。</div>
     <CourseList :course-page-content="coursePageContent"/>
   </div>
 </template>

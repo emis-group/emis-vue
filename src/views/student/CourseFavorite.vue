@@ -1,6 +1,7 @@
 <template>
   <div class="div-main-content">
     <h1 class="font-title">学生课程收藏夹</h1>
+    <div class="font-normal-text">以下是你收藏的所有课程，你可以在这里进行选课操作。</div>
     <CourseList :course-page-content="coursePageContent"/>
   </div>
 </template>

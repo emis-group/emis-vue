@@ -7,20 +7,23 @@ button {
 }
 
 .div-header {
+    position: fixed;
     height: 90px;
+    width: 100%;
     padding: 5px 0 5px 0;
+    z-index: -2;
     background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
 }
 
-.font-login-title {
-    margin: 12px 0;
+.font-main-title {
+    margin: 12px auto;
     font-size: 28px;
 }
 
 .font-title {
     font-size: 24px;
-    padding: 10px 0 10px 0;
-    margin: 10px 0;
+    padding: 5px 0 5px 0;
+    margin: 15px 0 15px 0;
 }
 
 .font-main-component-title {
@@ -36,14 +39,17 @@ button {
     text-align: left;
 }
 
+.float-normal-text-left-align, .float-normal-text-right-align {
+    margin: 0 0 10px 0;
+    overflow: auto;
+}
+
 .float-normal-text-left-align {
     float: left;
-    overflow: auto;
 }
 
 .float-normal-text-right-align {
     float: right;
-    overflow: auto;
 }
 
 .font-warning-text {
@@ -107,6 +113,7 @@ button {
 
 .div-nav {
     padding: 0 0 10px 0;
+    z-index: 2;
 }
 
 .div-nav a {

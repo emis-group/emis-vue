@@ -1,6 +1,7 @@
 <template>
   <div class="div-main-content">
     <h1 class="font-title">查询全校所有课程</h1>
+    <div class="font-normal-text">下表会展示选课系统中存在的所有课程，你可以点击“加入课程”按钮成为对应课程的授课老师的一员。</div>
     <div class="float-normal-text-left-align">
       表格页码：
       <select v-model="selectedPageNum" @change="changePage">

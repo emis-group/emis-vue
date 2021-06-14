@@ -1,6 +1,7 @@
 <template>
   <div class="div-main-content">
     <h1 class="font-title">学生选课页面</h1>
+    <div class="font-normal-text">你可以在下表选上或收藏相应的课程。</div>
     <div class="float-normal-text-left-align">
       表格页码：
       <select v-model="selectedPageNum" @change="changePage">

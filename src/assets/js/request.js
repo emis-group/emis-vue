@@ -14,7 +14,7 @@ let install = (app, options) => {
 
 let initAxios = () => {
     axiosService = axios.create({
-        baseURL: 'http://localhost:8081/'
+        baseURL: "http://49.235.110.57:8081/emis-springboot/"
     })
 
     axiosService.interceptors.request.use((config) => {

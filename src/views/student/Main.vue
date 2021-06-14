@@ -3,7 +3,7 @@
     <div class="div-header">
       <UserInfo :user-info-prop="userInfo"/>
       <ExitButton/>
-      <h1 class="font-login-title">教务选课系统 学生端</h1>
+      <h1 class="font-main-title">教务选课系统 学生端</h1>
       <div class="div-nav">
         <router-link to="/user/student/">主页</router-link>
         |

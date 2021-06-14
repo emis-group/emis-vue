@@ -14,11 +14,11 @@
         </thead>
         <tbody>
         <tr>
-          <td><input v-model="newCourseInfo.courseId" placeholder="请输入课程代码" type="text"
+          <td><input v-model="newCourseInfo.courseId" class="input-text" placeholder="请输入课程代码" type="text"
                      @blur="checkIsEmpty"/></td>
-          <td><input v-model="newCourseInfo.courseName" placeholder="请输入课程名" type="text"
+          <td><input v-model="newCourseInfo.courseName" class="input-text" placeholder="请输入课程名" type="text"
                      @blur="checkIsEmpty"/></td>
-          <td><input v-model="newCourseInfo.studentTotalNum" placeholder="请输入课程人数容量"
+          <td><input v-model="newCourseInfo.studentTotalNum" class="input-text" placeholder="请输入课程人数容量"
                      type="text" @blur="checkIsEmpty"/></td>
         </tr>
         </tbody>
@@ -78,7 +78,7 @@
     </div>
     <span class="span-main-component-line"/>
 
-    <h2 class="font-main-component-title">您的现有课程</h2>
+    <h2 class="font-main-component-title">你的现有课程</h2>
     <div class="div-normal-content">
       <CourseList :course-page-content="coursePageContent"/>
       <div class="font-normal-text">
@@ -252,16 +252,9 @@ export default {
 </script>
 
 <style scoped>
-#table-special tr:hover {
-  background-color: inherit;
-}
-
-#table-special tr:nth-child(even) {
-  background-color: rgb(235, 245, 248);
-}
-
-#table-special td:hover {
-  background-color: rgba(127, 127, 127, 0.146);
+.input-text {
+  width: 90%;
+  max-width: 200px;
 }
 
 #btn-new-course {
