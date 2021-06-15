@@ -3,7 +3,7 @@
     <thead>
     <tr>
       <th colspan="2">时间</th>
-      <th v-for="weekDay of weekDays">{{ weekDay }}</th>
+      <th v-for="weekDay of weekDays" class="th-weekday">{{ weekDay }}</th>
     </tr>
     </thead>
     <tbody>
@@ -109,7 +109,12 @@ export default {
 </script>
 
 <style scoped>
+.th-weekday {
+  padding-left: 0.5%;
+  padding-right: 0.5%;
+}
+
 .td_course_rough_time {
-  width: 1.5em;
+  width: 1em;
 }
 </style>

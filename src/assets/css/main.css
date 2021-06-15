@@ -162,8 +162,9 @@ button {
 }
 
 .table-content td, .table-content th, .table-content-special td, .table-content-special th {
+    min-width: 1em;
     border: 1px solid rgba(188, 205, 210, 0.8);
-    padding: 8px;
+    padding: 8px 1%;
 }
 
 .table-content tr:nth-child(even), .table-content-special tr:nth-child(even) {

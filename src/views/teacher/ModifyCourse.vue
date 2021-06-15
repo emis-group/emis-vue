@@ -14,10 +14,10 @@
         </thead>
         <tbody>
         <tr>
-          <td><input v-model="newCourseInfo.courseId" class="input-text" placeholder="请输入课程代码" type="text"
-                     @blur="checkIsEmpty"/></td>
-          <td><input v-model="newCourseInfo.courseName" class="input-text" placeholder="请输入课程名" type="text"
-                     @blur="checkIsEmpty"/></td>
+          <td><input v-model="newCourseInfo.courseId" class="input-text" placeholder="请输入课程代码"
+                     type="text" @blur="checkIsEmpty"/></td>
+          <td><input v-model="newCourseInfo.courseName" class="input-text" placeholder="请输入课程名"
+                     type="text" @blur="checkIsEmpty"/></td>
           <td><input v-model="newCourseInfo.studentTotalNum" class="input-text" placeholder="请输入课程人数容量"
                      type="text" @blur="checkIsEmpty"/></td>
         </tr>
@@ -255,6 +255,11 @@ export default {
 .input-text {
   width: 90%;
   max-width: 200px;
+}
+
+.table-content-special td {
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 #btn-new-course {

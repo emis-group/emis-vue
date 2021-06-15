@@ -55,7 +55,13 @@ export default {
 </script>
 
 <style scoped>
+button {
+  min-width: 30px;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
 .td-button {
-  padding: 6px 8px;
+  padding: 6px 1.5%;
 }
 </style>
