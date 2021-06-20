@@ -51,6 +51,7 @@
 </template>
 
 <script>
+// 本模块向后端服务器请求课表信息，并解析课表信息显示为一个大表格
 import {reactive} from "vue";
 
 import {request} from "@/assets/js/request";

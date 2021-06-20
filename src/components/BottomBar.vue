@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// 本模块显示底部栏信息，可根据传入的参数msg动态添加文字
 export default {
   name: "BottomBar",
   props: {

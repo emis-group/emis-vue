@@ -13,15 +13,15 @@
             <tr>
               <td style="min-width: 3em"><label>账号：</label></td>
               <td>
-                <input v-model="loginData.id" v-on:keyup.enter="login"
-                       name="id" placeholder="请输入账号" type="text"/>
+                <input v-model="loginData.id" name="id"
+                       placeholder="请输入账号" type="text" v-on:keyup.enter="login"/>
               </td>
             </tr>
             <tr>
               <td style="min-width: 3em"><label>密码：</label></td>
               <td>
-                <input v-model="loginData.password" v-on:keyup.enter="login"
-                       name="password" placeholder="请输入密码" type="password"/>
+                <input v-model="loginData.password" name="password"
+                       placeholder="请输入密码" type="password" v-on:keyup.enter="login"/>
               </td>
             </tr>
           </table>
@@ -44,6 +44,7 @@ import BottomBar from "@/components/BottomBar";
 export default {
   name: "Login",
   components: {BottomBar},
+  // setup是一个用于初始化的函数
   setup() {
     let loginData = reactive({
       id: "",
@@ -52,6 +53,7 @@ export default {
 
     let message = reactive({message: "请输入账号和密码"});
 
+    // 点击“登录”按钮后会执行下面的函数
     let login = () => {
       if (loginData.id === "" || loginData.password === "") {
         alert('账号或密码不能为空')
@@ -70,12 +72,15 @@ export default {
         }
 
         if (response.data.data && response.data.data.hasOwnProperty("token")) {
+          // 如果登录成功，后端服务器会返回一条token，这条token将会是该用户未来进行操作的凭据，现在需要保存下来
           window.sessionStorage.setItem("userId", loginData.id);
           window.sessionStorage.setItem("token", response.data.data.token);
           window.sessionStorage.setItem("userType", response.data.data.userType);
           if (response.data.data.userType === "student") {
+            // 如果服务器返回的用户类型是"student"，那么就跳转到学生端主页
             routerPush("student-home");
           } else if (response.data.data.userType === "teacher") {
+            // 如果服务器返回的用户类型是"student"，那么就跳转到教师端主页
             routerPush("teacher-home");
           }
         }

@@ -8,6 +8,7 @@
 </template>
 
 <script>
+// 本模块根据用户ID向后端服务器获取用户姓名，并进行相应的显示
 import {reactive} from "vue";
 import {request} from "@/assets/js/request";
 

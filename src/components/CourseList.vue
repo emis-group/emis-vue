@@ -29,6 +29,7 @@
 </template>
 
 <script>
+// 本模块负责解析传入的课表信息(coursePageContent)并显示为表格，如果输入参数中包含按钮信息，还会把按钮放在表格最右侧
 export default {
   name: "CourseList",
   props: {

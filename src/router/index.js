@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
-
+// 这是一个路由表，指定了路由名字对应的具体文件地址，页面跳转需靠它
 const routes = [
     {
         path: '/',
