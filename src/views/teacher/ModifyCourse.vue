@@ -15,11 +15,11 @@
         <tbody>
         <tr>
           <td><input v-model="newCourseInfo.courseId" class="input-text" placeholder="请输入课程代码"
-                     type="text" @blur="checkIsEmpty"/></td>
+                     type="text" @blur="checkCourseValidity"/></td>
           <td><input v-model="newCourseInfo.courseName" class="input-text" placeholder="请输入课程名"
-                     type="text" @blur="checkIsEmpty"/></td>
+                     type="text" @blur="checkCourseValidity"/></td>
           <td><input v-model="newCourseInfo.studentTotalNum" class="input-text" placeholder="请输入课程人数容量"
-                     type="text" @blur="checkIsEmpty"/></td>
+                     type="text" @blur="checkCourseValidity"/></td>
         </tr>
         </tbody>
       </table>
@@ -36,33 +36,33 @@
         <tr>
           <td>
             第
-            <select v-model="newCourseInfo.weekStart" @change="checkIsEmpty">
+            <select v-model="newCourseInfo.weekStart" @change="checkCourseValidity">
               <option v-for="num in selectOptions.weekStartNums" :value="num">{{ num }}</option>
             </select>
             周 —— 第
-            <select v-model="newCourseInfo.weekEnd" @change="checkIsEmpty">
+            <select v-model="newCourseInfo.weekEnd" @change="checkCourseValidity">
               <option v-for="num in selectOptions.weekEndNums" :value="num">{{ num }}</option>
             </select>
             周
           </td>
           <td>
             <input v-model="newCourseInfo.isBiweekly" name="isBiweekly" type="radio" value="true"
-                   @change="checkIsEmpty"/>是
+                   @change="checkCourseValidity"/>是
             <input v-model="newCourseInfo.isBiweekly" name="isBiweekly" type="radio" value="false"
-                   @change="checkIsEmpty"/>否
+                   @change="checkCourseValidity"/>否
           </td>
           <td>
-            <select v-model="newCourseInfo.weekDay" @change="checkIsEmpty">
+            <select v-model="newCourseInfo.weekDay" @change="checkCourseValidity">
               <option v-for="(weekDay,index) in selectOptions.weekDays" :value="index+1">{{ weekDay }}</option>
             </select>
           </td>
           <td>
             第
-            <select v-model="newCourseInfo.splitStart" @change="checkIsEmpty">
+            <select v-model="newCourseInfo.splitStart" @change="checkCourseValidity">
               <option v-for="num in selectOptions.splitStartNums" :value="num">{{ num }}</option>
             </select>
             节 —— 第
-            <select v-model="newCourseInfo.splitEnd" @change="checkIsEmpty">
+            <select v-model="newCourseInfo.splitEnd" @change="checkCourseValidity">
               <option v-for="num in selectOptions.splitEndNums" :value="num">{{ num }}</option>
             </select>
             节
@@ -153,6 +153,7 @@ export default {
     })
 
     let newCourse = () => {
+      newCourseInfo.courseId = newCourseInfo.courseId.toUpperCase();
       request('/course/newCourse', newCourseInfo).then((response) => {
         getCourses();
         if (response.data.code === 409) {
@@ -175,9 +176,7 @@ export default {
       }
     }
 
-    let checkIsEmpty = () => {
-      console.log("checkIsEmpty");
-      console.log(newCourseInfo);
+    let checkCourseValidity = () => {
       let validity = true;
       if (validity) {
         for (let item in newCourseInfo) {
@@ -191,7 +190,7 @@ export default {
         }
       }
       if (validity) {
-        validity = checkNumRange();
+        validity = checkNumRange() && checkCourseId();
       }
       if (validity) {
         htmlText.newCourseTips.value = "表格数据已经填写完整，您可以点击新建课程了";
@@ -201,6 +200,29 @@ export default {
         htmlClass.newCourseTips = "font-warning-text";
         htmlDisabled.btnNewCourse = true;
       }
+    }
+
+    let checkCourseId = () => {
+      let validity = true;
+      let message = "";
+      if (newCourseInfo.courseId.length < 7) {
+        validity = false;
+        message = "您输入的课程代码太短了";
+      }
+      let patternLetter = new RegExp("^[a-zA-Z]+$");
+      if (validity && !patternLetter.test(newCourseInfo.courseId.slice(0, 2))) {
+        validity = false;
+        message = "您输入课程代码的前2个字符应为英文字母";
+      }
+      let patternNum = new RegExp("^[0-9]+$");
+      if (validity && !patternNum.test(newCourseInfo.courseId.slice(2, 7))) {
+        validity = false;
+        message = "您输入课程代码的第3—7个字符应为数字";
+      }
+      if (!validity) {
+        htmlText.newCourseTips.value = "数据填写有误：" + message + "（课程代码开头的格式为2个字母+5个数字）";
+      }
+      return validity;
     }
 
     let checkNumRange = () => {
@@ -245,7 +267,7 @@ export default {
       htmlDisabled,
       newCourse,
       dropCourse,
-      checkIsEmpty
+      checkCourseValidity
     }
   }
 }
