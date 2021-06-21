@@ -190,7 +190,7 @@ export default {
         }
       }
       if (validity) {
-        validity = checkNumRange() && checkCourseId();
+        validity = checkCourseId() && checkNumRange();
       }
       if (validity) {
         htmlText.newCourseTips.value = "表格数据已经填写完整，您可以点击新建课程了";
@@ -205,36 +205,46 @@ export default {
     let checkCourseId = () => {
       let validity = true;
       let message = "";
+      let propName = htmlText.tableHeader.courseId;
       if (newCourseInfo.courseId.length < 7) {
         validity = false;
-        message = "您输入的课程代码太短了";
+        message = "您输入的" + propName + "太短了";
       }
       let patternLetter = new RegExp("^[a-zA-Z]+$");
       if (validity && !patternLetter.test(newCourseInfo.courseId.slice(0, 2))) {
         validity = false;
-        message = "您输入课程代码的前2个字符应为英文字母";
+        message = "您输入" + propName + "的前2个字符应为英文字母";
       }
       let patternNum = new RegExp("^[0-9]+$");
       if (validity && !patternNum.test(newCourseInfo.courseId.slice(2, 7))) {
         validity = false;
-        message = "您输入课程代码的第3—7个字符应为数字";
+        message = "您输入" + propName + "的第3—7个字符应为数字";
       }
       if (!validity) {
-        htmlText.newCourseTips.value = "数据填写有误：" + message + "（课程代码开头的格式为2个字母+5个数字）";
+        htmlText.newCourseTips.value = "数据填写有误：" + message + "（" + propName + "开头的格式为2个字母+5个数字）";
       }
       return validity;
     }
 
     let checkNumRange = () => {
       let validity = true;
-      if (newCourseInfo.weekStart > newCourseInfo.weekEnd) {
+      if (isNaN(Number(newCourseInfo.studentTotalNum))) {
+        validity = false;
+        htmlText.newCourseTips.value = "数据填写有误：" + htmlText.tableHeader.studentTotalNum + "应为数字";
+      }
+      if (validity && Number(newCourseInfo.studentTotalNum) <= 0) {
+        validity = false;
+        htmlText.newCourseTips.value = "数据填写有误：" + htmlText.tableHeader.studentTotalNum + "必须为正数";
+      }
+      if (validity && newCourseInfo.weekStart > newCourseInfo.weekEnd) {
+        validity = false;
         htmlText.newCourseTips.value = "数据填写有误：";
         htmlText.newCourseTips.value += htmlText.tableHeader.weekStart + "不能大于" + htmlText.tableHeader.weekEnd;
+      }
+      if (validity && newCourseInfo.splitStart > newCourseInfo.splitEnd) {
         validity = false;
-      } else if (newCourseInfo.splitStart > newCourseInfo.splitEnd) {
         htmlText.newCourseTips.value = "数据填写有误：";
         htmlText.newCourseTips.value += htmlText.tableHeader.splitStart + "不能大于" + htmlText.tableHeader.splitStart;
-        validity = false;
       }
       return validity;
     }
