@@ -1,10 +1,10 @@
 <template>
-     <span class="span-user-info">
+     <div class="user-info">
         <span class="font-user-info-title">{{ userInfo.type }}信息：</span>
         <span class="span-line"/>
         <span class="font-user-info-content">姓名：{{ userInfo.name }}</span>
         <span class="font-user-info-content">{{ userInfo.idName }}：{{ userInfo.id }}</span>
-      </span>
+      </div>
 </template>
 
 <script>
@@ -57,19 +57,17 @@ export default {
 </script>
 
 <style scoped>
-.span-user-info {
-  position: fixed;
-  top: 8px;
-  left: 8px;
-
+.user-info {
   width: 140px;
+  min-width: 140px;
   height: 68px;
   padding: 8px;
 
   z-index: -1;
-  background-color: rgba(255, 255, 255, 0.618);
+  background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 5px 0 rgba(31, 113, 147, 0.25);
   border-radius: 5px;
+  overflow: hidden;
 
   text-align: left;
 }

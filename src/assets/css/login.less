@@ -1,0 +1,57 @@
+.login-background {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  background-image: linear-gradient(to bottom right, rgb(42, 206, 201), rgb(10, 113, 168));
+}
+
+.login-box-wrapper {
+  position: relative;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+
+  .login-box {
+    background-color: rgba(255, 255, 255, 0.382);
+    box-shadow: 0 0 20px 0 rgba(31, 113, 147, 0.5);
+    padding: 24px 0;
+
+    .title {
+      color: #FFFFFF;
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .message {
+      padding: 15px 0;
+      color: #FFFFFF;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 5px;
+      width: 320px;
+      height: 36px;
+      border: 0;
+      font-size: 16px;
+      background-color: #fff;
+      transition: all .2s;
+
+      &:hover {
+        background-color: rgb(213, 233, 255);
+      }
+    }
+  }
+
+  .extra-message{
+    margin: 16px;
+    color: #FFFFFF;
+    font-size: 16px;
+  }
+}
+
+.line-activate {
+  width: 100%;
+}

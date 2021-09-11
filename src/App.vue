@@ -1,5 +1,5 @@
 <template>
-  <div id="app-div">
+  <div class="app-root">
     <router-view/>
   </div>
 </template>
@@ -7,6 +7,7 @@
 <style>
 
 @import url("./assets/css/main.css");
+@import url("./assets/fs/css/all.css");
 
 html, body {
   margin: 0;
@@ -20,7 +21,6 @@ html, body {
   text-align: center;
   color: #2c3e50;
 }
-
 </style>
 
 <script>
