@@ -1,19 +1,30 @@
 <template>
-  <div class="input-box">
-    <div class="label">{{ theProps.label }}</div>
-    <div class="input">
-      <div class="lineBlur" :class="{ hover: isHover }"></div>
-      <div class="lineFocus" :class="{ active: isActive }"></div>
-      <input
-        v-model="theProps.model.value"
-        :name="theProps.name"
-        :type="theProps.type"
-        v-on:keyup.enter="theProps.keyEnterEvent"
-        @focus="isActive = true"
-        @blur="isActive = false"
-        @mouseover="isHover = true"
-        @mouseleave="isHover = false"
-      />
+  <div class="input-box-root">
+    <div
+      class="input-box-wrapper"
+      @click="activateInput"
+      @mouseover="isHover = true"
+      @mouseleave="isHover = false"
+    >
+      <div class="label" :class="{ active: isActive || hasText }">
+        {{ theProps.label }}
+      </div>
+      <div class="input">
+        <div class="lineBlur" :class="{ hover: isHover }"></div>
+        <div class="lineFocus" :class="{ active: isActive }"></div>
+        <input
+          :name="theProps.name"
+          :type="theProps.type"
+          v-model="theProps.model.value"
+          v-focus="isActive"
+          v-on:keyup.enter="theProps.keyEnterEvent"
+          @focus="isActive = true"
+          @blur="
+            isActive = false;
+            checkText();
+          "
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +44,15 @@ export default {
     type: "",
     keyEnterEvent: null,
   },
+  directives: {
+    focus: {
+      updated(el, { value }) {
+        if (value) {
+          el.focus();
+        }
+      },
+    },
+  },
   setup(props) {
     let theProps = props;
 
@@ -40,7 +60,21 @@ export default {
 
     let isHover = ref(false);
 
-    return { theProps, isActive, isHover};
+    let hasText = ref(false);
+
+    let activateInput = () => {
+      isActive.value = true;
+    }
+
+    let checkText = () => {
+      if (theProps.model.value != "") {
+        hasText.value = true;
+      } else {
+        hasText.value = false;
+      }
+    }
+
+    return { theProps, isActive, isHover, hasText, activateInput, checkText };
   },
 };
 </script>

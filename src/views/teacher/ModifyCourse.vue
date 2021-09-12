@@ -6,175 +6,168 @@
     <div class="content-box">
       <div class="title">在这里新建课程</div>
       <div class="content">
-        <div class="div-normal-content">
-          <div class="font-normal-text">
-            在下表填写需要新建的课程信息，填写完后按下“点击新建课程”按钮。
-          </div>
-          <table class="table-content-special">
-            <thead>
-              <tr>
-                <td>{{ htmlText.tableHeader.courseId }}</td>
-                <td>{{ htmlText.tableHeader.courseName }}</td>
-                <td>{{ htmlText.tableHeader.studentTotalNum }}</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <input
-                    v-model="newCourseInfo.courseId"
-                    class="input-text"
-                    placeholder="请输入课程代码"
-                    type="text"
-                    @blur="checkCourseValidity"
-                  />
-                </td>
-                <td>
-                  <input
-                    v-model="newCourseInfo.courseName"
-                    class="input-text"
-                    placeholder="请输入课程名"
-                    type="text"
-                    @blur="checkCourseValidity"
-                  />
-                </td>
-                <td>
-                  <input
-                    v-model="newCourseInfo.studentTotalNum"
-                    class="input-text"
-                    placeholder="请输入课程人数容量"
-                    type="text"
-                    @blur="checkCourseValidity"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <table class="table-content-special">
-            <thead>
-              <tr>
-                <td>{{ htmlText.tableHeader.weekNums }}</td>
-                <td>{{ htmlText.tableHeader.isBiweekly }}</td>
-                <td>{{ htmlText.tableHeader.weekDay }}</td>
-                <td>{{ htmlText.tableHeader.splitNums }}</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  第
-                  <select
-                    v-model="newCourseInfo.weekStart"
-                    @change="checkCourseValidity"
-                  >
-                    <option
-                      v-for="num in selectOptions.weekStartNums"
-                      :value="num"
-                    >
-                      {{ num }}
-                    </option>
-                  </select>
-                  周 —— 第
-                  <select
-                    v-model="newCourseInfo.weekEnd"
-                    @change="checkCourseValidity"
-                  >
-                    <option
-                      v-for="num in selectOptions.weekEndNums"
-                      :value="num"
-                    >
-                      {{ num }}
-                    </option>
-                  </select>
-                  周
-                </td>
-                <td>
-                  <input
-                    v-model="newCourseInfo.isBiweekly"
-                    name="isBiweekly"
-                    type="radio"
-                    value="true"
-                    @change="checkCourseValidity"
-                  />是
-                  <input
-                    v-model="newCourseInfo.isBiweekly"
-                    name="isBiweekly"
-                    type="radio"
-                    value="false"
-                    @change="checkCourseValidity"
-                  />否
-                </td>
-                <td>
-                  <select
-                    v-model="newCourseInfo.weekDay"
-                    @change="checkCourseValidity"
-                  >
-                    <option
-                      v-for="(weekDay, index) in selectOptions.weekDays"
-                      :value="index + 1"
-                    >
-                      {{ weekDay }}
-                    </option>
-                  </select>
-                </td>
-                <td>
-                  第
-                  <select
-                    v-model="newCourseInfo.splitStart"
-                    @change="checkCourseValidity"
-                  >
-                    <option
-                      v-for="num in selectOptions.splitStartNums"
-                      :value="num"
-                    >
-                      {{ num }}
-                    </option>
-                  </select>
-                  节 —— 第
-                  <select
-                    v-model="newCourseInfo.splitEnd"
-                    @change="checkCourseValidity"
-                  >
-                    <option
-                      v-for="num in selectOptions.splitEndNums"
-                      :value="num"
-                    >
-                      {{ num }}
-                    </option>
-                  </select>
-                  节
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="font-normal-text">
-            <span>提示：</span>
-            <span :class="htmlClass.newCourseTips"
-              >{{ htmlText.newCourseTips.value }}。</span
-            >
-          </div>
-          <button
-            id="btn-new-course"
-            :disabled="htmlDisabled.btnNewCourse"
-            @click="newCourse()"
-          >
-            点击新建课程
-          </button>
+        <div class="font-normal-text">
+          在下表填写需要新建的课程信息，填写完后按下“点击新建课程”按钮。
         </div>
+        <table class="table-content-special">
+          <thead>
+            <tr>
+              <td>{{ htmlText.tableHeader.courseId }}</td>
+              <td>{{ htmlText.tableHeader.courseName }}</td>
+              <td>{{ htmlText.tableHeader.studentTotalNum }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input
+                  v-model="newCourseInfo.courseId"
+                  class="input-text"
+                  placeholder="请输入课程代码"
+                  type="text"
+                  @blur="checkCourseValidity"
+                />
+              </td>
+              <td>
+                <input
+                  v-model="newCourseInfo.courseName"
+                  class="input-text"
+                  placeholder="请输入课程名"
+                  type="text"
+                  @blur="checkCourseValidity"
+                />
+              </td>
+              <td>
+                <input
+                  v-model="newCourseInfo.studentTotalNum"
+                  class="input-text"
+                  placeholder="请输入课程人数容量"
+                  type="text"
+                  @blur="checkCourseValidity"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table-content-special">
+          <thead>
+            <tr>
+              <td>{{ htmlText.tableHeader.weekNums }}</td>
+              <td>{{ htmlText.tableHeader.isBiweekly }}</td>
+              <td>{{ htmlText.tableHeader.weekDay }}</td>
+              <td>{{ htmlText.tableHeader.splitNums }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                第
+                <select
+                  v-model="newCourseInfo.weekStart"
+                  @change="checkCourseValidity"
+                >
+                  <option
+                    v-for="num in selectOptions.weekStartNums"
+                    :value="num"
+                  >
+                    {{ num }}
+                  </option>
+                </select>
+                周 —— 第
+                <select
+                  v-model="newCourseInfo.weekEnd"
+                  @change="checkCourseValidity"
+                >
+                  <option v-for="num in selectOptions.weekEndNums" :value="num">
+                    {{ num }}
+                  </option>
+                </select>
+                周
+              </td>
+              <td>
+                <input
+                  v-model="newCourseInfo.isBiweekly"
+                  name="isBiweekly"
+                  type="radio"
+                  value="true"
+                  @change="checkCourseValidity"
+                />是&nbsp;&nbsp;
+                <input
+                  v-model="newCourseInfo.isBiweekly"
+                  name="isBiweekly"
+                  type="radio"
+                  value="false"
+                  @change="checkCourseValidity"
+                />否
+              </td>
+              <td>
+                <select
+                  v-model="newCourseInfo.weekDay"
+                  @change="checkCourseValidity"
+                >
+                  <option
+                    v-for="(weekDay, index) in selectOptions.weekDays"
+                    :value="index + 1"
+                  >
+                    {{ weekDay }}
+                  </option>
+                </select>
+              </td>
+              <td>
+                第
+                <select
+                  v-model="newCourseInfo.splitStart"
+                  @change="checkCourseValidity"
+                >
+                  <option
+                    v-for="num in selectOptions.splitStartNums"
+                    :value="num"
+                  >
+                    {{ num }}
+                  </option>
+                </select>
+                节 —— 第
+                <select
+                  v-model="newCourseInfo.splitEnd"
+                  @change="checkCourseValidity"
+                >
+                  <option
+                    v-for="num in selectOptions.splitEndNums"
+                    :value="num"
+                  >
+                    {{ num }}
+                  </option>
+                </select>
+                节
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="font-normal-text">
+          <span>提示：</span>
+          <span :class="htmlClass.newCourseTips"
+            >{{ htmlText.newCourseTips.value }}。</span
+          >
+        </div>
+        <button
+          id="btn-new-course"
+          :disabled="htmlDisabled.btnNewCourse"
+          @click="newCourse()"
+        >
+          点击新建课程
+        </button>
       </div>
     </div>
     <!-- <span class="span-main-component-line" /> -->
     <div class="content-box">
       <div class="title">你的现有课程</div>
       <div class="content">
-        <div class="div-normal-content">
-          <CourseList :course-page-content="coursePageContent" />
-          <div class="font-normal-text">
-            <span>备注：</span>
-            <span
-              >对于只有一位老师的课程，点击”退出课程“会同时删除课程信息。对于有多位老师的课程，点击”退出课程“不会影响其他老师在这节课的情况。</span
-            >
-          </div>
+        <CourseList :course-page-content="coursePageContent" />
+        <div class="font-normal-text">
+          <span>备注：</span>
+          <span
+            >对于只有一位老师的课程，点击”退出课程“会同时删除课程信息。对于有多位老师的课程，点击”退出课程“不会影响其他老师在这节课的情况。</span
+          >
         </div>
       </div>
     </div>
@@ -239,7 +232,7 @@ export default {
       maxSplitNum: 11,
     };
     let htmlClass = reactive({
-      newCourseTips: "div-normal-content",
+      newCourseTips: "",
     });
     let htmlText = {
       tableHeader: {
@@ -366,6 +359,13 @@ export default {
           "数据填写有误：" +
           htmlText.tableHeader.studentTotalNum +
           "必须为正数";
+      }
+      if (validity && Number(newCourseInfo.studentTotalNum) > 32767) {
+        validity = false;
+        htmlText.newCourseTips.value =
+          "数据填写有误：" +
+          htmlText.tableHeader.studentTotalNum +
+          "数值过大";
       }
       if (validity && newCourseInfo.weekStart > newCourseInfo.weekEnd) {
         validity = false;

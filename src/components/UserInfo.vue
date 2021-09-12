@@ -1,16 +1,18 @@
 <template>
-     <div class="user-info">
-        <span class="font-user-info-title">{{ userInfo.type }}信息：</span>
-        <span class="span-line"/>
-        <span class="font-user-info-content">姓名：{{ userInfo.name }}</span>
-        <span class="font-user-info-content">{{ userInfo.idName }}：{{ userInfo.id }}</span>
-      </div>
+  <div class="user-info-root">
+    <span class="font-user-info-title">{{ userInfo.type }}信息：</span>
+    <span class="span-line" />
+    <span class="font-user-info-content">姓名：{{ userInfo.name }}</span>
+    <span class="font-user-info-content"
+      >{{ userInfo.idName }}：{{ userInfo.id }}</span
+    >
+  </div>
 </template>
 
 <script>
 // 本模块根据用户ID向后端服务器获取用户姓名，并进行相应的显示
-import {reactive} from "vue";
-import {request} from "@/assets/js/request";
+import { reactive } from "vue";
+import { request } from "@/assets/js/request";
 
 export default {
   name: "UserInfo",
@@ -20,20 +22,20 @@ export default {
       default: function () {
         return {
           id: String,
-          type: String
-        }
-      }
-    }
+          type: String,
+        };
+      },
+    },
   },
   setup(props) {
-    let userInfo = reactive({id: null, name: null, type: null, idName: null});
+    let userInfo = reactive({ id: null, name: null, type: null, idName: null });
 
     let init = () => {
       userInfo.id = props.userInfoProp.id;
 
-      request('user/name', {}).then((response) => {
+      request("user/name", {}).then((response) => {
         userInfo.name = response.data.data;
-      })
+      });
 
       if (props.userInfoProp.type === "student") {
         userInfo.type = "学生";
@@ -45,21 +47,20 @@ export default {
         userInfo.type = "(" + props.userInfoProp.type + ")";
         userInfo.idName = "账号";
       }
-    }
+    };
 
     init();
 
     return {
-      userInfo
-    }
-  }
-}
+      userInfo,
+    };
+  },
+};
 </script>
 
 <style scoped>
-.user-info {
-  width: 140px;
-  min-width: 140px;
+.user-info-root {
+  width: 130px;
   height: 68px;
   padding: 8px;
 
@@ -70,6 +71,9 @@ export default {
   overflow: hidden;
 
   text-align: left;
+
+  transition: all 0.3s;
+
 }
 
 .font-user-info-title {
@@ -81,7 +85,7 @@ export default {
 .font-user-info-content {
   display: block;
   font-size: 14px;
-  padding: 0 0 3px 10px;
+  padding: 4px 2px 2px 10px;
 }
 
 .span-line {

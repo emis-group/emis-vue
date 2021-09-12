@@ -2,9 +2,11 @@
   <div class="main-background">
     <div class="top-nav-wrapper">
       <div class="top-nav">
-        <div class="title-wrapper">
-          <div class="title">教务选课系统</div>
-          <div class="sub-title">学生端</div>
+        <div class="title-box-wrapper">
+          <div class="title-box">
+            <div class="title">教务选课系统</div>
+            <div class="sub-title">学生端</div>
+          </div>
         </div>
         <ul class="nav-list">
           <li class="nav-item">
@@ -23,12 +25,13 @@
               >课程收藏夹</router-link
             >
           </li>
-
           <li class="nav-item">
             <a class="red" href="javascript:;" @click="exit">退出系统</a>
           </li>
         </ul>
-        <UserInfo :user-info-prop="userInfo" />
+        <div class="user-info">
+          <UserInfo :user-info-prop="userInfo" />
+        </div>
       </div>
       <div class="div-router-view">
         <router-view />
@@ -66,12 +69,11 @@ export default {
       window.sessionStorage.clear();
     };
 
-
     init();
 
     return {
       userInfo,
-      exit
+      exit,
     };
   },
 };

@@ -3,15 +3,15 @@
     <thead>
       <tr>
         <th colspan="2">时间</th>
-        <th v-for="weekDay of weekDays" class="th-weekday">{{ weekDay }}</th>
+        <th v-for="weekDay of weekDays" class="weekday">{{ weekDay }}</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(courseRow, index) of courses.morning">
-        <th v-if="index === 0" class="td_course_rough_time" rowspan="4">
+        <th v-if="index === 0" class="course-rough-time" rowspan="4">
           <div class="text">上午</div>
         </th>
-        <td>第{{ index + 1 }}节</td>
+        <td class="split-num">第{{ index + 1 }}节</td>
         <td v-for="tableItem of courseRow" :rowspan="tableItem.itemLength">
           <span v-for="(courseItem, index) of tableItem.courseItemList">
             <span v-if="index !== 0" class="span-small-component-line" />
@@ -27,10 +27,10 @@
         </td>
       </tr>
       <tr v-for="(courseRow, index) of courses.afternoon">
-        <th v-if="index === 0" class="td_course_rough_time" rowspan="4">
+        <th v-if="index === 0" class="course-rough-time" rowspan="4">
           <div class="text">下午</div>
         </th>
-        <td>第{{ index + 5 }}节</td>
+        <td class="split-num">第{{ index + 5 }}节</td>
         <td v-for="tableItem of courseRow" :rowspan="tableItem.itemLength">
           <span v-for="(courseItem, index) of tableItem.courseItemList">
             <span v-if="index !== 0" class="span-small-component-line" />
@@ -46,10 +46,10 @@
         </td>
       </tr>
       <tr v-for="(courseRow, index) of courses.evening">
-        <th v-if="index === 0" class="td_course_rough_time" rowspan="3">
+        <th v-if="index === 0" class="course-rough-time" rowspan="3">
           <div class="text">晚上</div>
         </th>
-        <td>第{{ index + 9 }}节</td>
+        <td class="split-num">第{{ index + 9 }}节</td>
         <td v-for="tableItem of courseRow" :rowspan="tableItem.itemLength">
           <span v-for="(courseItem, index) of tableItem.courseItemList">
             <span v-if="index !== 0" class="span-component-line" />
@@ -171,17 +171,24 @@ export default {
 </script>
 
 <style scoped lang="less">
-.th-weekday {
+.weekday {
   padding-left: 0.5%;
   padding-right: 0.5%;
 }
 
-.td_course_rough_time {
+.course-rough-time {
   padding: 0;
-
-  .text{
-    width: 1em;
+  .text {
+    width: 1.5em;
     margin: 0 auto;
+
+    @media screen and (max-width: 750px) {
+      width: 1.1em;
+    }
   }
+}
+
+.split-num {
+  padding: 0.5em 0;
 }
 </style>

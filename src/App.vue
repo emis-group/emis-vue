@@ -6,6 +6,7 @@
 
 <style>
 
+@import url(./assets/css/normalize.css);
 @import url("./assets/css/main.css");
 @import url("./assets/fs/css/all.css");
 

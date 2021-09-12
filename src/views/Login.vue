@@ -2,11 +2,11 @@
   <div class="login-background">
     <div class="login-box-wrapper">
       <div class="login-box">
-        <div class="title">欢迎访问教务系统</div>
+        <div class="title">欢迎访问教务选课系统</div>
         <div class="message">
           <div>{{ message.message }}</div>
         </div>
-        <div id="inputArea">
+        <div class="input-area">
           <InputBox
             :label="idInputBox.label"
             :model="idInputBox.model"
@@ -24,7 +24,11 @@
           <button class="login-btn" type="button" @click="login">登录</button>
         </div>
       </div>
-      <div class="extra-message">本网站尚未适配移动端，使用移动设备浏览可能会出现界面显示错误，请知悉</div>
+      <div>
+        <div class="extra-message">
+          建议在电脑端使用谷歌或火狐浏览器访问本网站（本网站尚未适配移动端）
+        </div>
+      </div>
     </div>
     <BottomBar />
   </div>
@@ -48,13 +52,10 @@ export default {
       password: ref(""),
     };
 
-    console.log(loginData);
-
     let message = reactive({ message: "请输入账号和密码" });
 
     // 点击“登录”按钮后会执行下面的函数
     let login = () => {
-      console.log("loginData.password:" + loginData.password);
       if (loginData.id.value === "" || loginData.password.value === "") {
         alert("账号或密码不能为空");
         return;

@@ -5,8 +5,6 @@ let axiosService;
 let isAllowToLoginPage;
 
 let install = (app, options) => {
-    console.log("[request.js]install");
-    console.log(app);
     isAllowToLoginPage = true;
 
     initAxios();

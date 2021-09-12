@@ -30,26 +30,35 @@
       font-size: 16px;
     }
 
-    button {
-      margin-top: 5px;
-      width: 320px;
-      height: 36px;
-      border: 0;
-      font-size: 16px;
-      background-color: #fff;
-      transition: all .2s;
+    .input-area {
+      margin: 0 auto;
 
-      &:hover {
-        background-color: rgb(213, 233, 255);
+      @media screen and (max-width: 350px) {
+        width: calc(100% - 15px);
+      }
+
+      button {
+        margin-top: 5px;
+        width: 100%;
+        max-width: 320px;
+        height: 36px;
+        border: 0;
+        font-size: 16px;
+        background-color: #fff;
+        transition: all .2s;
       }
     }
   }
+}
 
-  .extra-message{
-    margin: 16px;
-    color: #FFFFFF;
-    font-size: 16px;
-  }
+.extra-message {
+  margin: 8px;
+  color: #FFFFFF;
+  font-size: 16px;
+}
+
+.extra-message:first-of-type{
+  margin-top: 16px;
 }
 
 .line-activate {

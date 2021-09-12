@@ -65,6 +65,6 @@ button {
 .td-button {
   /* padding: 6px 1.5%; */
   overflow: hidden;
-  padding: 6px 0;
+  padding: 6px 6px;
 }
 </style>

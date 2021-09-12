@@ -2,11 +2,12 @@
   <div class="main-background">
     <div class="top-nav-wrapper">
       <div class="top-nav">
-        <div class="title-wrapper">
-          <div class="title">教务选课系统</div>
-          <div class="sub-title">教师端</div>
+        <div class="title-box-wrapper">
+          <div class="title-box">
+            <div class="title">教务选课系统</div>
+            <div class="sub-title">教师端</div>
+          </div>
         </div>
-
         <ul class="nav-list">
           <li class="nav-item">
             <router-link to="/user/teacher/">主页</router-link>
