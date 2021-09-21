@@ -1,7 +1,7 @@
 <template>
   <div class="div-footer">
-    安徽大学 软件工程概论实验作业 第2组 教务选课系统{{ msg }} 20210912-SNAPSHOT
-    本系统仅供教学测试使用
+    安徽大学 软件工程概论实验课程作业 &nbsp; 第2组 教务选课系统{{ msg }}
+    &nbsp; 本系统仅供教学测试使用
   </div>
 </template>
 

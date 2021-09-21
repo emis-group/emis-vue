@@ -117,7 +117,7 @@
                         right: 0;
                         margin: 0 auto;
                         content: '';
-                        display: table;
+                        display: block;
                         width: calc(100% - 12px);
                         height: calc(100% - 18px);
                         z-index: -1;
@@ -190,6 +190,7 @@
             width: 146px;
             transition: all .3s;
             overflow: hidden;
+            transform: translateX(0);
             animation: user-info-move-in .3s .2s backwards;
 
             @media screen and (max-width: 750px) {
@@ -199,6 +200,7 @@
             @keyframes user-info-move-in {
                 from{
                     width: 0;
+                    transform: translateX(60px);
                 }
             }
         }

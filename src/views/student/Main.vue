@@ -43,7 +43,8 @@
 
 <script>
 import { reactive } from "vue";
-import { getCurrentInstance } from "vue";
+import { routerPush } from "@/router";
+import { setIsAllowToLoginPage } from "@/assets/js/request";
 import UserInfo from "@/components/UserInfo";
 import ExitButton from "@/components/ExitButton";
 import BottomBar from "@/components/BottomBar";
@@ -57,15 +58,15 @@ export default {
       type: null,
     });
 
-    let router = getCurrentInstance().proxy.$router;
 
     let init = () => {
       userInfo.id = window.sessionStorage.getItem("userId");
       userInfo.type = window.sessionStorage.getItem("userType");
+      setIsAllowToLoginPage(true);
     };
 
     let exit = () => {
-      router.push({ name: "login" });
+      routerPush("login");
       window.sessionStorage.clear();
     };
 

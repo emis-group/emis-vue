@@ -4,14 +4,15 @@
 
 <script>
 // 本模块就是一个退出按钮，点了跳转到登录页面，并清空本地存储(window.sessionStorage)的信息
-import {getCurrentInstance} from "vue";
+import {
+    routerPush
+} from "@/router";
 
 export default {
   name: "ExitButton",
   setup() {
-    let router = getCurrentInstance().proxy.$router;
     let exit = () => {
-      router.push({name: "login"});
+      routerPush("login");
       window.sessionStorage.clear();
     }
     return {

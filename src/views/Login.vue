@@ -64,7 +64,6 @@ export default {
         id: loginData.id.value,
         password: sha256(loginData.password.value), // 密码使用sha256加密传输
       };
-      setIsAllowToLoginPage(true);
       request("user/login", encryptedLoginData, false).then((response) => {
         if (response.data.code === 200) {
           message.message = response.data.message;
@@ -72,7 +71,8 @@ export default {
           alert(response.data.message);
         }
 
-        if (response.data.data && response.data.data.hasOwnProperty("token")) {
+        if (response.data.data && response.data.data.token) {
+          setIsAllowToLoginPage(true);
           // 如果登录成功，后端服务器会返回一条token，这条token将会是该用户未来进行操作的凭据，现在需要保存下来
           window.sessionStorage.setItem("userId", loginData.id.value);
           window.sessionStorage.setItem("token", response.data.data.token);

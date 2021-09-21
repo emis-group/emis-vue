@@ -1,5 +1,7 @@
 import axios from 'axios'
-import {routerPush} from "@/router";
+import {
+    routerPush
+} from "@/router";
 
 let axiosService;
 let isAllowToLoginPage;
@@ -60,11 +62,17 @@ let request = async (requestUrl, requestData, needToken = true) => {
                 isAllowToLoginPage = false;
                 routerPush("login");
                 alert("您的登录信息无效，请重新登录");
-                return;
             }
+            return {
+                data: {}
+            };
         } else {
             tokenValid = true;
-            headers = {headers: {"Authorization": token}};
+            headers = {
+                headers: {
+                    "Authorization": token
+                }
+            };
         }
     }
 
@@ -91,12 +99,19 @@ let request = async (requestUrl, requestData, needToken = true) => {
         })
     }
 
+    if (responseData == "") {
+        responseData = {};
+    }
+
     return {
         data: responseData,
         valid: tokenValid
     }
 }
 
-export {request, setIsAllowToLoginPage};
+export {
+    request,
+    setIsAllowToLoginPage
+};
 
 export default install;

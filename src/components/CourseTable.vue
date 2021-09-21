@@ -138,10 +138,7 @@ export default {
         courses.morning.splice(0);
         courses.afternoon.splice(0);
         courses.evening.splice(0);
-        if (
-          response.data.hasOwnProperty("data") &&
-          response.data.data.hasOwnProperty("courseTable")
-        ) {
+        if (response.data.data && response.data.data.courseTable) {
           let courseTable = response.data.data.courseTable;
           for (let i = 0; i < 4; i++) {
             courses.morning.push(courseTable[i]);

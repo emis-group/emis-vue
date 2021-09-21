@@ -34,7 +34,9 @@ export default {
       userInfo.id = props.userInfoProp.id;
 
       request("user/name", {}).then((response) => {
-        userInfo.name = response.data.data;
+        if (response.data.data) {
+          userInfo.name = response.data.data;
+        }
       });
 
       if (props.userInfoProp.type === "student") {
@@ -73,7 +75,6 @@ export default {
   text-align: left;
 
   transition: all 0.3s;
-
 }
 
 .font-user-info-title {

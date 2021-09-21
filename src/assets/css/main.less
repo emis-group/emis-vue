@@ -82,6 +82,7 @@
     width: 100%;
     margin: 10px auto;
     font-family: "阿里巴巴普惠体 Regular", "Microsoft YaHei UI", sans-serif;
+    line-height: 1.25;
     border-collapse: collapse;
     background-color: rgba(255, 255, 255, 0.854);
 }
@@ -144,6 +145,7 @@ button {
     transition: all .2s;
     overflow: hidden;
     box-shadow: 0 1px 3px 0 rgba(31, 113, 147, 0.5);
+    cursor: pointer;
 
     &::before,
     &::after{
@@ -170,7 +172,7 @@ button {
         background-color: rgba(8, 94, 116, 0.8);
     }
 
-    &:hover{
+    &:not(:disabled):hover{
         background-color: #fff;
 
         &::after {
