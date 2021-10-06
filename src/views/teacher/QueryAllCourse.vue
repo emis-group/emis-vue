@@ -12,7 +12,11 @@
         <div class="float-normal-text-left-align">
           表格页码：
           <select v-model="selectedPageNum" @change="changePage">
-            <option v-for="num of coursePageContent.pageNumList" :value="num">
+            <option
+              v-for="(num, index) of coursePageContent.pageNumList"
+              :value="num"
+              :key="index"
+            >
               {{ num }}
             </option>
           </select>
@@ -31,6 +35,7 @@
 import { reactive, ref } from "vue";
 import { getCoursePage } from "@/assets/js/courseListController";
 import { request } from "@/assets/js/request";
+import { createPopupBox } from "@/assets/js/popupBox";
 import CourseList from "@/components/CourseList";
 
 export default {
@@ -58,8 +63,7 @@ export default {
 
     let joinCourse = (course) => {
       request("course/addCourse", { courseId: course.id }).then((response) => {
-        getCourses();
-        alert(response.data.message);
+        createPopupBox({ text: response.data.message, canceled: getCourses });
       });
     };
 
@@ -67,8 +71,8 @@ export default {
       getCourses();
     };
 
-    let getCourses = () => {
-      getCoursePage(coursePageContent, "findAllCourse", {
+    let getCourses = async () => {
+      await getCoursePage(coursePageContent, "findAllCourse", {
         pageNum: selectedPageNum.value,
       });
     };

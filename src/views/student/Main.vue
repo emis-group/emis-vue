@@ -45,6 +45,7 @@
 import { reactive } from "vue";
 import { routerPush } from "@/router";
 import { setIsAllowToLoginPage } from "@/assets/js/request";
+import { createConfirmPopupBox } from "@/assets/js/popupBox";
 import UserInfo from "@/components/UserInfo";
 import ExitButton from "@/components/ExitButton";
 import BottomBar from "@/components/BottomBar";
@@ -58,7 +59,6 @@ export default {
       type: null,
     });
 
-
     let init = () => {
       userInfo.id = window.sessionStorage.getItem("userId");
       userInfo.type = window.sessionStorage.getItem("userType");
@@ -66,8 +66,13 @@ export default {
     };
 
     let exit = () => {
-      routerPush("login");
-      window.sessionStorage.clear();
+      createConfirmPopupBox({
+        text: "确定要退出该账户？",
+        funIfTrue: () => {
+          routerPush("login");
+          window.sessionStorage.clear();
+        },
+      });
     };
 
     init();

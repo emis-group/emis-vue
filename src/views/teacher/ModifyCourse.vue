@@ -9,7 +9,7 @@
         <div class="font-normal-text">
           在下表填写需要新建的课程信息，填写完后按下“点击新建课程”按钮。
         </div>
-        <table class="table-content-special">
+        <table class="special-table">
           <thead>
             <tr>
               <td>{{ htmlText.tableHeader.courseId }}</td>
@@ -49,7 +49,7 @@
             </tr>
           </tbody>
         </table>
-        <table class="table-content-special">
+        <table class="special-table">
           <thead>
             <tr>
               <td>{{ htmlText.tableHeader.weekNums }}</td>
@@ -178,6 +178,7 @@
 import { reactive, ref } from "vue";
 import { getCoursePage } from "@/assets/js/courseListController";
 import { request } from "@/assets/js/request";
+import { createPopupBox, createConfirmPopupBox } from "@/assets/js/popupBox";
 import CourseList from "@/components/CourseList";
 
 export default {
@@ -257,7 +258,6 @@ export default {
     let newCourse = () => {
       newCourseInfo.courseId = newCourseInfo.courseId.toUpperCase();
       request("/course/newCourse", newCourseInfo).then((response) => {
-        getCourses();
         if (response.data.code === 409) {
           htmlText.newCourseTips.value = response.data.data;
           htmlClass.newCourseTips = "font-warning-text";
@@ -265,26 +265,26 @@ export default {
           htmlText.newCourseTips.value = response.data.data;
           htmlClass.newCourseTips = "font-pass-text";
         }
-        alert(response.data.message);
+        createPopupBox({ text: response.data.message, canceled: getCourses });
       });
     };
 
     let dropCourse = (course) => {
-      if (
-        confirm(
-          "是否需要退出该课程？\n\n课程名：" +
-            course.name +
-            "\n课程代码：" +
-            course.id
-        )
-      ) {
+      let dropCourseRequest = () => {
         request("/course/dropCourse", { courseId: course.id }).then(
           (response) => {
-            getCourses();
-            alert(response.data.message);
+            createPopupBox({
+              text: response.data.message,
+              canceled: getCourses,
+            });
           }
         );
-      }
+      };
+
+      createConfirmPopupBox({
+        text: `是否需要退出该课程？\n\n课程名：${course.name}\n课程代码：${course.id}`,
+        funIfTrue: dropCourseRequest,
+      });
     };
 
     let checkCourseValidity = () => {
@@ -363,9 +363,7 @@ export default {
       if (validity && Number(newCourseInfo.studentTotalNum) > 32767) {
         validity = false;
         htmlText.newCourseTips.value =
-          "数据填写有误：" +
-          htmlText.tableHeader.studentTotalNum +
-          "数值过大";
+          "数据填写有误：" + htmlText.tableHeader.studentTotalNum + "数值过大";
       }
       if (validity && newCourseInfo.weekStart > newCourseInfo.weekEnd) {
         validity = false;

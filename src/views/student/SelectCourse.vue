@@ -3,14 +3,18 @@
     <div class="prominent-content-box">
       <div class="title">选课</div>
     </div>
-    <div class="content-box">
+    <div class="content-box" ref="contentBox">
       <div class="title">学生选课页面</div>
       <div class="content">
         <div class="font-normal-text">你可以在下表选上或收藏相应的课程。</div>
         <div class="float-normal-text-left-align">
           表格页码：
           <select v-model="selectedPageNum" @change="changePage">
-            <option v-for="num of coursePageContent.pageNumList" :value="num">
+            <option
+              v-for="(num, index) of coursePageContent.pageNumList"
+              :value="num"
+              :key="index"
+            >
               {{ num }}
             </option>
           </select>
@@ -26,9 +30,10 @@
 </template>
 
 <script>
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { getCoursePage } from "@/assets/js/courseListController";
 import { request } from "@/assets/js/request";
+import { createPopupBox } from "@/assets/js/popupBox";
 import CourseList from "@/components/CourseList";
 
 export default {
@@ -37,14 +42,14 @@ export default {
   setup() {
     let coursePageContent = reactive({
       courseList: [
-        {
-          id: null,
-          name: null,
-          teacherName: null,
-          weekNum: null,
-          time: null,
-          studentNum: null,
-        },
+        // {
+        //   id: null,
+        //   name: null,
+        //   teacherName: null,
+        //   weekNum: null,
+        //   time: null,
+        //   studentNum: null,
+        // },
       ],
       pageNumList: [1],
       courseTotalNum: 0,
@@ -54,18 +59,18 @@ export default {
 
     let selectedPageNum = ref(1);
 
-    let selectCourse = (course) => {
+    let contentBox = ref(null);
+
+    let selectCourse = function (course) {
       request("course/addCourse", { courseId: course.id }).then((response) => {
-        getCourses();
-        alert(response.data.message);
+        createPopupBox({ text: response.data.message, canceled: getCourses });
       });
     };
 
     let addCourseToFavorites = (course) => {
       request("course/addCourseToFavorites", { courseId: course.id }).then(
         (response) => {
-          getCourses();
-          alert(response.data.message);
+          createPopupBox({ text: response.data.message, canceled: getCourses });
         }
       );
     };
@@ -74,8 +79,8 @@ export default {
       getCourses();
     };
 
-    let getCourses = () => {
-      getCoursePage(coursePageContent, "findAllCourse", {
+    let getCourses = async () => {
+      await getCoursePage(coursePageContent, "findAllCourse", {
         pageNum: selectedPageNum.value,
       });
     };
@@ -99,6 +104,7 @@ export default {
     return {
       coursePageContent,
       selectedPageNum,
+      contentBox,
       selectCourse,
       addCourseToFavorites,
       changePage,

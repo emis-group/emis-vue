@@ -19,6 +19,7 @@
 import { reactive } from "vue";
 import { getCoursePage } from "@/assets/js/courseListController";
 import { request } from "@/assets/js/request";
+import { createPopupBox } from "@/assets/js/popupBox";
 import CourseList from "@/components/CourseList";
 
 export default {
@@ -45,16 +46,14 @@ export default {
 
     let selectCourse = (course) => {
       request("course/addCourse", { courseId: course.id }).then((response) => {
-        getCourses();
-        alert(response.data.message);
+        createPopupBox({ text: response.data.message, canceled: getCourses });
       });
     };
 
     let removeCourseFromFavorites = (course) => {
       request("course/removeCourseFromFavorites", { courseId: course.id }).then(
         (response) => {
-          getCourses();
-          alert(response.data.message);
+          createPopupBox({ text: response.data.message, canceled: getCourses });
         }
       );
     };

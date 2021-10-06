@@ -2,6 +2,9 @@ import axios from 'axios'
 import {
     routerPush
 } from "@/router";
+import {
+    createPopupBox
+} from "./popupBox"
 
 let axiosService;
 let isAllowToLoginPage;
@@ -31,7 +34,10 @@ let initAxios = () => {
                 if (isAllowToLoginPage) {
                     isAllowToLoginPage = false;
                     routerPush("login");
-                    alert("您的登录信息失效，需要重新登录");
+                    createPopupBox({
+                        title: "注意",
+                        text: "您的登录信息失效，需要重新登录"
+                    });
                 }
             } else {
                 window.sessionStorage.setItem("token", response.headers["set-token"]);
@@ -61,7 +67,10 @@ let request = async (requestUrl, requestData, needToken = true) => {
             if (isAllowToLoginPage) {
                 isAllowToLoginPage = false;
                 routerPush("login");
-                alert("您的登录信息无效，请重新登录");
+                createPopupBox({
+                    title: "注意",
+                    text: "您的登录信息无效，请重新登录"
+                });
             }
             return {
                 data: {}

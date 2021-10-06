@@ -25,16 +25,42 @@
     }
 
     .message {
-      padding: 15px 0;
+      margin: 10px 0;
       color: #FFFFFF;
       font-size: 16px;
+      line-height: 1.8;
+      overflow: hidden;
+      transition: all .2s;
+
+      &.slight-emphasize {
+        background-color: rgba(31, 88, 134, 0.4);
+      }
+      
+      &.emphasize {
+        background-color: rgba(236, 127, 1, 0.8);
+      }
+
+      &.hidden {
+        opacity: 0;
+        line-height: 0;
+      }
     }
 
     .input-area {
+      position: relative;
       margin: 0 auto;
 
       @media screen and (max-width: 350px) {
         width: calc(100% - 15px);
+      }
+
+      .input-box-area {
+        overflow: hidden;
+        transition: all .2s;
+
+        &.hidden{
+          opacity: 0;
+        }
       }
 
       button {
@@ -57,7 +83,7 @@
   font-size: 16px;
 }
 
-.extra-message:first-of-type{
+.extra-message:first-of-type {
   margin-top: 16px;
 }
 

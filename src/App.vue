@@ -1,16 +1,18 @@
 <template>
   <div class="app-root">
-    <router-view/>
+    <router-view />
   </div>
+  <PopupBox ref="popupBox"
+  />
 </template>
 
 <style>
-
 @import url(./assets/css/normalize.css);
 @import url("./assets/css/main.css");
 @import url("./assets/fs/css/all.css");
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -20,10 +22,26 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 </style>
 
 <script>
-export default {}
+import { ref } from "vue";
+import { onMounted, provide } from "@vue/runtime-core";
+import { initPopupBox } from "@/assets/js/popupBox";
+import PopupBox from "@/components/PopupBox";
+
+export default {
+  name: "App",
+  components: { PopupBox },
+  setup() {
+    let popupBox = ref(null);
+
+    onMounted(() => {
+      initPopupBox(popupBox.value);
+    });
+
+    return { popupBox };
+  },
+};
 </script>

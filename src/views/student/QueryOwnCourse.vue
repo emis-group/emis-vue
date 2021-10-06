@@ -19,6 +19,7 @@
 import { reactive } from "vue";
 import { getCoursePage } from "@/assets/js/courseListController";
 import { request } from "@/assets/js/request";
+import { createPopupBox, createConfirmPopupBox } from "@/assets/js/popupBox";
 import CourseList from "@/components/CourseList";
 
 export default {
@@ -42,21 +43,21 @@ export default {
     });
 
     let dropCourse = (course) => {
-      if (
-        confirm(
-          "是否需要退选该课程？\n\n课程名：" +
-            course.name +
-            "\n课程代码：" +
-            course.id
-        )
-      ) {
+      let dropCourseRequest = () => {
+        console.log("dropCourseRequest");
         request("course/dropCourse", { courseId: course.id }).then(
           (response) => {
-            getCourses();
-            alert(response.data.message);
+            createPopupBox({
+              text: response.data.message,
+              canceled: getCourses,
+            });
           }
         );
-      }
+      };
+      createConfirmPopupBox({
+        text: `是否需要退选该课程？\n\n课程名：${course.name}\n课程代码：${course.id}`,
+        funIfTrue: dropCourseRequest,
+      });
     };
 
     let getCourses = () => {

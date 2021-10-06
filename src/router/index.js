@@ -1,25 +1,18 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import {
+    createRouter,
+    createWebHistory
+} from 'vue-router'
 // 这是一个路由表，指定了路由名字对应的具体文件地址，页面跳转需靠它
-const routes = [
-    {
+const routes = [{
         path: '/',
         name: 'login',
         component: () => import('../views/Login.vue')
     },
     {
-        path: '/about',
-        name: 'about',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-    },
-    {
         path: '/user/student',
         name: 'student-main',
         component: () => import('../views/student/Main.vue'),
-        children: [
-            {
+        children: [{
                 path: '',
                 name: 'student-home',
                 component: () => import('../views/student/Home.vue')
@@ -45,8 +38,7 @@ const routes = [
         path: '/user/teacher',
         name: 'teacher-main',
         component: () => import('../views/teacher/Main.vue'),
-        children: [
-            {
+        children: [{
                 path: '',
                 name: 'teacher-home',
                 component: () => import('../views/teacher/Home.vue')
@@ -71,9 +63,13 @@ const router = createRouter({
 })
 
 const routerPush = async (name) => {
-    await router.push({name: name});
+    await router.push({
+        name: name
+    });
 }
 
-export {routerPush}
+export {
+    routerPush
+}
 
 export default router

@@ -1,19 +1,28 @@
 <template>
-  <table class="table-content-special">
+  <table class="special-table">
     <thead>
       <tr>
         <th colspan="2">时间</th>
-        <th v-for="weekDay of weekDays" class="weekday">{{ weekDay }}</th>
+        <th v-for="(weekDay, index) of weekDays" class="weekday" :key="index">
+          {{ weekDay }}
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(courseRow, index) of courses.morning">
-        <th v-if="index === 0" class="course-rough-time" rowspan="4">
+      <tr v-for="(courseRow, index) of courses.morning" :key="index">
+        <td v-if="index === 0" class="course-rough-time" rowspan="4">
           <div class="text">上午</div>
-        </th>
+        </td>
         <td class="split-num">第{{ index + 1 }}节</td>
-        <td v-for="tableItem of courseRow" :rowspan="tableItem.itemLength">
-          <span v-for="(courseItem, index) of tableItem.courseItemList">
+        <td
+          v-for="(tableItem, index) of courseRow"
+          :rowspan="tableItem.itemLength"
+          :key="index"
+        >
+          <span
+            v-for="(courseItem, index) of tableItem.courseItemList"
+            :key="index"
+          >
             <span v-if="index !== 0" class="span-small-component-line" />
             <span>{{ courseItem.courseName }}</span
             ><br />
@@ -26,13 +35,20 @@
           </span>
         </td>
       </tr>
-      <tr v-for="(courseRow, index) of courses.afternoon">
-        <th v-if="index === 0" class="course-rough-time" rowspan="4">
+      <tr v-for="(courseRow, index) of courses.afternoon" :key="index">
+        <td v-if="index === 0" class="course-rough-time" rowspan="4">
           <div class="text">下午</div>
-        </th>
+        </td>
         <td class="split-num">第{{ index + 5 }}节</td>
-        <td v-for="tableItem of courseRow" :rowspan="tableItem.itemLength">
-          <span v-for="(courseItem, index) of tableItem.courseItemList">
+        <td
+          v-for="(tableItem, index) of courseRow"
+          :rowspan="tableItem.itemLength"
+          :key="index"
+        >
+          <span
+            v-for="(courseItem, index) of tableItem.courseItemList"
+            :key="index"
+          >
             <span v-if="index !== 0" class="span-small-component-line" />
             <span>{{ courseItem.courseName }}</span
             ><br />
@@ -45,13 +61,20 @@
           </span>
         </td>
       </tr>
-      <tr v-for="(courseRow, index) of courses.evening">
-        <th v-if="index === 0" class="course-rough-time" rowspan="3">
+      <tr v-for="(courseRow, index) of courses.evening" :key="index">
+        <td v-if="index === 0" class="course-rough-time" rowspan="3">
           <div class="text">晚上</div>
-        </th>
+        </td>
         <td class="split-num">第{{ index + 9 }}节</td>
-        <td v-for="tableItem of courseRow" :rowspan="tableItem.itemLength">
-          <span v-for="(courseItem, index) of tableItem.courseItemList">
+        <td
+          v-for="(tableItem, index) of courseRow"
+          :rowspan="tableItem.itemLength"
+          :key="index"
+        >
+          <span
+            v-for="(courseItem, index) of tableItem.courseItemList"
+            :key="index"
+          >
             <span v-if="index !== 0" class="span-component-line" />
             <span>{{ courseItem.courseName }}</span
             ><br />
@@ -178,7 +201,7 @@ export default {
   .text {
     width: 1.5em;
     margin: 0 auto;
-
+    font-weight: 700;
     @media screen and (max-width: 750px) {
       width: 1.1em;
     }
