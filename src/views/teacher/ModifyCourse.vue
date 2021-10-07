@@ -9,140 +9,152 @@
         <div class="font-normal-text">
           在下表填写需要新建的课程信息，填写完后按下“点击新建课程”按钮。
         </div>
-        <table class="special-table">
-          <thead>
-            <tr>
-              <td>{{ htmlText.tableHeader.courseId }}</td>
-              <td>{{ htmlText.tableHeader.courseName }}</td>
-              <td>{{ htmlText.tableHeader.studentTotalNum }}</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <input
-                  v-model="newCourseInfo.courseId"
-                  class="input-text"
-                  placeholder="请输入课程代码"
-                  type="text"
-                  @blur="checkCourseValidity"
-                />
-              </td>
-              <td>
-                <input
-                  v-model="newCourseInfo.courseName"
-                  class="input-text"
-                  placeholder="请输入课程名"
-                  type="text"
-                  @blur="checkCourseValidity"
-                />
-              </td>
-              <td>
-                <input
-                  v-model="newCourseInfo.studentTotalNum"
-                  class="input-text"
-                  placeholder="请输入课程人数容量"
-                  type="text"
-                  @blur="checkCourseValidity"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <table class="special-table">
-          <thead>
-            <tr>
-              <td>{{ htmlText.tableHeader.weekNums }}</td>
-              <td>{{ htmlText.tableHeader.isBiweekly }}</td>
-              <td>{{ htmlText.tableHeader.weekDay }}</td>
-              <td>{{ htmlText.tableHeader.splitNums }}</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                第
-                <select
-                  v-model="newCourseInfo.weekStart"
-                  @change="checkCourseValidity"
-                >
-                  <option
-                    v-for="num in selectOptions.weekStartNums"
-                    :value="num"
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <td>{{ htmlText.tableHeader.courseId }}</td>
+                <td>{{ htmlText.tableHeader.courseName }}</td>
+                <td>{{ htmlText.tableHeader.studentTotalNum }}</td>
+              </tr>
+            </thead>
+            <tbody :class="{ active: isActive }">
+              <tr>
+                <td>
+                  <input
+                    v-model="newCourseInfo.courseId"
+                    class="input-text"
+                    placeholder="请输入课程代码"
+                    type="text"
+                    @blur="checkCourseValidity"
+                  />
+                </td>
+                <td>
+                  <input
+                    v-model="newCourseInfo.courseName"
+                    class="input-text"
+                    placeholder="请输入课程名"
+                    type="text"
+                    @blur="checkCourseValidity"
+                  />
+                </td>
+                <td>
+                  <input
+                    v-model="newCourseInfo.studentTotalNum"
+                    class="input-text"
+                    placeholder="请输入课程人数容量"
+                    type="text"
+                    @blur="checkCourseValidity"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <td>{{ htmlText.tableHeader.weekNums }}</td>
+                <td>{{ htmlText.tableHeader.isBiweekly }}</td>
+                <td>{{ htmlText.tableHeader.weekDay }}</td>
+                <td>{{ htmlText.tableHeader.splitNums }}</td>
+              </tr>
+            </thead>
+            <tbody :class="{ active: isActive }">
+              <tr>
+                <td>
+                  第
+                  <select
+                    v-model="newCourseInfo.weekStart"
+                    @change="checkCourseValidity"
                   >
-                    {{ num }}
-                  </option>
-                </select>
-                周 —— 第
-                <select
-                  v-model="newCourseInfo.weekEnd"
-                  @change="checkCourseValidity"
-                >
-                  <option v-for="num in selectOptions.weekEndNums" :value="num">
-                    {{ num }}
-                  </option>
-                </select>
-                周
-              </td>
-              <td>
-                <input
-                  v-model="newCourseInfo.isBiweekly"
-                  name="isBiweekly"
-                  type="radio"
-                  value="true"
-                  @change="checkCourseValidity"
-                />是&nbsp;&nbsp;
-                <input
-                  v-model="newCourseInfo.isBiweekly"
-                  name="isBiweekly"
-                  type="radio"
-                  value="false"
-                  @change="checkCourseValidity"
-                />否
-              </td>
-              <td>
-                <select
-                  v-model="newCourseInfo.weekDay"
-                  @change="checkCourseValidity"
-                >
-                  <option
-                    v-for="(weekDay, index) in selectOptions.weekDays"
-                    :value="index + 1"
+                    <option
+                      v-for="(num, index) of selectOptions.weekStartNums"
+                      :value="num"
+                      :key="index"
+                    >
+                      {{ num }}
+                    </option>
+                  </select>
+                  周 —— 第
+                  <select
+                    v-model="newCourseInfo.weekEnd"
+                    @change="checkCourseValidity"
                   >
-                    {{ weekDay }}
-                  </option>
-                </select>
-              </td>
-              <td>
-                第
-                <select
-                  v-model="newCourseInfo.splitStart"
-                  @change="checkCourseValidity"
-                >
-                  <option
-                    v-for="num in selectOptions.splitStartNums"
-                    :value="num"
+                    <option
+                      v-for="(num, index) of selectOptions.weekEndNums"
+                      :value="num"
+                      :key="index"
+                    >
+                      {{ num }}
+                    </option>
+                  </select>
+                  周
+                </td>
+                <td>
+                  <input
+                    v-model="newCourseInfo.isBiweekly"
+                    name="isBiweekly"
+                    type="radio"
+                    value="true"
+                    @change="checkCourseValidity"
+                  />是&nbsp;&nbsp;
+                  <input
+                    v-model="newCourseInfo.isBiweekly"
+                    name="isBiweekly"
+                    type="radio"
+                    value="false"
+                    @change="checkCourseValidity"
+                  />否
+                </td>
+                <td>
+                  <select
+                    v-model="newCourseInfo.weekDay"
+                    @change="checkCourseValidity"
                   >
-                    {{ num }}
-                  </option>
-                </select>
-                节 —— 第
-                <select
-                  v-model="newCourseInfo.splitEnd"
-                  @change="checkCourseValidity"
-                >
-                  <option
-                    v-for="num in selectOptions.splitEndNums"
-                    :value="num"
+                    <option
+                      v-for="(weekDay, index) of selectOptions.weekDays"
+                      :value="index + 1"
+                      :key="index"
+                    >
+                      {{ weekDay }}
+                    </option>
+                  </select>
+                </td>
+                <td>
+                  第
+                  <select
+                    v-model="newCourseInfo.splitStart"
+                    @change="checkCourseValidity"
                   >
-                    {{ num }}
-                  </option>
-                </select>
-                节
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                    <option
+                      v-for="(num, index) of selectOptions.splitStartNums"
+                      :value="num"
+                      :key="index"
+                    >
+                      {{ num }}
+                    </option>
+                  </select>
+                  节 —— 第
+                  <select
+                    v-model="newCourseInfo.splitEnd"
+                    @change="checkCourseValidity"
+                  >
+                    <option
+                      v-for="(num, index) of selectOptions.splitEndNums"
+                      :value="num"
+                      :key="index"
+                    >
+                      {{ num }}
+                    </option>
+                  </select>
+                  节
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="font-normal-text">
           <span>提示：</span>
           <span :class="htmlClass.newCourseTips"
@@ -175,7 +187,7 @@
 </template>
 
 <script>
-import { reactive, ref } from "vue";
+import { nextTick, onMounted, reactive, ref } from "vue";
 import { getCoursePage } from "@/assets/js/courseListController";
 import { request } from "@/assets/js/request";
 import { createPopupBox, createConfirmPopupBox } from "@/assets/js/popupBox";
@@ -254,6 +266,7 @@ export default {
     let htmlDisabled = reactive({
       btnNewCourse: true,
     });
+    let isActive = ref(false);
 
     let newCourse = () => {
       newCourseInfo.courseId = newCourseInfo.courseId.toUpperCase();
@@ -411,6 +424,12 @@ export default {
 
     init();
 
+    onMounted(() => {
+      nextTick(() => {
+        isActive.value = true;
+      });
+    });
+
     return {
       selectOptions,
       coursePageContent,
@@ -418,6 +437,7 @@ export default {
       htmlClass,
       htmlText,
       htmlDisabled,
+      isActive,
       newCourse,
       dropCourse,
       checkCourseValidity,

@@ -2,8 +2,7 @@
   <div class="app-root">
     <router-view />
   </div>
-  <PopupBox ref="popupBox"
-  />
+  <PopupBox ref="popupBox" />
 </template>
 
 <style>
@@ -27,7 +26,7 @@ body {
 
 <script>
 import { ref } from "vue";
-import { onMounted, provide } from "@vue/runtime-core";
+import { computed, onMounted, provide, reactive } from "@vue/runtime-core";
 import { initPopupBox } from "@/assets/js/popupBox";
 import PopupBox from "@/components/PopupBox";
 
@@ -40,7 +39,7 @@ export default {
     onMounted(() => {
       initPopupBox(popupBox.value);
     });
-
+    
     return { popupBox };
   },
 };

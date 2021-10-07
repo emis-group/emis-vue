@@ -60,7 +60,7 @@ export default {
 
     let exit = () => {
       createConfirmPopupBox({
-        text: "确定要退出该账户？",
+        text: "确定要退出账户？",
         funIfTrue: () => {
           routerPush("login");
           window.sessionStorage.clear();

@@ -2,8 +2,8 @@
   <div v-if="pageContent.needTopText" class="font-normal-text">
     共计有 {{ pageContent.courseTotalNum }} 条课程信息
   </div>
-  <div class="course-list-wrapper" ref="wrapper">
-    <table class="course-list clearfix">
+  <div class="table-wrapper" ref="wrapper">
+    <table class="list clearfix">
       <thead>
         <tr>
           <th>课程编号</th>
@@ -87,14 +87,9 @@ export default {
       nextTick(() => {
         nextHeight = getComputedStyle(wrapper.value).height;
         wrapper.value.style.height = preHeight;
-        nextTick(() => {
-          setTimeout(() => {
-            if (wrapper) {
-              wrapper.value.style.height = nextHeight;
-              preHeight = nextHeight;
-            }
-          }, 10);
-        });
+        getComputedStyle(wrapper.value).height;
+        wrapper.value.style.height = nextHeight;
+        preHeight = nextHeight;
       });
     };
 
@@ -122,8 +117,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("../assets/css/courseList.css");
-
 button {
   min-width: 1em;
   padding-left: 20%;

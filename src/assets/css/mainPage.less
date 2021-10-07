@@ -112,12 +112,12 @@
                     transition: all .3s;
 
                     &::before {
+                        content: '';
+                        display: block;
                         position: absolute;
                         left: 0;
                         right: 0;
                         margin: 0 auto;
-                        content: '';
-                        display: block;
                         width: calc(100% - 12px);
                         height: calc(100% - 18px);
                         z-index: -1;
@@ -130,7 +130,7 @@
 
                     &::after {
                         content: '';
-                        display: table;
+                        display: block;
                         position: absolute;
                         left: 50%;
                         bottom: 0;

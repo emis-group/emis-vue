@@ -13,14 +13,14 @@
               :model="idInputBox.model"
               :name="idInputBox.name"
               :type="idInputBox.type"
-              :keyEnterEvent="idInputBox.keyEnterEvent"
+              :keyEnterEvent="login"
             />
             <InputBox
               :label="passwordInputBox.label"
               :model="passwordInputBox.model"
               :name="passwordInputBox.name"
               :type="passwordInputBox.type"
-              :keyEnterEvent="passwordInputBox.keyEnterEvent"
+              :keyEnterEvent="login"
             />
           </div>
           <button
@@ -58,10 +58,10 @@ export default {
   components: { BottomBar, InputBox },
   // setup是一个用于初始化的函数
   setup() {
-    let loginData = reactive({
+    let loginData = {
       id: "",
       password: "",
-    });
+    };
 
     let message = reactive({
       text: "请输入账号和密码",
@@ -69,9 +69,22 @@ export default {
     });
 
     let inputBoxHidden = ref(false);
-
     let loginBtn = reactive({ style: {}, text: "登录" });
     let loginBtnDom = ref(null);
+
+    let idInputBox = {
+      label: "账号（学工号）",
+      model: toRef(loginData, "id"),
+      name: "id",
+      type: "text",
+    };
+
+    let passwordInputBox = {
+      label: "密码",
+      model: toRef(loginData, "password"),
+      name: "password",
+      type: "password",
+    };
 
     // 点击“登录”按钮后会执行下面的函数
     let login = () => {
@@ -95,8 +108,14 @@ export default {
         id: loginData.id,
         password: sha256(loginData.password), // 密码使用sha256加密传输
       };
-
-      let response = await request("user/login", encryptedLoginData, false);
+      let response = null;
+      try {
+        response = await request("user/login", encryptedLoginData, false);
+      } catch (error) {
+        setLoginView(false);
+        setMessage("抱歉，登录失败了，请再试一次");
+        return;
+      }
 
       if (response.data.code === 200) {
         message.text = response.data.message;
@@ -137,19 +156,15 @@ export default {
           inputBoxHidden.value = true;
           loginBtn.text = "正在登录，请稍后";
           let i = { value: 0 };
-          intervalID = setInterval(
-            (i) => {
-              if (i.value === 3) {
-                loginBtn.text = loginBtn.text.slice(0, -3);
-                i.value = 0;
-              } else {
-                loginBtn.text += ".";
-                i.value++;
-              }
-            },
-            400,
-            i
-          );
+          intervalID = setInterval(() => {
+            if (i.value === 3) {
+              loginBtn.text = loginBtn.text.slice(0, -3);
+              i.value = 0;
+            } else {
+              loginBtn.text += ".";
+              i.value++;
+            }
+          }, 400);
           loginBtn.style["pointer-events"] = "none";
           loginBtn.style.transform =
             "translateY(" + -loginBtnDom.value.offsetTop / 2 + "px)";
@@ -179,22 +194,6 @@ export default {
         }, 400);
       };
     })();
-
-    let idInputBox = {
-      label: "账号（学工号）",
-      model: toRef(loginData, "id"),
-      name: "id",
-      type: "text",
-      keyEnterEvent: login,
-    };
-
-    let passwordInputBox = {
-      label: "密码",
-      model: toRef(loginData, "password"),
-      name: "password",
-      type: "password",
-      keyEnterEvent: login,
-    };
 
     onMounted(() => {
       loginBtn.style.offsetTop = loginBtnDom.value.offsetTop;

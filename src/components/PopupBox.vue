@@ -7,7 +7,7 @@
     <div class="wrapper">
       <div
         class="popup-box"
-        :class="{ disappear: isDisappear }"
+        :class="{ disappear: isDisappear, warning: isWarning, error: isError }"
         @mouseover="isHover = true"
         @mouseleave="isHover = false"
       >
@@ -70,6 +70,8 @@ export default {
     let isHover = ref(false);
     let canceled = null;
     let cancelTimerID = null;
+    let isWarning = ref(false);
+    let isError = ref(false);
 
     let universalCreate = (props) => {
       if (cancelTimerID) {
@@ -80,11 +82,25 @@ export default {
       canceled = props.canceled;
       isVisible.value = true;
       isDisappear.value = false;
+      isWarning.value = false;
+      isError.value = false;
     };
 
     let createPopupBox = (props) => {
       universalCreate(props);
       theProps.buttons = props.buttons;
+      if (props.isWarning === true) {
+        isWarning.value = true;
+        if (props.title == null) {
+          theProps.title = "注意";
+        }
+      }
+      if (props.isError === true) {
+        isError.value = true;
+        if (props.title == null) {
+          theProps.title = "出错了";
+        }
+      }
     };
 
     let createConfirmPopupBox = (props) => {
@@ -112,6 +128,8 @@ export default {
       isHover,
       isVisible,
       isDisappear,
+      isWarning,
+      isError,
       createPopupBox,
       createConfirmPopupBox,
       cancelPopupBox,

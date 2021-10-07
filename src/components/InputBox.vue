@@ -6,7 +6,10 @@
       @mouseover="isHover = true"
       @mouseleave="isHover = false"
     >
-      <div class="label" :class="{ active: isActive || hasText }">
+      <div
+        class="label"
+        :class="{ active: isActive || theProps.model.value != '' }"
+      >
         {{ theProps.label }}
       </div>
       <div class="input">
@@ -31,7 +34,7 @@
 </style>
 
 <script>
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 export default {
   name: "InputBox",
   props: {
@@ -48,27 +51,23 @@ export default {
 
     let isHover = ref(false);
 
-    let hasText = ref(false);
-
     let inputEl = ref(null);
 
-    watch(theProps.model, () => {
-      if (theProps.model.value != "") {
-        hasText.value = true;
-      } else {
-        hasText.value = false;
-      }
+    onMounted(() => {
+      watch(
+        isActive,
+        () => {
+          if (isActive.value) {
+            inputEl.value.focus();
+          } else {
+            inputEl.value.blur();
+          }
+        },
+        { immediate: true }
+      );
     });
 
-    watch(isActive, () => {
-      if (isActive.value) {
-        inputEl.value.focus();
-      } else {
-        inputEl.value.blur();
-      }
-    });
-
-    return { theProps, isActive, isHover, hasText, inputEl};
+    return { theProps, isActive, isHover, inputEl };
   },
 };
 </script>

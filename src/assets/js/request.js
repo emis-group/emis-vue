@@ -35,8 +35,8 @@ let initAxios = () => {
                     isAllowToLoginPage = false;
                     routerPush("login");
                     createPopupBox({
-                        title: "注意",
-                        text: "您的登录信息失效，需要重新登录"
+                        text: "您的登录信息失效，需要重新登录",
+                        isWarning: true
                     });
                 }
             } else {
@@ -47,6 +47,17 @@ let initAxios = () => {
     }, (error) => {
         console.log("[request.js]拦截到错误的响应");
         console.log(error);
+        if (error.message === "Network Error") {
+            createPopupBox({
+                text: "网络出了些问题，请稍后再试",
+                isError: true
+            });
+        } else {
+            createPopupBox({
+                text: error.message,
+                isError: true
+            });
+        }
         return Promise.reject(error);
     })
 }
@@ -68,8 +79,8 @@ let request = async (requestUrl, requestData, needToken = true) => {
                 isAllowToLoginPage = false;
                 routerPush("login");
                 createPopupBox({
-                    title: "注意",
-                    text: "您的登录信息无效，请重新登录"
+                    text: "您的登录信息无效，请重新登录",
+                    isWarning: true
                 });
             }
             return {
@@ -95,17 +106,16 @@ let request = async (requestUrl, requestData, needToken = true) => {
             requestDataCopy.userId = window.sessionStorage.getItem("userId");
             requestDataCopy.userType = window.sessionStorage.getItem("userType");
         }
-        await axiosService.post(requestUrl, requestDataCopy, headers).then((response) => {
-            responseData = response.data;
-            console.log("[request.js][" + requestUrl + "]post请求获得的response.data如下所示");
-            console.log(responseData);
-        })
+        let response = await axiosService.post(requestUrl, requestDataCopy, headers);
+        responseData = response.data;
+        console.log("[request.js][" + requestUrl + "]post请求获得的response.data如下所示");
+        console.log(responseData);
+
     } else {
-        await axiosService.get(requestUrl, headers).then((response) => {
-            responseData = response.data;
-            console.log("[request.js][" + requestUrl + "]get请求获得的response.data如下所示");
-            console.log(responseData);
-        })
+        let response = await axiosService.get(requestUrl, headers);
+        responseData = response.data;
+        console.log("[request.js][" + requestUrl + "]get请求获得的response.data如下所示");
+        console.log(responseData);
     }
 
     if (responseData == "") {
