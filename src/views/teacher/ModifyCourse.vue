@@ -452,11 +452,6 @@ export default {
   max-width: 200px;
 }
 
-.table-content-special td {
-  padding-left: 12px;
-  padding-right: 12px;
-}
-
 #btn-new-course {
   margin: 10px 0;
 }

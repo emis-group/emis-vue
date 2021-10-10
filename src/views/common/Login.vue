@@ -45,7 +45,14 @@
 </template>
 
 <script>
-import { onMounted, reactive, ref, toRef, nextTick } from "vue";
+import {
+  onMounted,
+  onUnmounted,
+  onDeactivated,
+  reactive,
+  ref,
+  toRef,
+} from "vue";
 import { routerPush } from "@/router";
 import { request, setIsAllowToLoginPage } from "@/assets/js/request";
 import { sha256 } from "js-sha256";
@@ -199,6 +206,14 @@ export default {
       loginBtn.style.offsetTop = loginBtnDom.value.offsetTop;
     });
 
+    onDeactivated(() => {
+      setIsAllowToLoginPage(true);
+    });
+
+    onUnmounted(() => {
+      setIsAllowToLoginPage(true);
+    });
+
     return {
       loginData,
       message,
@@ -214,5 +229,5 @@ export default {
 </script>
 
 <style scoped>
-@import url("../assets/css/login.css");
+@import url(../../assets/css/login.css);
 </style>

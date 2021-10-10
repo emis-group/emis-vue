@@ -226,7 +226,7 @@ export default {
 
 <style scoped lang="less">
 .table-wrapper {
-  .special-table {
+  table {
     .weekday {
       padding-left: 0.5%;
       padding-right: 0.5%;

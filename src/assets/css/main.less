@@ -9,7 +9,6 @@
 .float-normal-text-left-align,
 .float-normal-text-right-align {
     margin: 0 0 10px 0;
-    overflow: auto;
 }
 
 .float-normal-text-left-align {
@@ -77,44 +76,6 @@
     background-size: 8px 1px;
     background-repeat: repeat-x;
     border: none;
-}
-
-.table-content,
-.table-content-special {
-    width: 100%;
-    margin: 10px auto;
-    font-family: "阿里巴巴普惠体 Regular", "Microsoft YaHei UI", sans-serif;
-    line-height: 1.25;
-    border-collapse: collapse;
-    background-color: rgba(255, 255, 255, 0.854);
-}
-
-.table-content td,
-.table-content th,
-.table-content-special td,
-.table-content-special th {
-    min-width: 1em;
-    border: 1px solid rgba(188, 205, 210, 0.8);
-    padding: 8px 1%;
-}
-
-.table-content tr:nth-child(even),
-.table-content-special tr:nth-child(even) {
-    background-color: rgb(235, 245, 248);
-}
-
-.table-content tr:hover {
-    background-color: rgba(76, 148, 153, 0.146);
-}
-
-.table-content-special td:hover,
-.table-content-special th:hover {
-    background-color: rgba(76, 148, 153, 0.146);
-}
-
-.table-content thead,
-.table-content-special thead {
-    background-color: rgb(195, 237, 249);
 }
 
 @max-width: 1250px;
@@ -191,9 +152,9 @@ button {
 
 input,
 select {
-    outline: 0;
     border-radius: 2px;
     border: 1px solid rgba(0, 0, 0, .5);
+    outline-style: none;
 
     box-shadow: 0 0 4px rgba(0, 0, 0, .2);
 
@@ -209,8 +170,11 @@ input {
     padding: 5px;
 
     &[type=radio] {
-        border: none;
         box-shadow: none;
+
+        &:focus {
+            outline-style: auto;
+        }
     }
 }
 
@@ -476,7 +440,6 @@ select {
 
             &::before {
                 content: "";
-                display: table;
                 position: absolute;
                 left: 50%;
                 top: 50%;

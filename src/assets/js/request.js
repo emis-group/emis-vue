@@ -25,7 +25,10 @@ let initAxios = () => {
     }, (error) => {
         console.log("[request.js]拦截到错误的请求");
         console.log(error);
-        return Promise.reject(error);
+        createPopupBox({
+            text: `出现了意外错误：${error.message}`,
+            isError: true
+        });
     })
 
     axiosService.interceptors.response.use((response) => {
@@ -54,44 +57,29 @@ let initAxios = () => {
             });
         } else {
             createPopupBox({
-                text: error.message,
+                text: `出现了意外错误：${error.message}`,
                 isError: true
             });
         }
-        return Promise.reject(error);
     })
-}
-
-let setIsAllowToLoginPage = (state) => {
-    isAllowToLoginPage = state;
 }
 
 let request = async (requestUrl, requestData, needToken = true) => {
     let token = window.sessionStorage.getItem("token");
     let responseData = null;
-    let tokenValid = false;
     let headers = null;
     let requestDataCopy = {};
 
     if (needToken) {
-        if (!token) {
-            if (isAllowToLoginPage) {
-                isAllowToLoginPage = false;
-                routerPush("login");
-                createPopupBox({
-                    text: "您的登录信息无效，请重新登录",
-                    isWarning: true
-                });
-            }
-            return {
-                data: {}
-            };
-        } else {
-            tokenValid = true;
+        if (checkHasToken(token)) {
             headers = {
                 headers: {
                     "Authorization": token
                 }
+            };
+        } else {
+            return {
+                data: {}
             };
         }
     }
@@ -110,7 +98,6 @@ let request = async (requestUrl, requestData, needToken = true) => {
         responseData = response.data;
         console.log("[request.js][" + requestUrl + "]post请求获得的response.data如下所示");
         console.log(responseData);
-
     } else {
         let response = await axiosService.get(requestUrl, headers);
         responseData = response.data;
@@ -118,18 +105,36 @@ let request = async (requestUrl, requestData, needToken = true) => {
         console.log(responseData);
     }
 
-    if (responseData == "") {
-        responseData = {};
-    }
-
     return {
-        data: responseData,
-        valid: tokenValid
+        data: responseData === "" ? {} : responseData,
     }
+}
+
+let checkHasToken = (token) => {
+    if (token == null) {
+        token = sessionStorage.getItem("token");
+    }
+    if (token == null) {
+        if (isAllowToLoginPage) {
+            isAllowToLoginPage = false;
+            routerPush("login");
+            createPopupBox({
+                text: "您的登录信息无效，请重新登录",
+                isWarning: true
+            });
+        }
+        return false;
+    }
+    return true;
+}
+
+let setIsAllowToLoginPage = (state) => {
+    isAllowToLoginPage = state;
 }
 
 export {
     request,
+    checkHasToken,
     setIsAllowToLoginPage
 };
 

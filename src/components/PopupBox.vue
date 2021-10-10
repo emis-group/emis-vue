@@ -8,7 +8,7 @@
       <div
         class="popup-box"
         :class="{ disappear: isDisappear, warning: isWarning, error: isError }"
-        @mouseover="isHover = true"
+        @mouseenter="isHover = true"
         @mouseleave="isHover = false"
       >
         <div class="upper-box">
@@ -56,7 +56,7 @@
 </style>
 
 <script>
-import { inject, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 export default {
   name: "PopupBox",
   setup() {
@@ -82,13 +82,9 @@ export default {
       canceled = props.canceled;
       isVisible.value = true;
       isDisappear.value = false;
+      isHover.value = false;
       isWarning.value = false;
       isError.value = false;
-    };
-
-    let createPopupBox = (props) => {
-      universalCreate(props);
-      theProps.buttons = props.buttons;
       if (props.isWarning === true) {
         isWarning.value = true;
         if (props.title == null) {
@@ -101,6 +97,11 @@ export default {
           theProps.title = "出错了";
         }
       }
+    };
+
+    let createPopupBox = (props) => {
+      universalCreate(props);
+      theProps.buttons = props.buttons;
     };
 
     let createConfirmPopupBox = (props) => {

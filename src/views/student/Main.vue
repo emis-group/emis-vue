@@ -33,7 +33,7 @@
           <UserInfo :user-info-prop="userInfo" />
         </div>
       </div>
-      <div class="div-router-view">
+      <div class="div-router-view" v-if="isVisible">
         <router-view />
       </div>
       <BottomBar :msg="'（学生端）'" />
@@ -42,10 +42,10 @@
 </template>
 
 <script>
-import { reactive } from "vue";
-import { routerPush } from "@/router";
-import { setIsAllowToLoginPage } from "@/assets/js/request";
-import { createConfirmPopupBox } from "@/assets/js/popupBox";
+import { reactive, ref } from "vue";
+import { routerPush, routerBack } from "@/router";
+import { checkHasToken } from "@/assets/js/request";
+import { createPopupBox, createConfirmPopupBox } from "@/assets/js/popupBox";
 import UserInfo from "@/components/UserInfo";
 import ExitButton from "@/components/ExitButton";
 import BottomBar from "@/components/BottomBar";
@@ -58,11 +58,20 @@ export default {
       id: null,
       type: null,
     });
+    let isVisible = ref(true);
 
     let init = () => {
+      if (!checkHasToken()) return;
       userInfo.id = window.sessionStorage.getItem("userId");
       userInfo.type = window.sessionStorage.getItem("userType");
-      setIsAllowToLoginPage(true);
+      if (userInfo.type != "student") {
+        isVisible.value = false;
+        createPopupBox({
+          text: "请注意，您所要访问的页面为学生端页面，该页面仅能由学生用户访问",
+          buttons: [{ text: "点击此处返回", clickFun: routerBack }],
+          isWarning: true,
+        });
+      }
     };
 
     let exit = () => {
@@ -79,6 +88,7 @@ export default {
 
     return {
       userInfo,
+      isVisible,
       exit,
     };
   },

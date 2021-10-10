@@ -3,7 +3,7 @@
     <div
       class="input-box-wrapper"
       @click="isActive = true"
-      @mouseover="isHover = true"
+      @mouseenter="isHover = true"
       @mouseleave="isHover = false"
     >
       <div

@@ -26,7 +26,7 @@ body {
 
 <script>
 import { ref } from "vue";
-import { computed, onMounted, provide, reactive } from "@vue/runtime-core";
+import { onMounted } from "@vue/runtime-core";
 import { initPopupBox } from "@/assets/js/popupBox";
 import PopupBox from "@/components/PopupBox";
 
