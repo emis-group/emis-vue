@@ -36,7 +36,7 @@
       </div>
       <div>
         <div class="extra-message">
-          建议在电脑端使用谷歌或火狐浏览器访问本网站（本网站尚未适配移动端）
+          建议在电脑端使用最新版本的谷歌或火狐浏览器访问本网站（本网站尚未适配移动端）
         </div>
       </div>
     </div>
@@ -52,6 +52,7 @@ import {
   reactive,
   ref,
   toRef,
+  onBeforeUnmount,
 } from "vue";
 import { routerPush } from "@/router";
 import { request, setIsAllowToLoginPage } from "@/assets/js/request";
@@ -210,7 +211,7 @@ export default {
       setIsAllowToLoginPage(true);
     });
 
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       setIsAllowToLoginPage(true);
     });
 
