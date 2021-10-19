@@ -26,7 +26,6 @@
                     class="input-text"
                     placeholder="请输入课程代码"
                     type="text"
-                    @blur="checkCourseValidity"
                   />
                 </td>
                 <td>
@@ -35,7 +34,6 @@
                     class="input-text"
                     placeholder="请输入课程名"
                     type="text"
-                    @blur="checkCourseValidity"
                   />
                 </td>
                 <td>
@@ -44,7 +42,6 @@
                     class="input-text"
                     placeholder="请输入课程人数容量"
                     type="text"
-                    @blur="checkCourseValidity"
                   />
                 </td>
               </tr>
@@ -65,10 +62,7 @@
               <tr>
                 <td>
                   第
-                  <select
-                    v-model="newCourseInfo.weekStart"
-                    @change="checkCourseValidity"
-                  >
+                  <select v-model="newCourseInfo.weekStart">
                     <option
                       v-for="(num, index) of selectOptions.weekStartNums"
                       :value="num"
@@ -78,10 +72,7 @@
                     </option>
                   </select>
                   周 —— 第
-                  <select
-                    v-model="newCourseInfo.weekEnd"
-                    @change="checkCourseValidity"
-                  >
+                  <select v-model="newCourseInfo.weekEnd">
                     <option
                       v-for="(num, index) of selectOptions.weekEndNums"
                       :value="num"
@@ -98,21 +89,16 @@
                     name="isBiweekly"
                     type="radio"
                     value="true"
-                    @change="checkCourseValidity"
                   />是&nbsp;&nbsp;
                   <input
                     v-model="newCourseInfo.isBiweekly"
                     name="isBiweekly"
                     type="radio"
                     value="false"
-                    @change="checkCourseValidity"
                   />否
                 </td>
                 <td>
-                  <select
-                    v-model="newCourseInfo.weekDay"
-                    @change="checkCourseValidity"
-                  >
+                  <select v-model="newCourseInfo.weekDay">
                     <option
                       v-for="(weekDay, index) of selectOptions.weekDays"
                       :value="index + 1"
@@ -124,10 +110,7 @@
                 </td>
                 <td>
                   第
-                  <select
-                    v-model="newCourseInfo.splitStart"
-                    @change="checkCourseValidity"
-                  >
+                  <select v-model="newCourseInfo.splitStart">
                     <option
                       v-for="(num, index) of selectOptions.splitStartNums"
                       :value="num"
@@ -137,10 +120,7 @@
                     </option>
                   </select>
                   节 —— 第
-                  <select
-                    v-model="newCourseInfo.splitEnd"
-                    @change="checkCourseValidity"
-                  >
+                  <select v-model="newCourseInfo.splitEnd">
                     <option
                       v-for="(num, index) of selectOptions.splitEndNums"
                       :value="num"
@@ -187,7 +167,7 @@
 </template>
 
 <script>
-import { nextTick, onMounted, reactive, ref } from "vue";
+import { nextTick, onMounted, watch, reactive, ref } from "vue";
 import { getCoursePage } from "@/assets/js/courseListController";
 import { request } from "@/assets/js/request";
 import { createPopupBox, createConfirmPopupBox } from "@/assets/js/popupBox";
@@ -302,18 +282,12 @@ export default {
 
     let checkCourseValidity = () => {
       let validity = true;
-      if (validity) {
-        for (let item in newCourseInfo) {
-          if (newCourseInfo.hasOwnProperty(item)) {
-            if (newCourseInfo[item] == null || newCourseInfo[item] === "") {
-              htmlText.newCourseTips.value =
-                "表格数据尚未填写完整，您还需要填写“" +
-                htmlText.tableHeader[item] +
-                "”";
-              validity = false;
-              break;
-            }
-          }
+      let keys = Object.keys(newCourseInfo);
+      for (let key of keys) {
+        if ((newCourseInfo[key] ?? "") === "") {
+          htmlText.newCourseTips.value = `表格数据尚未填写完整，您还需要填写“${htmlText.tableHeader[key]}”`;
+          validity = false;
+          break;
         }
       }
       if (validity) {
@@ -336,63 +310,37 @@ export default {
       let propName = htmlText.tableHeader.courseId;
       if (newCourseInfo.courseId.length < 7) {
         validity = false;
-        message = "您输入的" + propName + "太短了";
-      }
-      let patternLetter = new RegExp("^[a-zA-Z]+$");
-      if (validity && !patternLetter.test(newCourseInfo.courseId.slice(0, 2))) {
+        message = `您输入的${propName}太短了`;
+      } else if (!/^[a-zA-Z]{2}/.test(newCourseInfo.courseId)) {
         validity = false;
-        message = "您输入" + propName + "的前2个字符应为英文字母";
-      }
-      let patternNum = new RegExp("^[0-9]+$");
-      if (validity && !patternNum.test(newCourseInfo.courseId.slice(2, 7))) {
+        message = `您输入${propName}的前2个字符应为英文字母`;
+      } else if (!/^.{2}[0-9]{5}/.test(newCourseInfo.courseId)) {
         validity = false;
-        message = "您输入" + propName + "的第3—7个字符应为数字";
+        message = `您输入${propName}的第3—7个字符应为数字`;
       }
       if (!validity) {
-        htmlText.newCourseTips.value =
-          "数据填写有误：" +
-          message +
-          "（" +
-          propName +
-          "开头的格式为2个字母+5个数字）";
+        htmlText.newCourseTips.value = `数据填写有误：${message}（${propName}开头的格式为2个字母+5个数字）`;
       }
       return validity;
     };
 
     let checkNumRange = () => {
       let validity = true;
-      if (isNaN(Number(newCourseInfo.studentTotalNum))) {
+      if (Number.isNaN(Number(newCourseInfo.studentTotalNum))) {
         validity = false;
-        htmlText.newCourseTips.value =
-          "数据填写有误：" + htmlText.tableHeader.studentTotalNum + "应为数字";
-      }
-      if (validity && Number(newCourseInfo.studentTotalNum) <= 0) {
+        htmlText.newCourseTips.value = `数据填写有误：${htmlText.tableHeader.studentTotalNum}应为数字`;
+      } else if (Number(newCourseInfo.studentTotalNum) <= 0) {
         validity = false;
-        htmlText.newCourseTips.value =
-          "数据填写有误：" +
-          htmlText.tableHeader.studentTotalNum +
-          "必须为正数";
-      }
-      if (validity && Number(newCourseInfo.studentTotalNum) > 32767) {
+        htmlText.newCourseTips.value = `数据填写有误：${htmlText.tableHeader.studentTotalNum}必须为正数`;
+      } else if (Number(newCourseInfo.studentTotalNum) > 32767) {
         validity = false;
-        htmlText.newCourseTips.value =
-          "数据填写有误：" + htmlText.tableHeader.studentTotalNum + "数值过大";
-      }
-      if (validity && newCourseInfo.weekStart > newCourseInfo.weekEnd) {
+        htmlText.newCourseTips.value = `数据填写有误：${htmlText.tableHeader.studentTotalNum}数值过大`;
+      } else if (newCourseInfo.weekStart > newCourseInfo.weekEnd) {
         validity = false;
-        htmlText.newCourseTips.value = "数据填写有误：";
-        htmlText.newCourseTips.value +=
-          htmlText.tableHeader.weekStart +
-          "不能大于" +
-          htmlText.tableHeader.weekEnd;
-      }
-      if (validity && newCourseInfo.splitStart > newCourseInfo.splitEnd) {
+        htmlText.newCourseTips.value = `数据填写有误：${htmlText.tableHeader.weekStart}不能大于${htmlText.tableHeader.weekEnd}`;
+      } else if (newCourseInfo.splitStart > newCourseInfo.splitEnd) {
         validity = false;
-        htmlText.newCourseTips.value = "数据填写有误：";
-        htmlText.newCourseTips.value +=
-          htmlText.tableHeader.splitStart +
-          "不能大于" +
-          htmlText.tableHeader.splitStart;
+        htmlText.newCourseTips.value = `数据填写有误：${htmlText.tableHeader.splitStart}不能大于${htmlText.tableHeader.splitStart}`;
       }
       return validity;
     };
@@ -430,6 +378,10 @@ export default {
       });
     });
 
+    watch(newCourseInfo, () => {
+      checkCourseValidity();
+    });
+
     return {
       selectOptions,
       coursePageContent,
@@ -440,7 +392,6 @@ export default {
       isActive,
       newCourse,
       dropCourse,
-      checkCourseValidity,
     };
   },
 };
