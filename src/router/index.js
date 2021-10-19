@@ -92,6 +92,9 @@ const routerPush = async (name) => {
 }
 
 const routerBack = () => {
+    if (document.referrer === "") {
+        routerPush("login");
+    }
     router.back();
 }
 
