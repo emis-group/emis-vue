@@ -44,7 +44,6 @@ export default {
 
     let dropCourse = (course) => {
       let dropCourseRequest = () => {
-        console.log("dropCourseRequest");
         request("course/dropCourse", { courseId: course.id }).then(
           (response) => {
             createPopupBox({
