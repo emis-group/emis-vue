@@ -51,10 +51,6 @@
   </div>
 </template>
 
-<style scoped>
-@import url(../assets/css/popupBox.css);
-</style>
-
 <script>
 import { reactive, ref } from "vue";
 export default {
@@ -138,3 +134,7 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="less">
+@import url(../assets/css/popupBox.less);
+</style>

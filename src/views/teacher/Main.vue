@@ -88,6 +88,6 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url(../../assets/css/mainPage.css);
+<style scoped lang="less">
+@import url(../../assets/css/mainPage.less);
 </style>

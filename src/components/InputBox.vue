@@ -29,10 +29,6 @@
   </div>
 </template>
 
-<style scoped>
-@import url(../assets/css/inputBox.css);
-</style>
-
 <script>
 import { onMounted, ref, watch } from "vue";
 export default {
@@ -71,3 +67,7 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="less">
+@import url(../assets/css/inputBox.less);
+</style>

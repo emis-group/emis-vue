@@ -116,7 +116,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="less">
 button {
   min-width: 1em;
   padding-left: 20%;

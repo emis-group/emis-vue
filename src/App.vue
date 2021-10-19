@@ -5,25 +5,6 @@
   <PopupBox ref="popupBox" />
 </template>
 
-<style>
-@import url(./assets/css/normalize.css);
-@import url("./assets/css/main.css");
-@import url("./assets/fs/css/all.css");
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-}
-</style>
-
 <script>
 import { ref } from "vue";
 import { onMounted } from "@vue/runtime-core";
@@ -39,8 +20,27 @@ export default {
     onMounted(() => {
       initPopupBox(popupBox.value);
     });
-    
+
     return { popupBox };
   },
 };
 </script>
+
+<style lang="less">
+@import url(./assets/css/normalize.css);
+@import url("./assets/fs/css/all.css");
+@import url("./assets/css/main.less");
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+}
+</style>

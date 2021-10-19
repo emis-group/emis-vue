@@ -7,28 +7,27 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "core-js": "^3.14.0",
+    "axios": "^0.23.0",
+    "core-js": "^3.18.3",
     "js-sha256": "^0.9.0",
-    "less": "^3.13.1",
-    "less-loader": "^5.0.0",
-    "sass-loader": "^12.0.0",
-    "vue": "^3.0.0",
-    "vue-axios": "^3.2.4",
-    "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0",
-    "webpack": "~4"
+    "vue": "^3.2.20",
+    "vue-axios": "^3.3.7",
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0"
+    "@vue/cli-plugin-babel": "^5.0.0-beta.6",
+    "@vue/cli-plugin-router": "^5.0.0-beta.6",
+    "@vue/cli-plugin-vuex": "^5.0.0-beta.6",
+    "@vue/cli-service": "^5.0.0-beta.6",
+    "@vue/compiler-sfc": "^3.2.6",
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not dead"
+    "not dead",
+    "not ie 11"
   ]
 }
