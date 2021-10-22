@@ -13,9 +13,9 @@
           <table>
             <thead>
               <tr>
-                <td>{{ htmlText.tableHeader.courseId }}</td>
-                <td>{{ htmlText.tableHeader.courseName }}</td>
-                <td>{{ htmlText.tableHeader.studentTotalNum }}</td>
+                <td>{{ tableHeader.courseId }}</td>
+                <td>{{ tableHeader.courseName }}</td>
+                <td>{{ tableHeader.studentTotalNum }}</td>
               </tr>
             </thead>
             <tbody :class="{ active: isActive }">
@@ -52,10 +52,10 @@
           <table>
             <thead>
               <tr>
-                <td>{{ htmlText.tableHeader.weekNums }}</td>
-                <td>{{ htmlText.tableHeader.isBiweekly }}</td>
-                <td>{{ htmlText.tableHeader.weekDay }}</td>
-                <td>{{ htmlText.tableHeader.splitNums }}</td>
+                <td>{{ tableHeader.weekNums }}</td>
+                <td>{{ tableHeader.isBiweekly }}</td>
+                <td>{{ tableHeader.weekDay }}</td>
+                <td>{{ tableHeader.splitNums }}</td>
               </tr>
             </thead>
             <tbody :class="{ active: isActive }">
@@ -137,13 +137,11 @@
         </div>
         <div class="font-normal-text">
           <span>提示：</span>
-          <span :class="htmlClass.newCourseTips"
-            >{{ htmlText.newCourseTips.value }}。</span
-          >
+          <span :class="newCourseTips.class">{{ newCourseTips.text }}。</span>
         </div>
         <button
           id="btn-new-course"
-          :disabled="htmlDisabled.btnNewCourse"
+          :disabled="!newCourseTips.validity"
           @click="newCourse()"
         >
           点击新建课程
@@ -224,39 +222,35 @@ export default {
       minSplitNum: 1,
       maxSplitNum: 11,
     };
-    let htmlClass = reactive({
-      newCourseTips: "",
+    let newCourseTips = reactive({
+      class: "",
+      text: "需要把表格信息填完才能点击新建课程",
+      validity: false,
     });
-    let htmlText = {
-      tableHeader: {
-        courseId: "课程代码",
-        courseName: "课程名",
-        studentTotalNum: "容量（人数）",
-        weekNums: "上课周数",
-        weekStart: "上课周数（起始值）",
-        weekEnd: "上课周数（结束值）",
-        isBiweekly: "是否隔周上课",
-        weekDay: "星期几上课",
-        splitNums: "第几节课上课",
-        splitStart: "第几节课上课（起始值）",
-        splitEnd: "第几节课上课（结束值）",
-      },
-      newCourseTips: ref("需要把表格信息填完才能点击新建课程"),
+    let tableHeader = {
+      courseId: "课程代码",
+      courseName: "课程名",
+      studentTotalNum: "容量（人数）",
+      weekNums: "上课周数",
+      weekStart: "上课周数（起始值）",
+      weekEnd: "上课周数（结束值）",
+      isBiweekly: "是否隔周上课",
+      weekDay: "星期几上课",
+      splitNums: "第几节课上课",
+      splitStart: "第几节课上课（起始值）",
+      splitEnd: "第几节课上课（结束值）",
     };
-    let htmlDisabled = reactive({
-      btnNewCourse: true,
-    });
     let isActive = ref(false);
 
     let newCourse = () => {
       newCourseInfo.courseId = newCourseInfo.courseId.toUpperCase();
       request("/course/newCourse", newCourseInfo).then((response) => {
         if (response.data.code === 409) {
-          htmlText.newCourseTips.value = response.data.data;
-          htmlClass.newCourseTips = "font-warning-text";
+          newCourseTips.text = response.data.data;
+          newCourseTips.class = "font-warning-text";
         } else if (response.data.code === 200) {
-          htmlText.newCourseTips.value = response.data.data;
-          htmlClass.newCourseTips = "font-pass-text";
+          newCourseTips.text = response.data.data;
+          newCourseTips.class = "font-pass-text";
         }
         createPopupBox({ text: response.data.message, canceled: getCourses });
       });
@@ -285,7 +279,7 @@ export default {
       let keys = Object.keys(newCourseInfo);
       for (let key of keys) {
         if ((newCourseInfo[key] ?? "") === "") {
-          htmlText.newCourseTips.value = `表格数据尚未填写完整，您还需要填写“${htmlText.tableHeader[key]}”`;
+          newCourseTips.text = `表格数据尚未填写完整，您还需要填写“${tableHeader[key]}”`;
           validity = false;
           break;
         }
@@ -294,20 +288,18 @@ export default {
         validity = checkCourseId() && checkNumRange();
       }
       if (validity) {
-        htmlText.newCourseTips.value =
-          "表格数据已经填写完整，您可以点击新建课程了";
-        htmlClass.newCourseTips = "font-pass-text";
-        htmlDisabled.btnNewCourse = false;
+        newCourseTips.text = "表格数据已经填写完整，您可以点击新建课程了";
+        newCourseTips.class = "font-pass-text";
       } else {
-        htmlClass.newCourseTips = "font-warning-text";
-        htmlDisabled.btnNewCourse = true;
+        newCourseTips.class = "font-warning-text";
       }
+      newCourseTips.validity = validity;
     };
 
     let checkCourseId = () => {
       let validity = true;
       let message = "";
-      let propName = htmlText.tableHeader.courseId;
+      let propName = tableHeader.courseId;
       if (newCourseInfo.courseId.length < 7) {
         validity = false;
         message = `您输入的${propName}太短了`;
@@ -319,7 +311,7 @@ export default {
         message = `您输入${propName}的第3—7个字符应为数字`;
       }
       if (!validity) {
-        htmlText.newCourseTips.value = `数据填写有误：${message}（${propName}开头的格式为2个字母+5个数字）`;
+        newCourseTips.text = `数据填写有误：${message}（${propName}开头的格式为2个字母+5个数字）`;
       }
       return validity;
     };
@@ -328,19 +320,19 @@ export default {
       let validity = true;
       if (Number.isNaN(Number(newCourseInfo.studentTotalNum))) {
         validity = false;
-        htmlText.newCourseTips.value = `数据填写有误：${htmlText.tableHeader.studentTotalNum}应为数字`;
+        newCourseTips.text = `数据填写有误：${tableHeader.studentTotalNum}应为数字`;
       } else if (Number(newCourseInfo.studentTotalNum) <= 0) {
         validity = false;
-        htmlText.newCourseTips.value = `数据填写有误：${htmlText.tableHeader.studentTotalNum}必须为正数`;
+        newCourseTips.text = `数据填写有误：${tableHeader.studentTotalNum}必须为正数`;
       } else if (Number(newCourseInfo.studentTotalNum) > 32767) {
         validity = false;
-        htmlText.newCourseTips.value = `数据填写有误：${htmlText.tableHeader.studentTotalNum}数值过大`;
+        newCourseTips.text = `数据填写有误：${tableHeader.studentTotalNum}数值过大`;
       } else if (newCourseInfo.weekStart > newCourseInfo.weekEnd) {
         validity = false;
-        htmlText.newCourseTips.value = `数据填写有误：${htmlText.tableHeader.weekStart}不能大于${htmlText.tableHeader.weekEnd}`;
+        newCourseTips.text = `数据填写有误：${tableHeader.weekStart}不能大于${tableHeader.weekEnd}`;
       } else if (newCourseInfo.splitStart > newCourseInfo.splitEnd) {
         validity = false;
-        htmlText.newCourseTips.value = `数据填写有误：${htmlText.tableHeader.splitStart}不能大于${htmlText.tableHeader.splitStart}`;
+        newCourseTips.text = `数据填写有误：${tableHeader.splitStart}不能大于${tableHeader.splitStart}`;
       }
       return validity;
     };
@@ -386,9 +378,8 @@ export default {
       selectOptions,
       coursePageContent,
       newCourseInfo,
-      htmlClass,
-      htmlText,
-      htmlDisabled,
+      tableHeader,
+      newCourseTips,
       isActive,
       newCourse,
       dropCourse,
@@ -404,6 +395,8 @@ export default {
 }
 
 #btn-new-course {
+  height: 2em;
+  padding: 0 2em;
   margin: 10px 0;
 }
 </style>

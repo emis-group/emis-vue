@@ -2,10 +2,12 @@
   <div class="content-wrapper">
     <div class="prominent-content-box">
       <div class="title">主页</div>
-      <div class="content">{{ userName }}，您好。欢迎访问教学选课系统！</div>
+      <div class="content">
+        {{ userInfo.name }}，您好。欢迎访问教学选课系统！
+      </div>
     </div>
     <div class="content-box">
-      <div class="title">学生课程表</div>
+      <div class="title">{{ userInfo.type }}课程表</div>
       <div class="content">
         <CourseTable />
       </div>
@@ -61,26 +63,33 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import { request } from "@/assets/js/request";
 import CourseTable from "@/components/CourseTable";
 
 export default {
   name: "Home",
   components: { CourseTable },
+  props: {
+    userType: "",
+  },
   setup() {
-    let userName = ref("");
+    let userInfo = reactive({ name: "", type: "" });
 
-    let init = () => {
-      request("user/name", {}).then((response) => {
-        userName.value = response.data.data;
-      });
-    };
+    request("user/name", {}).then((response) => {
+      userInfo.name = response.data.data;
+    });
 
-    init();
+    userInfo.type = sessionStorage.getItem("userType");
+    userInfo.type =
+      userInfo.type === "student"
+        ? "学生"
+        : userInfo.type === "teacher"
+        ? "教师"
+        : userInfo.type;
 
     return {
-      userName,
+      userInfo,
     };
   },
 };

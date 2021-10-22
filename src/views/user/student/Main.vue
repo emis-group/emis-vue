@@ -10,18 +10,18 @@
         </div>
         <ul class="nav-list">
           <li class="nav-item">
-            <router-link to="/user/student/">主页</router-link>
+            <router-link :to="{ name: 'student-home' }">主页</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/user/student/select-course">选课</router-link>
+            <router-link :to="{ name: 'select-course' }">选课</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/user/student/query-own-course"
+            <router-link :to="{ name: 'student-query-own-course' }"
               >已选课程查询</router-link
             >
           </li>
           <li class="nav-item">
-            <router-link to="/user/student/course-favourite"
+            <router-link :to="{ name: 'course-favourite' }"
               >课程收藏夹</router-link
             >
           </li>
@@ -96,5 +96,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import url(../../assets/css/mainPage.less);
+@import url(../../../assets/css/mainPage.less);
 </style>

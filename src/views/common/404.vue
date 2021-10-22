@@ -9,7 +9,7 @@ import { routerBack } from "@/router";
 export default {
   setup() {
     createPopupBox({
-      text: "请注意，您所要访问的页面并不存在",
+      text: "抱歉，我们找不到这个页面",
       buttons: [{ text: "点击此处返回", clickFun: routerBack }],
       isWarning: true,
     });

@@ -10,13 +10,13 @@
         </div>
         <ul class="nav-list">
           <li class="nav-item">
-            <router-link to="/user/teacher/">主页</router-link>
+            <router-link :to="{ name: 'teacher-home' }">主页</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/user/teacher/modify-course">排课</router-link>
+            <router-link :to="{ name: 'modify-course' }">排课</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/user/teacher/query-all-course">查课</router-link>
+            <router-link :to="{ name: 'query-all-course' }">查课</router-link>
           </li>
           <li class="nav-item">
             <a class="red" href="javascript:;" @click="exit">退出系统</a>
@@ -89,5 +89,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import url(../../assets/css/mainPage.less);
+@import url(../../../assets/css/mainPage.less);
 </style>

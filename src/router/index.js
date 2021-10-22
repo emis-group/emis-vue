@@ -19,26 +19,26 @@ const routes = [{
         meta: {
             title: `${titlePreFix}学生端`
         },
-        component: () => import('@/views/student/Main.vue'),
+        component: () => import('@/views/user/student/Main.vue'),
         children: [{
                 path: '',
                 name: 'student-home',
-                component: () => import('@/views/student/Home.vue')
+                component: () => import('@/views/user/Home.vue')
             },
             {
                 path: 'select-course',
                 name: 'select-course',
-                component: () => import('@/views/student/SelectCourse.vue')
+                component: () => import('@/views/user/student/SelectCourse.vue')
             },
             {
                 path: 'query-own-course',
                 name: 'student-query-own-course',
-                component: () => import('@/views/student/QueryOwnCourse.vue')
+                component: () => import('@/views/user/student/QueryOwnCourse.vue')
             },
             {
                 path: 'course-favourite',
-                name: 'pre-select-course',
-                component: () => import('@/views/student/CourseFavorite.vue')
+                name: 'course-favourite',
+                component: () => import('@/views/user/student/CourseFavorite.vue')
             },
         ]
     },
@@ -48,21 +48,21 @@ const routes = [{
         meta: {
             title: `${titlePreFix}教师端`
         },
-        component: () => import('@/views/teacher/Main.vue'),
+        component: () => import('@/views/user/teacher/Main.vue'),
         children: [{
                 path: '',
                 name: 'teacher-home',
-                component: () => import('@/views/teacher/Home.vue')
+                component: () => import('@/views/user/Home.vue')
             },
             {
                 path: 'modify-course',
                 name: 'modify-course',
-                component: () => import('@/views/teacher/ModifyCourse.vue')
+                component: () => import('@/views/user/teacher/ModifyCourse.vue')
             },
             {
                 path: 'query-all-course',
                 name: 'query-all-course',
-                component: () => import('@/views/teacher/QueryAllCourse.vue')
+                component: () => import('@/views/user/teacher/QueryAllCourse.vue')
             },
         ]
     },
