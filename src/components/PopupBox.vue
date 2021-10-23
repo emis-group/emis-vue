@@ -51,88 +51,74 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { reactive, ref } from "vue";
-export default {
-  name: "PopupBox",
-  setup() {
-    let theProps = reactive({
-      title: "",
-      text: "",
-      button: [],
-    });
-    let isVisible = ref(false);
-    let isDisappear = ref(true);
-    let isHover = ref(false);
-    let canceled = null;
-    let cancelTimerID = null;
-    let isWarning = ref(false);
-    let isError = ref(false);
 
-    let universalCreate = (props) => {
-      if (cancelTimerID) {
-        clearTimeout(cancelTimerID);
-      }
-      theProps.title = props.title;
-      theProps.text = props.text;
-      canceled = props.canceled;
-      isVisible.value = true;
-      isDisappear.value = false;
-      isHover.value = false;
-      isWarning.value = false;
-      isError.value = false;
-      if (props.isWarning === true) {
-        isWarning.value = true;
-        if (props.title == null) {
-          theProps.title = "注意";
-        }
-      }
-      if (props.isError === true) {
-        isError.value = true;
-        if (props.title == null) {
-          theProps.title = "出错了";
-        }
-      }
-    };
+const theProps = reactive({
+  title: "",
+  text: "",
+  button: [],
+});
+const isVisible = ref(false);
+const isDisappear = ref(true);
+const isHover = ref(false);
+const isWarning = ref(false);
+const isError = ref(false);
+let canceled = null;
+let cancelTimerID = null;
 
-    let createPopupBox = (props) => {
-      universalCreate(props);
-      theProps.buttons = props.buttons;
-    };
-
-    let createConfirmPopupBox = (props) => {
-      universalCreate(props);
-      theProps.buttons = [
-        { text: "是", clickFun: props.funIfTrue },
-        { text: "否", clickFun: props.funIfFalse },
-      ];
-    };
-
-    let cancelPopupBox = () => {
-      if (typeof canceled === "function") {
-        canceled();
-        canceled = null;
-      }
-      isDisappear.value = true;
-      cancelTimerID = setTimeout(() => {
-        isVisible.value = false;
-        cancelTimerID = null;
-      }, 300);
-    };
-
-    return {
-      theProps,
-      isHover,
-      isVisible,
-      isDisappear,
-      isWarning,
-      isError,
-      createPopupBox,
-      createConfirmPopupBox,
-      cancelPopupBox,
-    };
-  },
+const universalCreate = (props) => {
+  if (cancelTimerID) {
+    clearTimeout(cancelTimerID);
+  }
+  theProps.title = props.title;
+  theProps.text = props.text;
+  canceled = props.canceled;
+  isVisible.value = true;
+  isDisappear.value = false;
+  isHover.value = false;
+  isWarning.value = false;
+  isError.value = false;
+  if (props.isWarning === true) {
+    isWarning.value = true;
+    if (props.title == null) {
+      theProps.title = "注意";
+    }
+  }
+  if (props.isError === true) {
+    isError.value = true;
+    if (props.title == null) {
+      theProps.title = "出错了";
+    }
+  }
 };
+
+const createPopupBox = (props) => {
+  universalCreate(props);
+  theProps.buttons = props.buttons;
+};
+
+const createConfirmPopupBox = (props) => {
+  universalCreate(props);
+  theProps.buttons = [
+    { text: "是", clickFun: props.funIfTrue },
+    { text: "否", clickFun: props.funIfFalse },
+  ];
+};
+
+const cancelPopupBox = () => {
+  if (typeof canceled === "function") {
+    canceled();
+    canceled = null;
+  }
+  isDisappear.value = true;
+  cancelTimerID = setTimeout(() => {
+    isVisible.value = false;
+    cancelTimerID = null;
+  }, 300);
+};
+
+defineExpose({ createPopupBox, createConfirmPopupBox });
 </script>
 
 <style scoped lang="less">

@@ -1,4 +1,4 @@
-let throttle = (fun, waitTime = 1000) => {
+const throttle = (fun, waitTime = 1000) => {
     let timer = null;
     return function () {
         let _this = this;

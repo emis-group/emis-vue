@@ -29,86 +29,71 @@
   </div>
 </template>
 
-<script>
-import { onMounted, reactive, ref } from "vue";
-import { getCoursePage } from "@/assets/js/courseListController";
-import { request } from "@/assets/js/request";
-import { createPopupBox } from "@/assets/js/popupBox";
-import CourseList from "@/components/CourseList";
+<script setup>
+import { reactive, ref } from "vue";
+import { getCoursePage } from "/@/assets/js/courseListController";
+import { request } from "/@/assets/js/request";
+import { createPopupBox } from "/@/assets/js/popupBox";
+import CourseList from "/@/components/CourseList.vue";
 
-export default {
-  name: "SelectCourse",
-  components: { CourseList },
-  setup() {
-    let coursePageContent = reactive({
-      courseList: [
-        // {
-        //   id: null,
-        //   name: null,
-        //   teacherName: null,
-        //   weekNum: null,
-        //   time: null,
-        //   studentNum: null,
-        // },
-      ],
-      pageNumList: [1],
-      courseTotalNum: 0,
-      buttons: [],
-      needTopText: false,
-    });
+const coursePageContent = reactive({
+  courseList: [
+    {
+      id: null,
+      name: null,
+      teacherName: null,
+      weekNum: null,
+      time: null,
+      studentNum: null,
+    },
+  ],
+  pageNumList: [1],
+  courseTotalNum: 0,
+  buttons: [],
+  needTopText: false,
+});
 
-    let selectedPageNum = ref(1);
+const selectedPageNum = ref(1);
 
-    let contentBox = ref(null);
+const contentBox = ref(null);
 
-    let selectCourse = function (course) {
-      request("course/addCourse", { courseId: course.id }).then((response) => {
-        createPopupBox({ text: response.data.message, canceled: getCourses });
-      });
-    };
-
-    let addCourseToFavorites = (course) => {
-      request("course/addCourseToFavorites", { courseId: course.id }).then(
-        (response) => {
-          createPopupBox({ text: response.data.message, canceled: getCourses });
-        }
-      );
-    };
-
-    let changePage = () => {
-      getCourses();
-    };
-
-    let getCourses = async () => {
-      await getCoursePage(coursePageContent, "findAllCourse", {
-        pageNum: selectedPageNum.value,
-      });
-    };
-
-    let init = () => {
-      coursePageContent.buttons.push({
-        head: "操作",
-        text: "选课",
-        clickFunction: selectCourse,
-      });
-      coursePageContent.buttons.push({
-        head: "操作",
-        text: "收藏",
-        clickFunction: addCourseToFavorites,
-      });
-      getCourses();
-    };
-
-    init();
-
-    return {
-      coursePageContent,
-      selectedPageNum,
-      contentBox,
-      selectCourse,
-      addCourseToFavorites,
-      changePage,
-    };
-  },
+const selectCourse = function (course) {
+  request("course/addCourse", { courseId: course.id }).then((response) => {
+    createPopupBox({ text: response.data.message, canceled: getCourses });
+  });
 };
+
+const addCourseToFavorites = (course) => {
+  request("course/addCourseToFavorites", { courseId: course.id }).then(
+    (response) => {
+      createPopupBox({ text: response.data.message, canceled: getCourses });
+    }
+  );
+};
+
+const changePage = () => {
+  getCourses();
+};
+
+const getCourses = async () => {
+  await getCoursePage(coursePageContent, "findAllCourse", {
+    pageNum: selectedPageNum.value,
+  });
+};
+
+const init = () => {
+  coursePageContent.buttons.push({
+    head: "操作",
+    text: "选课",
+    clickFunction: selectCourse,
+  });
+  coursePageContent.buttons.push({
+    head: "操作",
+    text: "收藏",
+    clickFunction: addCourseToFavorites,
+  });
+  getCourses();
+};
+
+init();
 </script>

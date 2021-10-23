@@ -9,55 +9,46 @@
   </div>
 </template>
 
-<script>
+<script setup>
 // 本模块根据用户ID向后端服务器获取用户姓名，并进行相应的显示
 import { reactive } from "vue";
-import { request } from "@/assets/js/request";
+import { request } from "/@/assets/js/request";
 
-export default {
-  name: "UserInfo",
-  props: {
-    userInfoProp: {
-      type: Object,
-      default: function () {
-        return {
-          id: String,
-          type: String,
-        };
-      },
+const props = defineProps({
+  userInfoProp: {
+    type: Object,
+    default: function () {
+      return {
+        id: String,
+        type: String,
+      };
     },
   },
-  setup(props) {
-    let userInfo = reactive({ id: null, name: null, type: null, idName: null });
+});
+const userInfo = reactive({ id: null, name: null, type: null, idName: null });
 
-    let init = () => {
-      userInfo.id = props.userInfoProp.id;
+const init = () => {
+  userInfo.id = props.userInfoProp.id;
 
-      request("user/name", {}).then((response) => {
-        if (response.data.data) {
-          userInfo.name = response.data.data;
-        }
-      });
+  request("user/name", {}).then((response) => {
+    if (response.data.data) {
+      userInfo.name = response.data.data;
+    }
+  });
 
-      if (props.userInfoProp.type === "student") {
-        userInfo.type = "学生";
-        userInfo.idName = "学号";
-      } else if (props.userInfoProp.type === "teacher") {
-        userInfo.type = "教师";
-        userInfo.idName = "工号";
-      } else {
-        userInfo.type = "(" + props.userInfoProp.type + ")";
-        userInfo.idName = "账号";
-      }
-    };
-
-    init();
-
-    return {
-      userInfo,
-    };
-  },
+  if (props.userInfoProp.type === "student") {
+    userInfo.type = "学生";
+    userInfo.idName = "学号";
+  } else if (props.userInfoProp.type === "teacher") {
+    userInfo.type = "教师";
+    userInfo.idName = "工号";
+  } else {
+    userInfo.type = "(" + props.userInfoProp.type + ")";
+    userInfo.idName = "账号";
+  }
 };
+
+init();
 </script>
 
 <style scoped>

@@ -5,29 +5,21 @@
   <PopupBox ref="popupBox" />
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 import { onMounted } from "@vue/runtime-core";
-import { initPopupBox } from "@/assets/js/popupBox";
-import PopupBox from "@/components/PopupBox";
+import { initPopupBox } from "/@/assets/js/popupBox";
+import PopupBox from "/@/components/PopupBox.vue";
 
-export default {
-  name: "App",
-  components: { PopupBox },
-  setup() {
-    let popupBox = ref(null);
+const popupBox = ref(null);
 
-    onMounted(() => {
-      initPopupBox(popupBox.value);
-    });
-
-    return { popupBox };
-  },
-};
+onMounted(() => {
+  initPopupBox(popupBox.value);
+});
 </script>
 
 <style lang="less">
-@import url(./assets/css/normalize.css);
+@import url("./assets/css/normalize.css");
 @import url("./assets/fs/css/all.css");
 @import url("./assets/css/main.less");
 

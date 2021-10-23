@@ -1,8 +1,8 @@
 import {
     request
-} from "@/assets/js/request"
+} from "/@/assets/js/request"
 
-let getCoursePage = async (coursePageInfo, requestUrlInCourse, requestData) => {
+const getCoursePage = async (coursePageInfo, requestUrlInCourse, requestData) => {
     coursePageInfo.isActive = false;
 
     let courseList = coursePageInfo.courseList;

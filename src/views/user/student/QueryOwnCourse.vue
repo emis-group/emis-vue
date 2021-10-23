@@ -15,69 +15,56 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { reactive } from "vue";
-import { getCoursePage } from "@/assets/js/courseListController";
-import { request } from "@/assets/js/request";
-import { createPopupBox, createConfirmPopupBox } from "@/assets/js/popupBox";
-import CourseList from "@/components/CourseList";
+import { getCoursePage } from "/@/assets/js/courseListController";
+import { request } from "/@/assets/js/request";
+import { createPopupBox, createConfirmPopupBox } from "/@/assets/js/popupBox";
+import CourseList from "/@/components/CourseList.vue";
 
-export default {
-  name: "QueryCourse",
-  components: { CourseList },
-  setup() {
-    let coursePageContent = reactive({
-      courseList: [
-        {
-          id: null,
-          name: null,
-          teacherName: null,
-          weekNum: null,
-          time: null,
-          studentNum: null,
-        },
-      ],
-      courseTotalNum: 0,
-      buttons: [],
-      needTopText: true,
+const coursePageContent = reactive({
+  courseList: [
+    {
+      id: null,
+      name: null,
+      teacherName: null,
+      weekNum: null,
+      time: null,
+      studentNum: null,
+    },
+  ],
+  courseTotalNum: 0,
+  buttons: [],
+  needTopText: true,
+});
+
+const dropCourse = (course) => {
+  const dropCourseRequest = () => {
+    request("course/dropCourse", { courseId: course.id }).then((response) => {
+      createPopupBox({
+        text: response.data.message,
+        canceled: getCourses,
+      });
     });
-
-    let dropCourse = (course) => {
-      let dropCourseRequest = () => {
-        request("course/dropCourse", { courseId: course.id }).then(
-          (response) => {
-            createPopupBox({
-              text: response.data.message,
-              canceled: getCourses,
-            });
-          }
-        );
-      };
-      createConfirmPopupBox({
-        text: `是否需要退选该课程？\n\n课程名：${course.name}\n课程代码：${course.id}`,
-        funIfTrue: dropCourseRequest,
-      });
-    };
-
-    let getCourses = () => {
-      getCoursePage(coursePageContent, "findAllCourseByUserId", {});
-    };
-
-    let init = () => {
-      coursePageContent.buttons.push({
-        head: "操作",
-        text: "退课",
-        clickFunction: dropCourse,
-      });
-      getCourses();
-    };
-
-    init();
-
-    return {
-      coursePageContent,
-      dropCourse,
-    };
-  },
+  };
+  createConfirmPopupBox({
+    text: `是否需要退选该课程？\n\n课程名：${course.name}\n课程代码：${course.id}`,
+    funIfTrue: dropCourseRequest,
+  });
 };
+
+const getCourses = () => {
+  getCoursePage(coursePageContent, "findAllCourseByUserId", {});
+};
+
+const init = () => {
+  coursePageContent.buttons.push({
+    head: "操作",
+    text: "退课",
+    clickFunction: dropCourse,
+  });
+  getCourses();
+};
+
+init();
 </script>

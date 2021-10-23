@@ -11,7 +11,7 @@ const routes = [{
         meta: {
             title: `${titlePreFix}登录界面`
         },
-        component: () => import('@/views/common/Login.vue')
+        component: () => import('/@/views/common/Login.vue')
     },
     {
         path: '/user/student',
@@ -19,26 +19,26 @@ const routes = [{
         meta: {
             title: `${titlePreFix}学生端`
         },
-        component: () => import('@/views/user/student/Main.vue'),
+        component: () => import('/@/views/user/student/Main.vue'),
         children: [{
                 path: '',
                 name: 'student-home',
-                component: () => import('@/views/user/Home.vue')
+                component: () => import('/@/views/user/Home.vue')
             },
             {
                 path: 'select-course',
                 name: 'select-course',
-                component: () => import('@/views/user/student/SelectCourse.vue')
+                component: () => import('/@/views/user/student/SelectCourse.vue')
             },
             {
                 path: 'query-own-course',
                 name: 'student-query-own-course',
-                component: () => import('@/views/user/student/QueryOwnCourse.vue')
+                component: () => import('/@/views/user/student/QueryOwnCourse.vue')
             },
             {
                 path: 'course-favourite',
                 name: 'course-favourite',
-                component: () => import('@/views/user/student/CourseFavorite.vue')
+                component: () => import('/@/views/user/student/CourseFavorite.vue')
             },
         ]
     },
@@ -48,33 +48,33 @@ const routes = [{
         meta: {
             title: `${titlePreFix}教师端`
         },
-        component: () => import('@/views/user/teacher/Main.vue'),
+        component: () => import('/@/views/user/teacher/Main.vue'),
         children: [{
                 path: '',
                 name: 'teacher-home',
-                component: () => import('@/views/user/Home.vue')
+                component: () => import('/@/views/user/Home.vue')
             },
             {
                 path: 'modify-course',
                 name: 'modify-course',
-                component: () => import('@/views/user/teacher/ModifyCourse.vue')
+                component: () => import('/@/views/user/teacher/ModifyCourse.vue')
             },
             {
                 path: 'query-all-course',
                 name: 'query-all-course',
-                component: () => import('@/views/user/teacher/QueryAllCourse.vue')
+                component: () => import('/@/views/user/teacher/QueryAllCourse.vue')
             },
         ]
     },
     {
         path: "/:pathMatch(.*)",
         name: "404",
-        component: () => import("@/views/common/404")
+        component: () => import("/@/views/common/404.vue")
     }
 ]
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes
 })
 

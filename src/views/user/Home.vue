@@ -62,35 +62,22 @@
   </div>
 </template>
 
-<script>
-import { reactive, ref } from "vue";
-import { request } from "@/assets/js/request";
-import CourseTable from "@/components/CourseTable";
+<script setup>
+import { reactive } from "vue";
+import { request } from "/@/assets/js/request";
+import CourseTable from "/@/components/CourseTable.vue";
 
-export default {
-  name: "Home",
-  components: { CourseTable },
-  props: {
-    userType: "",
-  },
-  setup() {
-    let userInfo = reactive({ name: "", type: "" });
+let userInfo = reactive({ name: "", type: "" });
 
-    request("user/name", {}).then((response) => {
-      userInfo.name = response.data.data;
-    });
+request("user/name", {}).then((response) => {
+  userInfo.name = response.data.data;
+});
 
-    userInfo.type = sessionStorage.getItem("userType");
-    userInfo.type =
-      userInfo.type === "student"
-        ? "学生"
-        : userInfo.type === "teacher"
-        ? "教师"
-        : userInfo.type;
-
-    return {
-      userInfo,
-    };
-  },
-};
+userInfo.type = sessionStorage.getItem("userType");
+userInfo.type =
+  userInfo.type === "student"
+    ? "学生"
+    : userInfo.type === "teacher"
+    ? "教师"
+    : userInfo.type;
 </script>

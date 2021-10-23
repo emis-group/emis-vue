@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {
     routerPush
-} from "@/router";
+} from "/@/router";
 import {
     createPopupBox
 } from "./popupBox"
@@ -9,13 +9,13 @@ import {
 let axiosService;
 let isAllowToLoginPage;
 
-let install = (app, options) => {
+const install = (app, options) => {
     isAllowToLoginPage = true;
-
+    
     initAxios();
 }
 
-let initAxios = () => {
+const initAxios = () => {
     axiosService = axios.create({
         baseURL: "http://49.235.110.57:8081/emis-springboot/"
     })
@@ -64,11 +64,11 @@ let initAxios = () => {
     })
 }
 
-let request = async (requestUrl, requestData, needToken = true) => {
+const request = async (requestUrl, requestData, needToken = true) => {
     let token = window.sessionStorage.getItem("token");
     let responseData = null;
     let headers = null;
-    let requestDataCopy = {};
+    const requestDataCopy = {};
 
     if (needToken) {
         if (checkHasToken(token)) {
@@ -110,7 +110,7 @@ let request = async (requestUrl, requestData, needToken = true) => {
     }
 }
 
-let checkHasToken = (token) => {
+const checkHasToken = (token) => {
     if (token == null) {
         token = sessionStorage.getItem("token");
     }
@@ -128,7 +128,7 @@ let checkHasToken = (token) => {
     return true;
 }
 
-let setIsAllowToLoginPage = (state) => {
+const setIsAllowToLoginPage = (state) => {
     isAllowToLoginPage = state;
 }
 

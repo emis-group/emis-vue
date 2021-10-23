@@ -47,73 +47,64 @@
   </div>
 </template>
 
-<script>
+<script setup>
 // 本模块负责解析传入的课表信息(coursePageContent)并显示为表格，如果输入参数中包含按钮信息，还会把按钮放在表格最右侧
 import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 
-export default {
-  name: "CourseList",
-  props: {
-    coursePageContent: {
-      type: Object,
-      default: function () {
-        return {
-          courseList: [
-            {
-              id: null,
-              name: null,
-              teacherName: null,
-              weekNum: null,
-              time: null,
-              studentNum: null,
-            },
-          ],
-          courseTotalNum: 0,
-          buttons: [{ head: null, text: null, clickFunction: null }],
-          needTopText: false,
-          isActive: false,
-        };
-      },
+const props = defineProps({
+  coursePageContent: {
+    type: Object,
+    default: function () {
+      return {
+        courseList: [
+          {
+            id: null,
+            name: null,
+            teacherName: null,
+            weekNum: null,
+            time: null,
+            studentNum: null,
+          },
+        ],
+        courseTotalNum: 0,
+        buttons: [{ head: null, text: null, clickFunction: null }],
+        needTopText: false,
+        isActive: false,
+      };
     },
   },
-  setup(props) {
-    let pageContent = props.coursePageContent;
-    let wrapper = ref(null);
-    let preHeight = 0;
-    let nextHeight = 0;
+});
 
-    let autoHeight = () => {
-      wrapper.value.style.height = "";
-      nextTick(() => {
-        nextHeight = getComputedStyle(wrapper.value).height;
-        wrapper.value.style.height = preHeight;
-        getComputedStyle(wrapper.value).height;
-        wrapper.value.style.height = nextHeight;
-        preHeight = nextHeight;
-      });
-    };
+const wrapper = ref(null);
+let pageContent = props.coursePageContent;
+let preHeight = 0;
+let nextHeight = 0;
 
-    onMounted(() => {
-      preHeight = getComputedStyle(wrapper.value).height;
-      window.addEventListener("resize", autoHeight);
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener("resize", autoHeight);
-    });
-
-    watch(pageContent, () => {
-      if (pageContent.isActive) {
-        autoHeight();
-      }
-    });
-
-    return {
-      pageContent,
-      wrapper,
-    };
-  },
+let autoHeight = () => {
+  wrapper.value.style.height = "";
+  nextTick(() => {
+    nextHeight = getComputedStyle(wrapper.value).height;
+    wrapper.value.style.height = preHeight;
+    getComputedStyle(wrapper.value).height;
+    wrapper.value.style.height = nextHeight;
+    preHeight = nextHeight;
+  });
 };
+
+onMounted(() => {
+  preHeight = getComputedStyle(wrapper.value).height;
+  window.addEventListener("resize", autoHeight);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", autoHeight);
+});
+
+watch(pageContent, () => {
+  if (pageContent.isActive) {
+    autoHeight();
+  }
+});
 </script>
 
 <style scoped lang="less">

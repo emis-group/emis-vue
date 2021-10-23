@@ -93,135 +93,123 @@
   </div>
 </template>
 
-<script>
+<script setup>
 // 本模块向后端服务器请求课表信息，并解析课表信息显示为一个大表格
 import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from "vue";
-import { request } from "@/assets/js/request";
+import { request } from "/@/assets/js/request";
 
-export default {
-  name: "CourseTable",
-  setup() {
-    let weekDays = [
-      "星期一",
-      "星期二",
-      "星期三",
-      "星期四",
-      "星期五",
-      "星期六",
-      "星期日",
-    ];
-    let courses = reactive({
-      morning: [
-        [
+const weekDays = [
+  "星期一",
+  "星期二",
+  "星期三",
+  "星期四",
+  "星期五",
+  "星期六",
+  "星期日",
+];
+const courses = reactive({
+  morning: [
+    [
+      {
+        itemLength: null,
+        courseItemList: [
           {
-            itemLength: null,
-            courseItemList: [
-              {
-                courseName: null,
-                courseTime: null,
-                courseWeekRange: null,
-                teacherName: null,
-              },
-            ],
+            courseName: null,
+            courseTime: null,
+            courseWeekRange: null,
+            teacherName: null,
           },
         ],
-      ],
-      afternoon: [
-        [
+      },
+    ],
+  ],
+  afternoon: [
+    [
+      {
+        itemLength: null,
+        courseItemList: [
           {
-            itemLength: null,
-            courseItemList: [
-              {
-                courseName: null,
-                courseTime: null,
-                courseWeekRange: null,
-                teacherName: null,
-              },
-            ],
+            courseName: null,
+            courseTime: null,
+            courseWeekRange: null,
+            teacherName: null,
           },
         ],
-      ],
-      evening: [
-        [
+      },
+    ],
+  ],
+  evening: [
+    [
+      {
+        itemLength: null,
+        courseItemList: [
           {
-            itemLength: null,
-            courseItemList: [
-              {
-                courseName: null,
-                courseTime: null,
-                courseWeekRange: null,
-                teacherName: null,
-              },
-            ],
+            courseName: null,
+            courseTime: null,
+            courseWeekRange: null,
+            teacherName: null,
           },
         ],
-      ],
-    });
-    let isActive = ref(false);
-    let wrapper = ref(null);
-    let preHeight = 0;
-    let nextHeight = 0;
+      },
+    ],
+  ],
+});
+const isActive = ref(false);
+const wrapper = ref(null);
+let preHeight = 0;
+let nextHeight = 0;
 
-    let autoHeight = () => {
-      wrapper.value.style.height = "";
-      nextTick(() => {
-        nextHeight = getComputedStyle(wrapper.value).height;
-        wrapper.value.style.height = preHeight;
-        getComputedStyle(wrapper.value).height;
-        wrapper.value.style.height = nextHeight;
-        preHeight = nextHeight;
-      });
-    };
-
-    let getCourses = async () => {
-      let response = await request("course/findCourseTable", {});
-      courses.morning.splice(0);
-      courses.afternoon.splice(0);
-      courses.evening.splice(0);
-      if (response.data.data && response.data.data.courseTable) {
-        let courseTable = response.data.data.courseTable;
-        for (let i = 0; i < 4; i++) {
-          courses.morning.push(courseTable[i]);
-        }
-        for (let i = 4; i < 8; i++) {
-          courses.afternoon.push(courseTable[i]);
-        }
-        for (let i = 8; i < courseTable.length; i++) {
-          courses.evening.push(courseTable[i]);
-        }
-      }
-      isActive.value = true;
-    };
-
-    let init = () => {
-      getCourses();
-    };
-
-    init();
-
-    onMounted(() => {
-      preHeight = getComputedStyle(wrapper.value).height;
-      window.addEventListener("resize", autoHeight);
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener("resize", autoHeight);
-    });
-
-    watch(isActive, () => {
-      if (isActive.value) {
-        autoHeight();
-      }
-    });
-
-    return {
-      weekDays,
-      courses,
-      wrapper,
-      isActive,
-    };
-  },
+const autoHeight = () => {
+  wrapper.value.style.height = "";
+  nextTick(() => {
+    nextHeight = getComputedStyle(wrapper.value).height;
+    wrapper.value.style.height = preHeight;
+    getComputedStyle(wrapper.value).height;
+    wrapper.value.style.height = nextHeight;
+    preHeight = nextHeight;
+  });
 };
+
+const getCourses = async () => {
+  let response = await request("course/findCourseTable", {});
+  courses.morning.splice(0);
+  courses.afternoon.splice(0);
+  courses.evening.splice(0);
+  if (response.data.data && response.data.data.courseTable) {
+    let courseTable = response.data.data.courseTable;
+    for (let i = 0; i < 4; i++) {
+      courses.morning.push(courseTable[i]);
+    }
+    for (let i = 4; i < 8; i++) {
+      courses.afternoon.push(courseTable[i]);
+    }
+    for (let i = 8; i < courseTable.length; i++) {
+      courses.evening.push(courseTable[i]);
+    }
+  }
+  isActive.value = true;
+};
+
+const init = () => {
+  getCourses();
+};
+
+init();
+
+onMounted(() => {
+  preHeight = getComputedStyle(wrapper.value).height;
+  window.addEventListener("resize", autoHeight);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", autoHeight);
+});
+
+watch(isActive, () => {
+  if (isActive.value) {
+    autoHeight();
+  }
+});
 </script>
 
 <style scoped lang="less">

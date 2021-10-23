@@ -41,58 +41,46 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { reactive, ref } from "vue";
-import { routerPush, routerBack } from "@/router";
-import { checkHasToken } from "@/assets/js/request";
-import { createPopupBox, createConfirmPopupBox } from "@/assets/js/popupBox";
-import UserInfo from "@/components/UserInfo";
-import ExitButton from "@/components/ExitButton";
-import BottomBar from "@/components/BottomBar";
+import { routerPush, routerBack } from "/@/router";
+import { checkHasToken } from "/@/assets/js/request";
+import { createPopupBox, createConfirmPopupBox } from "/@/assets/js/popupBox";
+import UserInfo from "/@/components/UserInfo.vue";
+import ExitButton from "/@/components/ExitButton.vue";
+import BottomBar from "/@/components/BottomBar.vue";
 
-export default {
-  name: "StudentMain",
-  components: { BottomBar, ExitButton, UserInfo },
-  setup() {
-    let userInfo = reactive({
-      id: null,
-      type: null,
-    });
-    let isVisible = ref(true);
+const userInfo = reactive({
+  id: null,
+  type: null,
+});
+const isVisible = ref(true);
 
-    let init = () => {
-      if (!checkHasToken()) return;
-      userInfo.id = window.sessionStorage.getItem("userId");
-      userInfo.type = window.sessionStorage.getItem("userType");
-      if (userInfo.type != "student") {
-        isVisible.value = false;
-        createPopupBox({
-          text: "请注意，您所要访问的页面为学生端页面，该页面仅能由学生用户访问",
-          buttons: [{ text: "点击此处返回", clickFun: routerBack }],
-          isWarning: true,
-        });
-      }
-    };
-
-    let exit = () => {
-      createConfirmPopupBox({
-        text: "确定要退出账户？",
-        funIfTrue: () => {
-          routerPush("login");
-          window.sessionStorage.clear();
-        },
-      });
-    };
-
-    init();
-
-    return {
-      userInfo,
-      isVisible,
-      exit,
-    };
-  },
+const exit = () => {
+  createConfirmPopupBox({
+    text: "确定要退出账户？",
+    funIfTrue: () => {
+      routerPush("login");
+      window.sessionStorage.clear();
+    },
+  });
 };
+
+const init = () => {
+  if (!checkHasToken()) return;
+  userInfo.id = window.sessionStorage.getItem("userId");
+  userInfo.type = window.sessionStorage.getItem("userType");
+  if (userInfo.type != "student") {
+    isVisible.value = false;
+    createPopupBox({
+      text: "请注意，您所要访问的页面为学生端页面，该页面仅能由学生用户访问",
+      buttons: [{ text: "点击此处返回", clickFun: routerBack }],
+      isWarning: true,
+    });
+  }
+};
+
+init();
 </script>
 
 <style scoped lang="less">

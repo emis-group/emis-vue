@@ -8,19 +8,19 @@
     >
       <div
         class="label"
-        :class="{ active: isActive || theProps.model.value != '' }"
+        :class="{ active: isActive || props.model.value != '' }"
       >
-        {{ theProps.label }}
+        {{ props.label }}
       </div>
       <div class="input">
         <div class="lineBlur" :class="{ hover: isHover }"></div>
         <div class="lineFocus" :class="{ active: isActive }"></div>
         <input
           ref="inputEl"
-          :name="theProps.name"
-          :type="theProps.type"
-          v-model="theProps.model.value"
-          v-on:keyup.enter="theProps.keyEnterEvent"
+          :name="props.name"
+          :type="props.type"
+          v-model="props.model.value"
+          v-on:keyup.enter="props.keyEnterEvent"
           @focus="isActive = true"
           @blur="isActive = false"
         />
@@ -29,43 +29,34 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { onMounted, ref, watch } from "vue";
-export default {
-  name: "InputBox",
-  props: {
-    label: String,
-    model: "",
-    name: "",
-    type: "",
-    keyEnterEvent: null,
-  },
-  setup(props) {
-    let theProps = props;
 
-    let isActive = ref(false);
+const props = defineProps({
+  label: String,
+  model: "",
+  name: "",
+  type: "",
+  keyEnterEvent: null,
+});
 
-    let isHover = ref(false);
+const isActive = ref(false);
+const isHover = ref(false);
+const inputEl = ref(null);
 
-    let inputEl = ref(null);
-
-    onMounted(() => {
-      watch(
-        isActive,
-        () => {
-          if (isActive.value) {
-            inputEl.value.focus();
-          } else {
-            inputEl.value.blur();
-          }
-        },
-        { immediate: true }
-      );
-    });
-
-    return { theProps, isActive, isHover, inputEl };
-  },
-};
+onMounted(() => {
+  watch(
+    isActive,
+    () => {
+      if (isActive.value) {
+        inputEl.value.focus();
+      } else {
+        inputEl.value.blur();
+      }
+    },
+    { immediate: true }
+  );
+});
 </script>
 
 <style scoped lang="less">

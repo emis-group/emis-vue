@@ -5,12 +5,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 // 本模块显示底部栏信息，可根据传入的参数msg动态显示文字
-export default {
-  name: "BottomBar",
-  props: {
-    msg: String,
-  },
-};
+defineProps({
+  msg: String,
+});
 </script>

@@ -1,14 +1,14 @@
 let popupBox = null;
 
-let install = (app) => {
+const install = (app) => {
 
 }
 
-let initPopupBox = (thePopupBox) => {
+const initPopupBox = (thePopupBox) => {
     popupBox = thePopupBox;
 }
 
-let createPopupBox = (options) => {
+const createPopupBox = (options) => {
     if (popupBox && typeof popupBox.createPopupBox === "function") {
         popupBox.createPopupBox(options);
     } else {
@@ -16,7 +16,7 @@ let createPopupBox = (options) => {
     }
 }
 
-let createConfirmPopupBox = (options) => {
+const createConfirmPopupBox = (options) => {
     if (popupBox && typeof popupBox.createConfirmPopupBox === "function") {
         popupBox.createConfirmPopupBox(options);
     } else {

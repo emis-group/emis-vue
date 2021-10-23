@@ -2,24 +2,14 @@
   <button class="btn-exit" @click="exit">退出系统</button>
 </template>
 
-<script>
+<script setup>
 // 本模块就是一个退出按钮，点了跳转到登录页面，并清空本地存储(window.sessionStorage)的信息
-import {
-    routerPush
-} from "@/router";
+import { routerPush } from "/@/router";
 
-export default {
-  name: "ExitButton",
-  setup() {
-    let exit = () => {
-      routerPush("login");
-      window.sessionStorage.clear();
-    }
-    return {
-      exit
-    }
-  }
-}
+let exit = () => {
+  routerPush("login");
+  window.sessionStorage.clear();
+};
 </script>
 
 <style scoped>
