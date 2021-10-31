@@ -209,6 +209,6 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped lang="less">
-@import url(../../assets/css/login.less);
+<style scoped lang="scss">
+@use "../../assets/css/login";
 </style>

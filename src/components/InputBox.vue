@@ -59,6 +59,6 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="less">
-@import url(../assets/css/inputBox.less);
+<style scoped lang="scss">
+@use "../assets/css/inputBox";
 </style>

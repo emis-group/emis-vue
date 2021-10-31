@@ -78,8 +78,6 @@
     border: none;
 }
 
-@max-width: 1250px;
-
 html {
     font-size: 16px;
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
@@ -313,7 +311,7 @@ select {
                 margin: auto;
                 width: 3px;
                 height: .6em;
-                background-color: hsl(0, 0, 50%);
+                background-color: hsl(0deg, 0%, 50%);
 
                 transition: .15s linear;
             }

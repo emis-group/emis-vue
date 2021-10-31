@@ -107,7 +107,7 @@ watch(pageContent, () => {
 });
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 button {
   min-width: 1em;
   padding-left: 20%;

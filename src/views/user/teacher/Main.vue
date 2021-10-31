@@ -76,6 +76,6 @@ const init = () => {
 init();
 </script>
 
-<style scoped lang="less">
-@import url(../../../assets/css/mainPage.less);
+<style scoped lang="scss">
+@use "../../../assets/css/mainPage";
 </style>

@@ -121,6 +121,6 @@ const cancelPopupBox = () => {
 defineExpose({ createPopupBox, createConfirmPopupBox });
 </script>
 
-<style scoped lang="less">
-@import url(../assets/css/popupBox.less);
+<style scoped lang="scss">
+@use "../assets/css/popupBox";
 </style>

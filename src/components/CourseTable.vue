@@ -212,7 +212,7 @@ watch(isActive, () => {
 });
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .table-wrapper {
   table {
     .weekday {

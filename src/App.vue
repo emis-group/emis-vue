@@ -18,10 +18,10 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less">
-@import url("./assets/css/normalize.css");
-@import url("./assets/fs/css/all.css");
-@import url("./assets/css/main.less");
+<style lang="scss">
+@use "./assets/css/normalize.css";
+@use "./assets/css/main";
+@import "./assets/fs/css/all.css";
 
 html,
 body {

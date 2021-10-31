@@ -5,13 +5,22 @@ import {
 // 这是一个路由表，指定了路由名字对应的具体文件地址，页面跳转需靠它
 const titlePreFix = "教务选课系统-";
 
-const routes = [{
+const routes = [
+    {
         path: '/',
         name: 'login',
         meta: {
             title: `${titlePreFix}登录界面`
         },
         component: () => import('/@/views/common/Login.vue')
+    },
+    {
+        path: '/test',
+        name: 'test',
+        meta: {
+            title: `${titlePreFix}测试界面`
+        },
+        component: () => import('/@/components/CreateCourse.vue')
     },
     {
         path: '/user/student',
@@ -74,7 +83,8 @@ const routes = [{
 ]
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHistory(
+        import.meta.env.BASE_URL),
     routes
 })
 
