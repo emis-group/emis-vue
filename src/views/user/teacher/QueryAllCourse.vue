@@ -1,32 +1,30 @@
 <template>
-  <div class="content-wrapper">
-    <div class="prominent-content-box">
-      <div class="title">查询课程</div>
-    </div>
-    <div class="content-box">
-      <div class="title">查询全校所有课程</div>
-      <div class="content">
-        <div class="font-normal-text">
-          下表会展示选课系统中存在的所有课程，你可以点击“加入课程”按钮成为对应课程的授课老师的一员。
-        </div>
-        <div class="float-normal-text-left-align">
-          表格页码：
-          <select v-model="selectedPageNum" @change="changePage">
-            <option
-              v-for="(num, index) of coursePageContent.pageNumList"
-              :value="num"
-              :key="index"
-            >
-              {{ num }}
-            </option>
-          </select>
-        </div>
-        <div class="float-normal-text-right-align">
-          共计有 {{ coursePageContent.courseTotalNum }} 条课程信息，
-          当前页面显示 {{ coursePageContent.courseList.length }} 条
-        </div>
-        <CourseList :course-page-content="coursePageContent" />
+  <div class="prominent-container">
+    <div class="title">查询课程</div>
+  </div>
+  <div class="main-container-wrapper">
+    <div class="title">查询全校所有课程</div>
+    <div class="main-container">
+      <div class="main-text">
+        下表会展示选课系统中存在的所有课程，你可以点击“加入课程”按钮成为对应课程的授课老师的一员。
       </div>
+      <div class="float-start mb-1 clearfix">
+        表格页码：
+        <select v-model="selectedPageNum" @change="changePage">
+          <option
+            v-for="(num, index) of coursePageContent.pageNumList"
+            :value="num"
+            :key="index"
+          >
+            {{ num }}
+          </option>
+        </select>
+      </div>
+      <div class="float-end mb-1 clearfix">
+        共计有 {{ coursePageContent.courseTotalNum }} 条课程信息， 当前页面显示
+        {{ coursePageContent.courseList.length }} 条
+      </div>
+      <CourseList :course-page-content="coursePageContent" />
     </div>
   </div>
 </template>

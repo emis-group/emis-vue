@@ -19,7 +19,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@use "./assets/css/normalize.css";
 @use "./assets/css/main";
 @import "./assets/fs/css/all.css";
 

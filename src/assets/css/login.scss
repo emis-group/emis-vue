@@ -1,3 +1,5 @@
+@use "variables" as custom-var;
+
 .login-background {
   height: 100%;
   width: 100%;
@@ -27,7 +29,7 @@
     .message {
       margin: 10px 0;
       color: #FFFFFF;
-      font-size: 16px;
+      font-size: custom-var.$font-size-base;
       line-height: 1.8;
       overflow: hidden;
       transition: all .2s;
@@ -69,7 +71,6 @@
         max-width: 320px;
         height: 36px;
         border: 0;
-        font-size: 16px;
         background-color: #fff;
         transition: all .2s;
       }
@@ -80,11 +81,11 @@
 .extra-message {
   margin: 8px;
   color: #FFFFFF;
-  font-size: 16px;
+  font-size: custom-var.$font-size-base;
 }
 
 .extra-message:first-of-type {
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
 .line-activate {

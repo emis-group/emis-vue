@@ -1,9 +1,9 @@
 <template>
-  <div v-if="pageContent.needTopText" class="font-normal-text">
+  <div v-if="pageContent.needTopText" class="main-text">
     共计有 {{ pageContent.courseTotalNum }} 条课程信息
   </div>
   <div class="table-wrapper" ref="wrapper">
-    <table class="list clearfix">
+    <table class="list">
       <thead>
         <tr>
           <th>课程编号</th>

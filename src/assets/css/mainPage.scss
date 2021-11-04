@@ -1,3 +1,5 @@
+@use "../../../node_modules/bootstrap/scss/bootstrap";
+
 .main-background {
     height: 100%;
     width: 100%;
@@ -20,11 +22,11 @@
 
         transition: all .3s;
 
-        @media screen and (max-width: 950px) {
+        @include bootstrap.media-breakpoint-down(lg) {
             padding: 0 20px;
         }
 
-        @media screen and (max-width: 750px) {
+        @include bootstrap.media-breakpoint-down(md) {
             padding: 0;
         }
 
@@ -44,7 +46,7 @@
 
             animation: title-box-wrapper-move-in .3s .2s backwards;
 
-            @media screen and (max-width: 950px) {
+            @include bootstrap.media-breakpoint-down(lg) {
                 width: 146px;
             }
 
@@ -80,7 +82,7 @@
                     opacity: .8;
                 }
 
-                @media screen and (max-width: 950px) {
+                @include bootstrap.media-breakpoint-down(lg) {
                     font-size: 24px;
                 }
 
@@ -92,21 +94,22 @@
             height: inherit;
             margin-left: auto;
             margin-right: 20px;
+            margin-bottom: 0;
             line-height: 90px;
 
-            @media screen and (max-width: 950px) {
+            @include bootstrap.media-breakpoint-down(lg) {
                 margin-right: 8px;
             }
 
             .nav-item {
                 a {
                     position: relative;
-                    padding: 0 20px;
-                    padding-top: 0;
                     height: 90px;
+                    padding: 0 20px;
                     color: #fff;
-                    font-weight: 700;
                     overflow: hidden;
+                    text-decoration: none;
+                    font-weight: 700;
 
                     transition: all .3s;
 
@@ -142,7 +145,7 @@
                         transition: all .3s;
                     }
 
-                    @media screen and (max-width: 950px) {
+                    @include bootstrap.media-breakpoint-down(lg) {
                         padding: 0 15px;
 
                         &::before {
@@ -189,7 +192,7 @@
             transform: translateX(0);
             animation: user-info-move-in .3s .2s backwards;
 
-            @media screen and (max-width: 750px) {
+            @include bootstrap.media-breakpoint-down(md) {
                 width: 0;
             }
 

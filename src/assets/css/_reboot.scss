@@ -1,0 +1,89 @@
+@use "../../../node_modules/bootstrap/scss/bootstrap";
+@use "variables"as custom-var;
+
+html {
+    font-size: custom-var.$font-size-base;
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+}
+
+body {
+    background-color: hsl(0, 0%, 95%);
+}
+
+a {
+    display: block;
+    text-decoration: none;
+    color: #666;
+}
+
+ul,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    position: relative;
+    padding: 3px 15px;
+    border: 0;
+    border-radius: 5px;
+    font-size: custom-var.$font-size-base;
+    background-color: rgba(255, 255, 255, 0.854);
+    transition: all .2s;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(31, 113, 147, 0.5);
+    cursor: pointer;
+
+    &::before,
+    &::after {
+        position: absolute;
+        content: '';
+        display: block;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        height: 3px;
+
+        transition: all .3s;
+    }
+
+    &::before {
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    &::after {
+        width: 0;
+        background-color: rgba(8, 94, 116, 0.8);
+    }
+
+    &:not(:disabled):hover {
+        background-color: #fff;
+
+        &::after {
+            width: 100%;
+        }
+    }
+}
+
+input,
+select {
+    box-shadow: 0 0 4px rgba(0, 0, 0, .2);
+}
+
+input[type=text] {
+    @extend .form-control;
+}
+
+select {
+    @extend .form-select;
+    @extend .form-select-sm;
+    display: inline-block;
+    width: auto;
+    font-size: custom-var.$font-size-base;
+}

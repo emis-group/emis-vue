@@ -53,8 +53,8 @@ init();
 
 <style scoped>
 .user-info-root {
-  width: 130px;
-  height: 68px;
+  width: 146px;
+  height: 84px;
   padding: 8px;
 
   z-index: -1;
@@ -70,14 +70,16 @@ init();
 
 .font-user-info-title {
   display: block;
-  font-size: 12px;
   padding: 0 0 0 10px;
+  line-height: 1.35;
+  font-size: 12px;
 }
 
 .font-user-info-content {
   display: block;
-  font-size: 14px;
   padding: 4px 2px 2px 10px;
+  line-height: 1.2;
+  font-size: 14px;
 }
 
 .span-line {
@@ -85,7 +87,7 @@ init();
   width: 100%;
 
   display: block;
-  margin: 5px 0;
+  margin: 4px 0;
 
   border: none;
   background-color: rgba(31, 113, 147, 0.5);

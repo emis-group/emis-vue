@@ -1,164 +1,169 @@
 <template>
-  <div class="content-wrapper">
-    <div class="prominent-content-box">
-      <div class="title">教师安排课程</div>
-    </div>
-    <div class="content-box">
-      <div class="title">在这里新建课程</div>
-      <div class="content">
-        <div class="font-normal-text">
-          在下表填写需要新建的课程信息，填写完后按下“点击新建课程”按钮。
-        </div>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <td>{{ tableHeader.courseId }}</td>
-                <td>{{ tableHeader.courseName }}</td>
-                <td>{{ tableHeader.studentTotalNum }}</td>
-              </tr>
-            </thead>
-            <tbody :class="{ active: isActive }">
-              <tr>
-                <td>
-                  <input
-                    v-model="newCourseInfo.courseId"
-                    class="input-text"
-                    placeholder="请输入课程代码"
-                    type="text"
-                  />
-                </td>
-                <td>
-                  <input
-                    v-model="newCourseInfo.courseName"
-                    class="input-text"
-                    placeholder="请输入课程名"
-                    type="text"
-                  />
-                </td>
-                <td>
-                  <input
-                    v-model="newCourseInfo.studentTotalNum"
-                    class="input-text"
-                    placeholder="请输入课程人数容量"
-                    type="text"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <td>{{ tableHeader.weekNums }}</td>
-                <td>{{ tableHeader.isBiweekly }}</td>
-                <td>{{ tableHeader.weekDay }}</td>
-                <td>{{ tableHeader.splitNums }}</td>
-              </tr>
-            </thead>
-            <tbody :class="{ active: isActive }">
-              <tr>
-                <td>
-                  第
-                  <select v-model="newCourseInfo.weekStart">
-                    <option
-                      v-for="(num, index) of selectOptions.weekStartNums"
-                      :value="num"
-                      :key="index"
-                    >
-                      {{ num }}
-                    </option>
-                  </select>
-                  周 —— 第
-                  <select v-model="newCourseInfo.weekEnd">
-                    <option
-                      v-for="(num, index) of selectOptions.weekEndNums"
-                      :value="num"
-                      :key="index"
-                    >
-                      {{ num }}
-                    </option>
-                  </select>
-                  周
-                </td>
-                <td>
+  <div class="prominent-container">
+    <div class="title">教师安排课程</div>
+  </div>
+  <div class="main-container-wrapper">
+    <div class="title">在这里新建课程</div>
+    <div class="main-container">
+      <div class="main-text">
+        在下表填写需要新建的课程信息，填写完后按下“点击新建课程”按钮。
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <td>{{ tableHeader.courseId }}</td>
+              <td>{{ tableHeader.courseName }}</td>
+              <td>{{ tableHeader.studentTotalNum }}</td>
+            </tr>
+          </thead>
+          <tbody :class="{ active: isActive }">
+            <tr>
+              <td>
+                <input
+                  v-model="newCourseInfo.courseId"
+                  class="table-input-text"
+                  placeholder="请输入课程代码"
+                  type="text"
+                />
+              </td>
+              <td>
+                <input
+                  v-model="newCourseInfo.courseName"
+                  class="table-input-text"
+                  placeholder="请输入课程名"
+                  type="text"
+                />
+              </td>
+              <td>
+                <input
+                  v-model="newCourseInfo.studentTotalNum"
+                  class="table-input-text"
+                  placeholder="请输入课程人数容量"
+                  type="text"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <td>{{ tableHeader.weekNums }}</td>
+              <td>{{ tableHeader.isBiweekly }}</td>
+              <td>{{ tableHeader.weekDay }}</td>
+              <td>{{ tableHeader.splitNums }}</td>
+            </tr>
+          </thead>
+          <tbody :class="{ active: isActive }">
+            <tr>
+              <td>
+                第
+                <select v-model="newCourseInfo.weekStart">
+                  <option
+                    v-for="(num, index) of selectOptions.weekStartNums"
+                    :value="num"
+                    :key="index"
+                  >
+                    {{ num }}
+                  </option>
+                </select>
+                周 —— 第
+                <select v-model="newCourseInfo.weekEnd">
+                  <option
+                    v-for="(num, index) of selectOptions.weekEndNums"
+                    :value="num"
+                    :key="index"
+                  >
+                    {{ num }}
+                  </option>
+                </select>
+                周
+              </td>
+              <td>
+                <div class="form-check form-check-inline">
                   <input
                     v-model="newCourseInfo.isBiweekly"
                     name="isBiweekly"
                     type="radio"
                     value="true"
-                  />是&nbsp;&nbsp;
+                    class="form-check-input"
+                  />
+                  <label class="form-check-label">是&nbsp;&nbsp;&nbsp;</label>
+                </div>
+                <div class="form-check form-check-inline">
                   <input
                     v-model="newCourseInfo.isBiweekly"
                     name="isBiweekly"
                     type="radio"
                     value="false"
-                  />否
-                </td>
-                <td>
-                  <select v-model="newCourseInfo.weekDay">
-                    <option
-                      v-for="(weekDay, index) of selectOptions.weekDays"
-                      :value="index + 1"
-                      :key="index"
-                    >
-                      {{ weekDay }}
-                    </option>
-                  </select>
-                </td>
-                <td>
-                  第
-                  <select v-model="newCourseInfo.splitStart">
-                    <option
-                      v-for="(num, index) of selectOptions.splitStartNums"
-                      :value="num"
-                      :key="index"
-                    >
-                      {{ num }}
-                    </option>
-                  </select>
-                  节 —— 第
-                  <select v-model="newCourseInfo.splitEnd">
-                    <option
-                      v-for="(num, index) of selectOptions.splitEndNums"
-                      :value="num"
-                      :key="index"
-                    >
-                      {{ num }}
-                    </option>
-                  </select>
-                  节
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="font-normal-text">
-          <span>提示：</span>
-          <span :class="newCourseTips.class">{{ newCourseTips.text }}。</span>
-        </div>
-        <button
-          id="btn-new-course"
-          :disabled="!newCourseTips.validity"
-          @click="newCourse()"
-        >
-          点击新建课程
-        </button>
+                    class="form-check-input"
+                  />
+                  <label class="form-check-label">否</label>
+                </div>
+              </td>
+              <td>
+                <select v-model="newCourseInfo.weekDay">
+                  <option
+                    v-for="(weekDay, index) of selectOptions.weekDays"
+                    :value="index + 1"
+                    :key="index"
+                  >
+                    {{ weekDay }}
+                  </option>
+                </select>
+              </td>
+              <td>
+                第
+                <select v-model="newCourseInfo.splitStart">
+                  <option
+                    v-for="(num, index) of selectOptions.splitStartNums"
+                    :value="num"
+                    :key="index"
+                  >
+                    {{ num }}
+                  </option>
+                </select>
+                节 —— 第
+                <select v-model="newCourseInfo.splitEnd">
+                  <option
+                    v-for="(num, index) of selectOptions.splitEndNums"
+                    :value="num"
+                    :key="index"
+                  >
+                    {{ num }}
+                  </option>
+                </select>
+                节
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+      <div class="main-text">
+        <span>提示：</span>
+        <span :class="newCourseTips.class">{{ newCourseTips.text }}。</span>
+      </div>
+      <button
+        id="btn-new-course"
+        :disabled="!newCourseTips.validity"
+        @click="newCourse()"
+      >
+        点击新建课程
+      </button>
     </div>
-    <!-- <span class="span-main-component-line" /> -->
-    <div class="content-box">
-      <div class="title">你的现有课程</div>
-      <div class="content">
-        <CourseList :course-page-content="coursePageContent" />
-        <div class="font-normal-text">
-          <span>备注：</span>
-          <span
-            >对于只有一位老师的课程，点击”退出课程“会同时删除课程信息。对于有多位老师的课程，点击”退出课程“不会影响其他老师在这节课的情况。</span
-          >
-        </div>
+  </div>
+  <div class="main-container-wrapper">
+    <div class="title">你的现有课程</div>
+    <div class="main-container">
+      <CourseList :course-page-content="coursePageContent" />
+      <div class="main-text">
+        <span>备注：</span>
+        <span
+          >对于只有一位老师的课程，点击”退出课程“会同时删除课程信息。对于有多位老师的课程，点击”退出课程“不会影响其他老师在这节课的情况。</span
+        >
       </div>
     </div>
   </div>
@@ -243,10 +248,10 @@ const newCourse = () => {
   request("/course/newCourse", newCourseInfo).then((response) => {
     if (response.data.code === 409) {
       newCourseTips.text = response.data.data;
-      newCourseTips.class = "font-warning-text";
+      newCourseTips.class = "text-danger";
     } else if (response.data.code === 200) {
       newCourseTips.text = response.data.data;
-      newCourseTips.class = "font-pass-text";
+      newCourseTips.class = "text-success";
     }
     createPopupBox({ text: response.data.message, canceled: getCourses });
   });
@@ -283,9 +288,9 @@ const checkCourseValidity = () => {
   }
   if (validity) {
     newCourseTips.text = "表格数据已经填写完整，您可以点击新建课程了";
-    newCourseTips.class = "font-pass-text";
+    newCourseTips.class = "text-success";
   } else {
-    newCourseTips.class = "font-warning-text";
+    newCourseTips.class = "text-danger";
   }
   newCourseTips.validity = validity;
 };
@@ -370,9 +375,12 @@ watch(newCourseInfo, () => {
 </script>
 
 <style scoped>
-.input-text {
+.table-input-text {
   width: 90%;
   max-width: 200px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin: 0 auto;
 }
 
 #btn-new-course {

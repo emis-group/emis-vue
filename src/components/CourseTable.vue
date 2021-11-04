@@ -24,7 +24,7 @@
               v-for="(courseItem, index) of tableItem.courseItemList"
               :key="index"
             >
-              <span v-if="index !== 0" class="span-small-component-line" />
+              <span v-if="index !== 0" class="small-component-split-line" />
               <span>{{ courseItem.courseName }}</span
               ><br />
               <span>{{ courseItem.courseTime }}</span
@@ -50,7 +50,7 @@
               v-for="(courseItem, index) of tableItem.courseItemList"
               :key="index"
             >
-              <span v-if="index !== 0" class="span-small-component-line" />
+              <span v-if="index !== 0" class="small-component-split-line" />
               <span>{{ courseItem.courseName }}</span
               ><br />
               <span>{{ courseItem.courseTime }}</span
@@ -226,7 +226,7 @@ watch(isActive, () => {
         width: 1.5em;
         margin: 0 auto;
         font-weight: 700;
-        @media screen and (max-width: 750px) {
+        @media screen and (max-width: 768px) {
           width: 1.1em;
         }
       }

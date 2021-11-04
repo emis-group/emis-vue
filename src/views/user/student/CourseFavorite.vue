@@ -1,16 +1,14 @@
 <template>
-  <div class="content-wrapper">
-    <div class="prominent-content-box">
-      <div class="title">课程收藏夹</div>
-    </div>
-    <div class="content-box">
-      <div class="title">学生课程收藏夹</div>
-      <div class="content">
-        <div class="font-normal-text">
-          以下是你收藏的所有课程，你可以在这里进行选课操作。
-        </div>
-        <CourseList :course-page-content="coursePageContent" />
+  <div class="prominent-container">
+    <div class="title">课程收藏夹</div>
+  </div>
+  <div class="main-container-wrapper">
+    <div class="title">学生课程收藏夹</div>
+    <div class="main-container">
+      <div class="main-text">
+        以下是你收藏的所有课程，你可以在这里进行选课操作。
       </div>
+      <CourseList :course-page-content="coursePageContent" />
     </div>
   </div>
 </template>

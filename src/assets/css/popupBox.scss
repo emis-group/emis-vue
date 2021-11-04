@@ -1,3 +1,5 @@
+@use "variables" as custom-var;
+
 .popup-box-bg {
     display: flex;
     position: fixed;
@@ -59,6 +61,7 @@
                 padding: 16px;
 
                 .title {
+                    line-height: 1.2;
                     font-size: 24px;
                     font-weight: 700;
                     text-align: left;
@@ -81,7 +84,7 @@
 
                     .text {
                         line-height: 1.5;
-                        font-size: 16px;
+                        font-size: custom-var.$font-size-base;
                         white-space: pre-wrap;
                     }
                 }

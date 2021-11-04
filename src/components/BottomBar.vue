@@ -1,6 +1,6 @@
 <template>
   <div class="div-footer">
-    安徽大学 数据库课程设计作业 &nbsp; 第6组 教务选课系统{{ msg }}
+    安徽大学课程设计作业 &nbsp; 教务选课系统{{ msg }}
     &nbsp; 本系统仅供教学测试使用
   </div>
 </template>

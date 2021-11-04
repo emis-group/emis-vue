@@ -1,0 +1,143 @@
+@use "../../../node_modules/bootstrap/scss/bootstrap";
+@use "variables"as custom-var;
+@use "sass:map";
+
+.prominent-container {
+    text-align: center;
+    margin: 20px 0;
+
+    .title {
+        position: relative;
+        display: block;
+        margin: 0 auto;
+        padding: 4px 0;
+        width: 96%;
+        max-width: 16em;
+        z-index: 10;
+        font-size: 24px;
+        font-weight: 700;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 5px;
+        overflow: hidden;
+
+        &::before,
+        &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 100%;
+            height: 0;
+            z-index: -1;
+        }
+
+        &::before {
+            background-color: rgba(20, 155, 196, 0.8);
+            animation: prominent-title-bar-move-in .3s .2s forwards;
+        }
+
+        &::after {
+            background-color: rgba(8, 94, 116, 0.8);
+            animation: prominent-title-bar-move-in .3s .4s forwards;
+        }
+
+        @keyframes prominent-title-bar-move-in {
+            from {
+                height: 0;
+            }
+
+            to {
+                height: 5px;
+            }
+        }
+    }
+
+    .content {
+        margin: 16px 0;
+        font-size: 24px;
+        color: #fff;
+    }
+}
+
+.main-container-wrapper {
+    max-width: 100%;
+    padding: custom-var.$padding-base-y custom-var.$padding-base-x * 0.75;
+    margin: 0 auto;
+    margin-top: 12px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    transition: all .3s;
+    overflow: hidden;
+
+    @include bootstrap.media-breakpoint-up(md) {
+        max-width: calc(100% - custom-var.$padding-base-x);
+        padding: custom-var.$padding-base-y custom-var.$padding-base-x;
+    }
+
+    @include bootstrap.media-breakpoint-up(lg) {
+        max-width: calc(100% - custom-var.$padding-base-x * 1.5);
+    }
+
+    @media (min-width: map.get(bootstrap.$container-max-widths, "xxl") + custom-var.$padding-base-x * 8) {
+        max-width: map.get(bootstrap.$container-max-widths, "xxl") + custom-var.$padding-base-x * 5;
+    }
+
+    &:hover {
+        box-shadow: 0 0 20px rgba(7, 121, 187, 0.2);
+
+        .title {
+            &::before {
+                height: .8em;
+                background-color: rgb(8, 143, 221);
+            }
+        }
+    }
+
+    &:last-child {
+        margin-bottom: custom-var.$magin-base-y * 3;
+    }
+
+    .title {
+        position: relative;
+        padding-left: custom-var.$padding-base-x;
+        line-height: 1.5;
+        font-size: 24px;
+        font-weight: 700;
+        text-align: left;
+        color: rgb(29, 65, 100);
+
+        &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            width: 3px;
+            height: .6em;
+            background-color: hsl(0deg, 0%, 50%);
+
+            transition: .15s linear;
+        }
+    }
+}
+
+.main-container {
+    @extend .container-xxl;
+    padding: 0;
+    margin-top: 10px;
+    transition: .3s;
+
+    @include bootstrap.media-breakpoint-up(md) {
+        padding: 0 8px;
+    }
+
+    @include bootstrap.media-breakpoint-up(xxl) {
+        padding: 0;
+    }
+}
